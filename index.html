@@ -130,6 +130,12 @@
       .step-marker:hover {
         transform: scale(1.15) rotate(5deg);
       }
+
+      @media (max-width: 399px) {
+        #path-svg {
+          display: none !important;
+        }
+      }
     </style>
   </head>
   <body class="text-gray-800 text-lg antialiased relative lang-pl">
@@ -431,9 +437,9 @@
                 </div>
               </div>
               <div class="flex-grow md:w-7/12 pr-2 md:pl-0 pl-4 md:pr-0">
-                <div class="bg-white card-optimistic p-6 md:p-8 relative">
+                <div class="bg-[#f2e6ff] card-optimistic p-6 md:p-8 relative">
                   <div
-                    class="absolute -top-6 -left-4 w-16 h-16 bg-[#f2e6ff] rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
+                    class="absolute -top-6 -left-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
                     aria-hidden="true"
                   >
                     🤝
@@ -462,7 +468,7 @@
                     onclick="toggleAccordion(this)"
                     aria-expanded="false"
                     aria-controls="step2-content"
-                    class="bg-[#f2e6ff] hover:bg-[#e3d0f5] text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
+                    class="bg-white/90 hover:bg-white text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-[#f2e6ff]"
                   >
                     <span class="pl">Zobacz więcej</span
                     ><span class="uk">Показати більше</span>
@@ -510,7 +516,7 @@
                       </li>
                     </ul>
                     <div
-                      class="inline-block bg-[#f2e6ff] text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm transform rotate-1 uppercase text-base md:text-lg"
+                      class="inline-block bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm transform rotate-1 uppercase text-base md:text-lg"
                     >
                       <span class="pl"
                         >PIERWSZY KROK STWARZA NOWE MOŻLIWOŚCI!</span
@@ -715,9 +721,9 @@
                 </div>
               </div>
               <div class="flex-grow md:w-7/12 pr-2 md:pl-0 pl-4 md:pr-0">
-                <div class="bg-white card-optimistic p-6 md:p-8 relative">
+                <div class="bg-[#f2e6ff] card-optimistic p-6 md:p-8 relative">
                   <div
-                    class="absolute -top-6 -left-4 w-16 h-16 bg-[#f2e6ff] rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
+                    class="absolute -top-6 -left-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
                     aria-hidden="true"
                   >
                     📝
@@ -746,7 +752,7 @@
                     onclick="toggleAccordion(this)"
                     aria-expanded="false"
                     aria-controls="step4-content"
-                    class="bg-[#f2e6ff] hover:bg-[#e3d0f5] text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
+                    class="bg-white/90 hover:bg-white text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-[#f2e6ff]"
                   >
                     <span class="pl">Zobacz więcej</span
                     ><span class="uk">Показати більше</span>
@@ -865,7 +871,7 @@
                     </ul>
 
                     <p
-                      class="font-semibold text-lg mb-8 bg-gray-50/50 p-4 rounded-xl italic border border-[#e3d0f5]"
+                      class="font-semibold text-lg mb-8 bg-white/60 p-4 rounded-xl italic border border-[#e3d0f5]"
                     >
                       <span class="pl"
                         >Wskazówka: Pisz wyraźnie, po polsku, dużymi literami,
@@ -879,7 +885,7 @@
                     </p>
 
                     <div
-                      class="bg-[#f2e6ff] text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm text-base md:text-lg text-center uppercase leading-snug"
+                      class="bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm text-base md:text-lg text-center uppercase leading-snug"
                     >
                       <span class="pl"
                         >Jeśli bateria w twoim telefonie się rozładuje lub się
@@ -1103,9 +1109,9 @@
                 </div>
               </div>
               <div class="flex-grow md:w-7/12 pr-2 md:pl-0 pl-4 md:pr-0">
-                <div class="bg-white card-optimistic p-6 md:p-8 relative">
+                <div class="bg-[#f2e6ff] card-optimistic p-6 md:p-8 relative">
                   <div
-                    class="absolute -top-6 -left-4 w-16 h-16 bg-[#f2e6ff] rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
+                    class="absolute -top-6 -left-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
                     aria-hidden="true"
                   >
                     🚌
@@ -1132,7 +1138,7 @@
                     onclick="toggleAccordion(this)"
                     aria-expanded="false"
                     aria-controls="step6-content"
-                    class="bg-[#f2e6ff] hover:bg-[#e3d0f5] text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
+                    class="bg-white/90 hover:bg-white text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-[#f2e6ff]"
                   >
                     <span class="pl">Zobacz więcej</span
                     ><span class="uk">Показати більше</span>
@@ -1233,7 +1239,7 @@
                     </ul>
 
                     <div
-                      class="bg-[#f2e6ff] p-4 rounded-2xl border-2 border-[#e3d0f5] shadow-sm font-black text-[#5d3b7d] text-base md:text-lg uppercase text-center leading-snug"
+                      class="bg-white p-4 rounded-2xl border-2 border-[#e3d0f5] shadow-sm font-black text-[#5d3b7d] text-base md:text-lg uppercase text-center leading-snug"
                     >
                       <span class="pl"
                         >NIE MUSISZ WIEDZIEĆ WSZYSTKIEGO OD RAZU - MOŻESZ PYTAĆ
@@ -1412,9 +1418,9 @@
                 </div>
               </div>
               <div class="flex-grow md:w-7/12 pr-2 md:pl-0 pl-4 md:pr-0">
-                <div class="bg-white card-optimistic p-6 md:p-8 relative">
+                <div class="bg-[#f2e6ff] card-optimistic p-6 md:p-8 relative">
                   <div
-                    class="absolute -top-6 -left-4 w-16 h-16 bg-[#f2e6ff] rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
+                    class="absolute -top-6 -left-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
                     aria-hidden="true"
                   >
                     ❤️
@@ -1440,7 +1446,7 @@
                     onclick="toggleAccordion(this)"
                     aria-expanded="false"
                     aria-controls="step8-content"
-                    class="bg-[#f2e6ff] hover:bg-[#e3d0f5] text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
+                    class="bg-white/90 hover:bg-white text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-[#f2e6ff]"
                   >
                     <span class="pl">Zobacz więcej</span
                     ><span class="uk">Показати більше</span>
@@ -1529,7 +1535,7 @@
                     </ul>
 
                     <div
-                      class="bg-[#f2e6ff] text-[#5d3b7d] font-black py-4 px-5 rounded-[25px] border-2 border-[#e3d0f5] shadow-sm text-center text-base md:text-lg transform rotate-1 leading-snug uppercase"
+                      class="bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-[25px] border-2 border-[#e3d0f5] shadow-sm text-center text-base md:text-lg transform rotate-1 leading-snug uppercase"
                     >
                       <span class="pl"
                         >NIE MUSISZ BYĆ SAMODZIELNY - KAŻDY PRZYSZEDŁ KIEDYŚ PO
