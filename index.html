@@ -136,6 +136,33 @@
           display: none !important;
         }
       }
+
+      @media (max-width: 399px) {
+        /* mniejsza kolumna na numer */
+        #timeline-container > div > div:first-child {
+          width: 56px !important;
+          min-width: 56px !important;
+        }
+
+        /* mniejsze kółka z numerami */
+        .step-marker {
+          width: 3rem !important;
+          height: 3rem !important;
+          font-size: 1.5rem !important;
+          border-width: 4px !important;
+        }
+
+        /* mniej miejsca między numerem a kartą */
+        #timeline-container > div > div:last-child {
+          padding-left: 0.5rem !important;
+          padding-right: 0 !important;
+        }
+
+        /* usuń duże odsunięcia kart na małych ekranach */
+        .card-optimistic {
+          border-radius: 24px;
+        }
+      }
     </style>
   </head>
   <body class="text-gray-800 text-lg antialiased relative lang-pl">
