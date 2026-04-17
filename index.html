@@ -1,0 +1,2041 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Znajdź Swoje Miejsce - Mapa Wsparcia dla Seniorów z Ukrainy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        background-color: #edd7fe;
+        background-image:
+          radial-gradient(
+            circle at 15% 50%,
+            rgba(214, 197, 235, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 85% 30%,
+            rgba(244, 224, 77, 0.1) 0%,
+            transparent 50%
+          );
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Logika zmiany języka - kluczowa mechanika */
+      body.lang-pl .uk {
+        display: none !important;
+      }
+      body.lang-uk .pl {
+        display: none !important;
+      }
+
+      /* Urocze animacje unoszenia (Float) */
+      @keyframes float-slow {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(3deg);
+        }
+      }
+      @keyframes float-fast {
+        0%,
+        100% {
+          transform: translateY(0) rotate(-5deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(5deg);
+        }
+      }
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(253, 224, 71, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 20px 10px rgba(253, 224, 71, 0);
+        }
+      }
+
+      .animate-float-slow {
+        animation: float-slow 6s ease-in-out infinite;
+      }
+      .animate-float-fast {
+        animation: float-fast 4s ease-in-out infinite;
+      }
+
+      /* Stylizacja kart */
+      .card-optimistic {
+        border-radius: 35px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 10px 40px -10px rgba(107, 76, 154, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+      }
+      .card-optimistic:hover {
+        transform: translateY(-5px) scale(1.01);
+        box-shadow: 0 20px 50px -10px rgba(107, 76, 154, 0.2);
+        border-color: rgba(255, 255, 255, 1);
+      }
+
+      /* Akordeon */
+      .accordion-content {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.4s ease-in-out,
+          opacity 0.3s ease-in-out,
+          margin-top 0.3s ease-in-out;
+      }
+      .accordion-content.expanded {
+        opacity: 1;
+        margin-top: 1rem;
+      }
+
+      /* Ścieżka */
+      #path-line-base {
+        filter: drop-shadow(0 12px 12px rgba(200, 180, 100, 0.3));
+      }
+
+      @keyframes dashMove {
+        from {
+          stroke-dashoffset: 60;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      #path-line-dash {
+        animation: dashMove 2s linear infinite;
+      }
+
+      .step-marker {
+        box-shadow:
+          inset 0 -4px 0 rgba(0, 0, 0, 0.1),
+          0 8px 15px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .step-marker:hover {
+        transform: scale(1.15) rotate(5deg);
+      }
+    </style>
+  </head>
+  <body class="text-gray-800 text-lg antialiased relative lang-pl">
+    <!-- LANGUAGE TOGGLE -->
+    <div
+      class="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 bg-white/90 backdrop-blur-md rounded-full shadow-lg border-2 border-[#edd7fe] p-1.5 flex items-center gap-1"
+    >
+      <button
+        onclick="setLang('pl')"
+        id="btn-pl"
+        class="px-5 py-2 rounded-full font-black text-sm sm:text-base transition-colors focus:outline-none focus:ring-2 focus:ring-[#573a70] bg-[#573a70] text-white"
+        aria-label="Zmień język na Polski"
+      >
+        PL
+      </button>
+      <button
+        onclick="setLang('uk')"
+        id="btn-uk"
+        class="px-5 py-2 rounded-full font-black text-sm sm:text-base transition-colors focus:outline-none focus:ring-2 focus:ring-[#573a70] text-[#573a70] hover:bg-[#f2e6ff]"
+        aria-label="Змінити мову на українську"
+      >
+        UK
+      </button>
+    </div>
+
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-10 relative z-10"
+    >
+      <!-- HEADER -->
+      <header class="text-center mb-16 relative pt-20 md:pt-12">
+        <!-- LOGO MOST -->
+        <div
+          class="absolute top-0 left-0 w-full md:w-auto flex justify-center md:justify-start z-20"
+        >
+          <div
+            class="bg-white/90 p-3 px-6 rounded-3xl backdrop-blur-md border border-[#edd7fe] shadow-sm animate-float-slow"
+          >
+            <!-- Upewnij się, że plik z logo nazywa się 'logo.png' i leży w tym samym folderze co ten plik html -->
+            <img
+              src="logo.png"
+              alt="Logo MOST Stowarzyszenie"
+              class="h-10 md:h-14 w-auto object-contain"
+              onerror="
+                this.onerror = null;
+                this.outerHTML =
+                  '<div class=\'flex items-center gap-3\'><div class=\'flex gap-1.5\'><div class=\'w-3 h-3 rounded-full bg-[#573a70]\'></div><div class=\'w-3 h-3 rounded-full bg-[#573a70]\'></div><div class=\'w-3 h-3 rounded-full bg-[#573a70]\'></div></div><div class=\'text-xl font-black text-[#573a70]\'>MOST <span class=\'text-xs uppercase ml-1 opacity-80\'>Stowarzyszenie</span></div></div>';
+              "
+            />
+          </div>
+        </div>
+
+        <h1
+          class="text-5xl md:text-7xl font-black text-[#573a70] mb-4 uppercase tracking-tight drop-shadow-sm mt-4 md:mt-0"
+          style="
+            text-shadow:
+              2px 2px 0px #fff,
+              4px 4px 0px rgba(214, 197, 235, 0.5);
+          "
+        >
+          <span class="pl">Znajdź Swoje Miejsce</span>
+          <span class="uk">Знайди своє місце</span>
+        </h1>
+        <h2
+          class="text-2xl md:text-3xl font-bold text-[#452b5e] mb-10 uppercase tracking-wider bg-white/60 inline-block px-5 py-2 rounded-2xl"
+        >
+          <span class="pl">Mapa Wsparcia dla Seniorów z Ukrainy</span>
+          <span class="uk">Дорожня мапа підтримки для сеньйорів з України</span>
+        </h2>
+
+        <div
+          class="bg-[#f0e6fc] inline-block p-8 rounded-[40px] shadow-sm border-2 border-white transform rotate-1"
+          aria-hidden="true"
+        >
+          <h1 class="text-4xl md:text-5xl font-black text-[#573a70] mb-3">
+            <span class="pl">Знайди своє місце</span>
+            <span class="uk">Znajdź Swoje Miejsce</span>
+          </h1>
+          <h2 class="text-xl md:text-2xl font-bold text-[#452b5e]">
+            <span class="pl"
+              >Дорожня мапа підтримки для сеньйорів з України</span
+            >
+            <span class="uk">Mapa Wsparcia dla Seniorów z Ukrainy</span>
+          </h2>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT -->
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
+        <!-- Ścieżka (Lewa Strona) -->
+        <main class="w-full lg:w-2/3 relative">
+          <div id="timeline-container" class="relative w-full pb-16 pt-8">
+            <!-- Dynamiczne Tło Ścieżki -->
+            <svg
+              id="path-svg"
+              class="absolute top-0 left-0 w-full pointer-events-none z-0"
+              style="height: 100%"
+              aria-hidden="true"
+            >
+              <path
+                id="path-line-shadow"
+                fill="none"
+                stroke="rgba(200, 180, 150, 0.15)"
+                stroke-width="45"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                transform="translate(0, 10)"
+              />
+              <path
+                id="path-line-base"
+                fill="none"
+                stroke="#fce062"
+                stroke-width="35"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                id="path-line-dash"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="8"
+                stroke-dasharray="0 30"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+            <!-- STEP 1 -->
+            <div class="flex w-full mb-16 relative z-10 flex-row">
+              <div
+                class="w-20 md:w-5/12 flex-shrink-0 flex items-start md:items-center justify-center md:justify-end pt-4 md:pt-0 md:pr-10"
+                aria-hidden="true"
+              >
+                <div
+                  class="w-16 h-16 rounded-full bg-[#fce062] border-[5px] border-white text-[#573a70] flex items-center justify-center font-black text-3xl dot step-marker z-20"
+                >
+                  1
+                </div>
+              </div>
+              <div class="flex-grow md:w-7/12 pr-2 md:pr-0 pl-4 md:pl-0">
+                <div class="bg-[#f2e6ff] card-optimistic p-6 md:p-8 relative">
+                  <div
+                    class="absolute -top-6 -right-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md animate-float-slow text-3xl"
+                    aria-hidden="true"
+                  >
+                    📍
+                  </div>
+                  <h3 class="text-3xl font-black text-[#573a70] mb-4">
+                    <span class="pl">Wybierz klub / miejsce</span>
+                    <span class="uk">Оберіть клуб / місце</span>
+                  </h3>
+
+                  <p
+                    class="text-lg font-bold text-[#4f3966] mb-5 leading-relaxed"
+                  >
+                    <span class="pl"
+                      >Wybierz klub lub miejsce integracji, które znajduje się
+                      blisko Ciebie lub w miejscu, do którego łatwo i wygodnie
+                      możesz dotrzeć.</span
+                    >
+                    <span class="uk"
+                      >Оберіть клуб або місце інтеграції, яке знаходиться
+                      недалеко від вас або куди вам легко і зручно
+                      дістатися.</span
+                    >
+                  </p>
+
+                  <button
+                    onclick="toggleAccordion(this)"
+                    aria-expanded="false"
+                    aria-controls="step1-content"
+                    class="bg-white/90 hover:bg-white text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-[#f2e6ff]"
+                  >
+                    <span class="pl">Zobacz więcej</span
+                    ><span class="uk">Показати більше</span>
+                    <i
+                      data-lucide="chevron-down"
+                      class="w-5 h-5 ml-1 inline"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+
+                  <div
+                    id="step1-content"
+                    class="accordion-content text-[#4f3966]"
+                  >
+                    <p class="font-bold mb-3 mt-4 text-lg">
+                      <span class="pl"
+                        >Jeśli w pobliżu nie ma takiego miejsca na mapie:</span
+                      >
+                      <span class="uk"
+                        >Якщо поблизу на карті немає такого місця:</span
+                      >
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >zapytaj sąsiadów — być może znają lokalne miejsca
+                          spotkań</span
+                        >
+                        <span class="uk"
+                          >розпитайте сусідів — можливо, вони знають місцеві
+                          місця зустрічей</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >zapytaj w MOPS-ie (Miejskim Ośrodku Pomocy
+                          Społecznej)</span
+                        >
+                        <span class="uk"
+                          >запитайте в MOPS-і (Міському осередку соціальної
+                          допомоги)</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl">skontaktuj się z Radą Seniorów</span>
+                        <span class="uk">зверніться до Ради Сеньйорів</span>
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >zwróć uwagę na terminy, w jakich można się
+                          kontaktować</span
+                        >
+                        <span class="uk"
+                          >зверніть увагу на дні та години роботи</span
+                        >
+                      </li>
+                    </ul>
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl"
+                        >Możesz skorzystać z dostępnych źródeł:</span
+                      >
+                      <span class="uk"
+                        >Ви можете скористатися доступними джерелами:</span
+                      >
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-8 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >listy klubów dostępnych na mapie:</span
+                        >
+                        <span class="uk"
+                          >списки клубів, доступних на карті:</span
+                        >
+                        <a
+                          href="https://docs.google.com/spreadsheets/d/1BqdKGCXD5GeK6j6ekdmq5UInMGmyAEk2hyV5eVWniIc/edit?usp=sharing"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-[#3b2752] underline hover:text-[#573a70] focus:outline-none focus:ring-2 focus:ring-[#573a70] rounded break-all"
+                        >
+                          <span class="pl">Link do mapy</span
+                          ><span class="uk">Посилання на карту</span>
+                        </a>
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >strony internetowej Twojego miasta (wyszukaj np.
+                          „kluby seniora” + nazwa miasta)</span
+                        >
+                        <span class="uk"
+                          >веб-сайту вашого міста (шукайте, наприклад, "kluby
+                          seniora" + назва міста)</span
+                        >
+                      </li>
+                    </ul>
+                    <div
+                      class="inline-block bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm text-base md:text-lg uppercase transform -rotate-1 leading-snug"
+                    >
+                      <span class="pl"
+                        >NIE BÓJ SIĘ PYTAĆ! - Wiele osób chętnie podzieli się
+                        informacjami i pomoże znaleźć odpowiednie miejsce.</span
+                      >
+                      <span class="uk"
+                        >НЕ БІЙТЕСЯ ЗАПИТУВАТИ! - Багато людей охоче поділяться
+                        інформацією та допоможуть знайти відповідне місце.</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div
+              class="flex w-full mb-16 relative z-10 flex-row md:flex-row-reverse"
+            >
+              <div
+                class="w-20 md:w-5/12 flex-shrink-0 flex items-start md:items-center justify-center md:justify-start pt-4 md:pt-0 md:pl-10"
+                aria-hidden="true"
+              >
+                <div
+                  class="w-16 h-16 rounded-full bg-[#fce062] border-[5px] border-white text-[#573a70] flex items-center justify-center font-black text-3xl dot step-marker z-20"
+                >
+                  2
+                </div>
+              </div>
+              <div class="flex-grow md:w-7/12 pr-2 md:pl-0 pl-4 md:pr-0">
+                <div class="bg-white card-optimistic p-6 md:p-8 relative">
+                  <div
+                    class="absolute -top-6 -left-4 w-16 h-16 bg-[#f2e6ff] rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
+                    aria-hidden="true"
+                  >
+                    🤝
+                  </div>
+                  <h3 class="text-3xl font-black text-[#573a70] mb-4">
+                    <span class="pl">Poproś o pomoc</span>
+                    <span class="uk">Попросіть про допомогу</span>
+                  </h3>
+
+                  <p
+                    class="text-lg font-bold text-[#4f3966] mb-5 leading-relaxed"
+                  >
+                    <span class="pl"
+                      >Jeżeli się obawiasz, poproś bliską osobę, znajomego lub
+                      sąsiada, aby towarzyszył ci podczas pierwszej
+                      wycieczki.</span
+                    >
+                    <span class="uk"
+                      >Якщо ви хвилюєтесь, попросіть близьку людину, знайомого
+                      або сусіда супроводжувати вас під час першого
+                      візиту.</span
+                    >
+                  </p>
+
+                  <button
+                    onclick="toggleAccordion(this)"
+                    aria-expanded="false"
+                    aria-controls="step2-content"
+                    class="bg-[#f2e6ff] hover:bg-[#e3d0f5] text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
+                  >
+                    <span class="pl">Zobacz więcej</span
+                    ><span class="uk">Показати більше</span>
+                    <i
+                      data-lucide="chevron-down"
+                      class="w-5 h-5 ml-1 inline"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+
+                  <div
+                    id="step2-content"
+                    class="accordion-content text-[#4f3966]"
+                  >
+                    <p class="font-bold mb-3 mt-4 text-lg">
+                      <span class="pl">Możesz:</span>
+                      <span class="uk">Ви можете:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-8 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >poprosić kogoś, żeby poszedł z Tobą do klubu</span
+                        >
+                        <span class="uk"
+                          >попросити когось піти з вами до клубу</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >poprosić o pomoc w zadzwonieniu do klubu</span
+                        >
+                        <span class="uk"
+                          >попросити допомогти зателефонувати до клубу</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >poprosić o pomoc w znalezieniu drogi</span
+                        >
+                        <span class="uk"
+                          >попросити допомогти знайти дорогу</span
+                        >
+                      </li>
+                    </ul>
+                    <div
+                      class="inline-block bg-[#f2e6ff] text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm transform rotate-1 uppercase text-base md:text-lg"
+                    >
+                      <span class="pl"
+                        >PIERWSZY KROK STWARZA NOWE MOŻLIWOŚCI!</span
+                      >
+                      <span class="uk"
+                        >ПЕРШИЙ КРОК СТВОРЮЄ НОВІ МОЖЛИВОСТІ!</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="flex w-full mb-16 relative z-10 flex-row">
+              <div
+                class="w-20 md:w-5/12 flex-shrink-0 flex items-start md:items-center justify-center md:justify-end pt-4 md:pt-0 md:pr-10"
+                aria-hidden="true"
+              >
+                <div
+                  class="w-16 h-16 rounded-full bg-[#fce062] border-[5px] border-white text-[#573a70] flex items-center justify-center font-black text-3xl dot step-marker z-20"
+                >
+                  3
+                </div>
+              </div>
+              <div class="flex-grow md:w-7/12 pr-2 md:pr-0 pl-4 md:pl-0">
+                <div class="bg-[#f2e6ff] card-optimistic p-6 md:p-8 relative">
+                  <div
+                    class="absolute -top-6 -right-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md animate-float-slow text-3xl"
+                    aria-hidden="true"
+                  >
+                    📞
+                  </div>
+                  <h3 class="text-3xl font-black text-[#573a70] mb-4">
+                    <span class="pl"
+                      >Skontaktuj się z klubem telefonicznie</span
+                    >
+                    <span class="uk">Зв'яжіться з клубом по телефону</span>
+                  </h3>
+
+                  <p
+                    class="text-lg font-bold text-[#4f3966] mb-5 leading-relaxed"
+                  >
+                    <span class="pl"
+                      >Zadzwoń do klubu — to najlepszy sposób, żeby uzyskać
+                      potrzebne informacje.</span
+                    >
+                    <span class="uk"
+                      >Зателефонуйте до клубу — це найкращий спосіб отримати
+                      потрібну інформацію.</span
+                    >
+                  </p>
+
+                  <button
+                    onclick="toggleAccordion(this)"
+                    aria-expanded="false"
+                    aria-controls="step3-content"
+                    class="bg-white/90 hover:bg-white text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-[#f2e6ff]"
+                  >
+                    <span class="pl">Zobacz więcej</span
+                    ><span class="uk">Показати більше</span>
+                    <i
+                      data-lucide="chevron-down"
+                      class="w-5 h-5 ml-1 inline"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+
+                  <div
+                    id="step3-content"
+                    class="accordion-content text-[#4f3966]"
+                  >
+                    <p class="font-semibold text-lg mb-6 mt-4 leading-relaxed">
+                      <span class="pl"
+                        >Staraj się mówić po polsku. Jeśli jest to trudne —
+                        zapytaj, czy ktoś mówi po ukraińsku lub rosyjsku. Możesz
+                        też zapytać, czy rozmówca rozumie, co mówisz. Jeśli
+                        czegoś nie rozumiesz — poproś, aby mówiono
+                        wolniej.</span
+                      >
+                      <span class="uk"
+                        >Намагайтеся говорити польською. Якщо це важко —
+                        запитайте, чи хтось розмовляє українською або
+                        російською. Ви також можете запитати, чи розуміє
+                        співрозмовник те, що ви говорите. Якщо ви чогось не
+                        розумієте — попросіть говорити повільніше.</span
+                      >
+                    </p>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl"
+                        >Podczas rozmowy możesz zadać te pytania:</span
+                      >
+                      <span class="uk"
+                        >Під час розмови ви можете задати ці питання:</span
+                      >
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-8 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >Czy klub przyjmuje osoby z Ukrainy?</span
+                        >
+                        <span class="uk">Чи приймає клуб осіб з України?</span>
+                      </li>
+                      <li>
+                        <span class="pl">Czy są dostępne miejsca?</span>
+                        <span class="uk">Чи є вільні місця?</span>
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >W jakich dniach i godzinach klub jest otwarty?</span
+                        >
+                        <span class="uk">В які дні та години працює клуб?</span>
+                      </li>
+                      <li>
+                        <span class="pl">Jakie są rodzaje zajęć?</span>
+                        <span class="uk">Які є види занять?</span>
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >Czy w klubie jest ktoś kto mówi w języku ukraińskim
+                          lub rosyjskim?</span
+                        >
+                        <span class="uk"
+                          >Чи є в клубі хтось, хто розмовляє українською чи
+                          російською мовою?</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >Czy jest zapewniona dostępność dla osób z
+                          niepełnosprawnością?</span
+                        >
+                        <span class="uk"
+                          >Чи забезпечена доступність для осіб з
+                          інвалідністю?</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >Zapytaj o adres, w jakiej okolicy usytuowany jest
+                          klub, jaki jest najbliższy przystanek oraz który
+                          autobus lub tramwaj tam kursuje.</span
+                        >
+                        <span class="uk"
+                          >Запитайте про адресу, в якому районі розташований
+                          клуб, яка найближча зупинка та який автобус чи трамвай
+                          туди курсує.</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >Zapytaj o charakterystyczne punkty w okolicy, np.
+                          park, sklep, basen lub znany obiekt.</span
+                        >
+                        <span class="uk"
+                          >Запитайте про орієнтири поблизу, наприклад, парк,
+                          магазин, басейн або відомий об'єкт.</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >Poproś o przesłanie adresu i zdjęcia miejsca/budynku,
+                          do którego masz przyjść za pomocą SMS-a.</span
+                        >
+                        <span class="uk"
+                          >Попросіть надіслати адресу та фотографію
+                          місця/будівлі за допомогою SMS.</span
+                        >
+                      </li>
+                    </ul>
+                    <div
+                      class="bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm text-base md:text-lg text-center uppercase"
+                    >
+                      <span class="pl"
+                        >Zanotuj nazwę przystanku oraz istotne punkty
+                        orientacyjne.</span
+                      >
+                      <span class="uk"
+                        >ЗАПИШІТЬ НАЗВУ ЗУПИНКИ ТА ВАЖЛИВІ ОРІЄНТИРИ.</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 4 -->
+            <div
+              class="flex w-full mb-16 relative z-10 flex-row md:flex-row-reverse"
+            >
+              <div
+                class="w-20 md:w-5/12 flex-shrink-0 flex items-start md:items-center justify-center md:justify-start pt-4 md:pt-0 md:pl-10"
+                aria-hidden="true"
+              >
+                <div
+                  class="w-16 h-16 rounded-full bg-[#fce062] border-[5px] border-white text-[#573a70] flex items-center justify-center font-black text-3xl dot step-marker z-20"
+                >
+                  4
+                </div>
+              </div>
+              <div class="flex-grow md:w-7/12 pr-2 md:pl-0 pl-4 md:pr-0">
+                <div class="bg-white card-optimistic p-6 md:p-8 relative">
+                  <div
+                    class="absolute -top-6 -left-4 w-16 h-16 bg-[#f2e6ff] rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
+                    aria-hidden="true"
+                  >
+                    📝
+                  </div>
+                  <h3 class="text-3xl font-black text-[#573a70] mb-4">
+                    <span class="pl">Przygotuj „kartę bezpieczeństwa”</span>
+                    <span class="uk">Підготуйте «картку безпеки»</span>
+                  </h3>
+
+                  <p
+                    class="text-lg font-bold text-[#4f3966] mb-5 leading-relaxed"
+                  >
+                    <span class="pl"
+                      >Przygotuj kartkę (możesz ją włożyć do kieszeni lub
+                      torebki), na której zapiszesz najważniejsze
+                      informacje.</span
+                    >
+                    <span class="uk"
+                      >Підготуйте аркуш паперу (можете покласти його в кишеню
+                      або сумку), на якому запишіть найважливішу
+                      інформацію.</span
+                    >
+                  </p>
+
+                  <button
+                    onclick="toggleAccordion(this)"
+                    aria-expanded="false"
+                    aria-controls="step4-content"
+                    class="bg-[#f2e6ff] hover:bg-[#e3d0f5] text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
+                  >
+                    <span class="pl">Zobacz więcej</span
+                    ><span class="uk">Показати більше</span>
+                    <i
+                      data-lucide="chevron-down"
+                      class="w-5 h-5 ml-1 inline"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+
+                  <div
+                    id="step4-content"
+                    class="accordion-content text-[#4f3966]"
+                  >
+                    <p class="font-bold mb-3 mt-4 text-lg">
+                      <span class="pl">Zapisz na kartce:</span>
+                      <span class="uk">Запишіть на аркуші:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >adres i nazwę miejsca, do którego idziesz</span
+                        >
+                        <span class="uk"
+                          >адресу та назву місця, куди ви йдете</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl">numer telefonu do klubu</span>
+                        <span class="uk">номер телефону клубу</span>
+                      </li>
+                      <li>
+                        <span class="pl">swój adres domowy</span>
+                        <span class="uk">свою домашню адресу</span>
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >numer telefonu do bliskiej osoby (np. rodziny lub
+                          znajomego)</span
+                        >
+                        <span class="uk"
+                          >номер телефону близької особи (наприклад, родини або
+                          знайомого)</span
+                        >
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl"
+                        >Kartka może pomóc Ci w trudnej sytuacji:</span
+                      >
+                      <span class="uk"
+                        >Картка може допомогти вам у складній ситуації:</span
+                      >
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >jeśli bateria w telefonie się rozładuje</span
+                        >
+                        <span class="uk"
+                          >якщо акумулятор у телефоні розрядиться</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >jeśli zgubisz się lub nie będziesz wiedzieć, gdzie
+                          jesteś</span
+                        >
+                        <span class="uk"
+                          >якщо ви заблукаєте або не знатимете, де
+                          знаходитесь</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >jeśli będziesz potrzebować pomocy innych osób</span
+                        >
+                        <span class="uk"
+                          >якщо вам знадобиться допомога інших людей</span
+                        >
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl">W takiej sytuacji możesz:</span>
+                      <span class="uk">У такій ситуації ви можете:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl">pokazać kartkę przechodniowi</span>
+                        <span class="uk">показати картку перехожому</span>
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >poprosić o pomoc kierowcę autobusu lub pracownika
+                          sklepu</span
+                        >
+                        <span class="uk"
+                          >попросити про допомогу водія автобуса або працівника
+                          магазину</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl">zadzwonić z czyjegoś telefonu</span>
+                        <span class="uk"
+                          >зателефонувати з чийогось телефону</span
+                        >
+                      </li>
+                    </ul>
+
+                    <p
+                      class="font-semibold text-lg mb-8 bg-gray-50/50 p-4 rounded-xl italic border border-[#e3d0f5]"
+                    >
+                      <span class="pl"
+                        >Wskazówka: Pisz wyraźnie, po polsku, dużymi literami,
+                        aby inne osoby mogły łatwo przeczytać informacje.</span
+                      >
+                      <span class="uk"
+                        >Підказка: Пишіть розбірливо, польською мовою, великими
+                        літерами, щоб інші люди могли легко прочитати
+                        інформацію.</span
+                      >
+                    </p>
+
+                    <div
+                      class="bg-[#f2e6ff] text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm text-base md:text-lg text-center uppercase leading-snug"
+                    >
+                      <span class="pl"
+                        >Jeśli bateria w twoim telefonie się rozładuje lub się
+                        zgubisz, pokaż tę kartę i poproś o pomoc.</span
+                      >
+                      <span class="uk"
+                        >ЯКЩО АКУМУЛЯТОР У ВАШОМУ ТЕЛЕФОНІ РОЗРЯДИТЬСЯ АБО ВИ
+                        ЗАБЛУКАЄТЕ, ПОКАЖІТЬ ЦЮ КАРТКУ ТА ПОПРОСІТЬ ПРО
+                        ДОПОМОГУ.</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 5 -->
+            <div class="flex w-full mb-16 relative z-10 flex-row">
+              <div
+                class="w-20 md:w-5/12 flex-shrink-0 flex items-start md:items-center justify-center md:justify-end pt-4 md:pt-0 md:pr-10"
+                aria-hidden="true"
+              >
+                <div
+                  class="w-16 h-16 rounded-full bg-[#fce062] border-[5px] border-white text-[#573a70] flex items-center justify-center font-black text-3xl dot step-marker z-20"
+                >
+                  5
+                </div>
+              </div>
+              <div class="flex-grow md:w-7/12 pr-2 md:pr-0 pl-4 md:pl-0">
+                <div class="bg-[#f2e6ff] card-optimistic p-6 md:p-8 relative">
+                  <div
+                    class="absolute -top-6 -right-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md animate-float-slow text-3xl"
+                    aria-hidden="true"
+                  >
+                    ☀️
+                  </div>
+                  <h3 class="text-3xl font-black text-[#573a70] mb-4">
+                    <span class="pl">Przygotuj się do wyjścia</span>
+                    <span class="uk">Підготуйтеся до виходу</span>
+                  </h3>
+
+                  <p
+                    class="text-lg font-bold text-[#4f3966] mb-5 leading-relaxed"
+                  >
+                    <span class="pl"
+                      >Dobrze przygotuj się przed wyjściem, żeby czuć się
+                      spokojniej i bezpieczniej.</span
+                    >
+                    <span class="uk"
+                      >Добре підготуйтеся перед виходом, щоб відчувати себе
+                      спокійніше та безпечніше.</span
+                    >
+                  </p>
+
+                  <button
+                    onclick="toggleAccordion(this)"
+                    aria-expanded="false"
+                    aria-controls="step5-content"
+                    class="bg-white/90 hover:bg-white text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-[#f2e6ff]"
+                  >
+                    <span class="pl">Zobacz więcej</span
+                    ><span class="uk">Показати більше</span>
+                    <i
+                      data-lucide="chevron-down"
+                      class="w-5 h-5 ml-1 inline"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+
+                  <div
+                    id="step5-content"
+                    class="accordion-content text-[#4f3966]"
+                  >
+                    <p class="font-bold mb-3 mt-4 text-lg">
+                      <span class="pl">Sprawdź prognozę pogody:</span>
+                      <span class="uk">Перевірте прогноз погоди:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >zobacz, czy będzie ciepło, zimno, deszczowo lub
+                          wietrznie</span
+                        >
+                        <span class="uk"
+                          >подивіться, чи буде тепло, холодно, дощитиме чи
+                          вітряно</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >w razie potrzeby zabierz parasol, czapkę lub
+                          kurtkę</span
+                        >
+                        <span class="uk"
+                          >за потреби візьміть парасолю, шапку або куртку</span
+                        >
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl">Ubierz się stosownie:</span>
+                      <span class="uk">Одягніться відповідно:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl">wybierz wygodne ubranie i buty</span>
+                        <span class="uk">оберіть зручний одяг та взуття</span>
+                      </li>
+                      <li>
+                        <span class="pl">dostosuj ubiór do pogody</span>
+                        <span class="uk">адаптуйте одяг до погоди</span>
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >jeśli idziesz pierwszy raz — wybierz coś, w czym
+                          czujesz się dobrze i swobodnie</span
+                        >
+                        <span class="uk"
+                          >якщо ви йдете вперше — оберіть те, в чому вам добре і
+                          зручно</span
+                        >
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl">Przygotuj potrzebne rzeczy:</span>
+                      <span class="uk">Підготуйте необхідні речі:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl">telefon (najlepiej naładowany)</span>
+                        <span class="uk">телефон (бажано заряджений)</span>
+                      </li>
+                      <li>
+                        <span class="pl">kartę bezpieczeństwa</span>
+                        <span class="uk">картку безпеки</span>
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >ewentualnie okulary, leki lub coś do picia</span
+                        >
+                        <span class="uk"
+                          >за необхідності окуляри, ліки або щось попити</span
+                        >
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl">Wyjdź wcześniej:</span>
+                      <span class="uk">Вийдіть раніше:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-8 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >zaplanuj wyjście tak, żeby nie musieć się
+                          spieszyć</span
+                        >
+                        <span class="uk"
+                          >сплануйте вихід так, щоб не довелося поспішати</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >daj sobie czas na spokojne znalezienie drogi</span
+                        >
+                        <span class="uk"
+                          >дайте собі час на спокійний пошук дороги</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >jeśli się zgubisz — będziesz mieć czas, żeby zapytać
+                          o pomoc</span
+                        >
+                        <span class="uk"
+                          >якщо ви заблукаєте — у вас буде час, щоб попросити
+                          про допомогу</span
+                        >
+                      </li>
+                    </ul>
+
+                    <div
+                      class="inline-block bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm uppercase text-base md:text-lg transform -rotate-1 leading-snug"
+                    >
+                      <span class="pl"
+                        >WYJDŹ WCZEŚNIEJ - LEPIEJ MIEĆ ZAPAS CZASU NIŻ SIĘ
+                        STRESOWAĆ. SPOKOJNE WYJŚCIE POMAGA POCZUĆ SIĘ
+                        PEWNIEJ.</span
+                      >
+                      <span class="uk"
+                        >ВИЙДІТЬ РАНІШЕ - КРАЩЕ МАТИ ЗАПАС ЧАСУ, НІЖ НЕРВУВАТИ.
+                        СПОКІЙНИЙ ВИХІД ДОПОМАГАЄ ВІДЧУВАТИ СЕБЕ
+                        ВПЕВНЕНІШЕ.</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 6 -->
+            <div
+              class="flex w-full mb-16 relative z-10 flex-row md:flex-row-reverse"
+            >
+              <div
+                class="w-20 md:w-5/12 flex-shrink-0 flex items-start md:items-center justify-center md:justify-start pt-4 md:pt-0 md:pl-10"
+                aria-hidden="true"
+              >
+                <div
+                  class="w-16 h-16 rounded-full bg-[#fce062] border-[5px] border-white text-[#573a70] flex items-center justify-center font-black text-3xl dot step-marker z-20"
+                >
+                  6
+                </div>
+              </div>
+              <div class="flex-grow md:w-7/12 pr-2 md:pl-0 pl-4 md:pr-0">
+                <div class="bg-white card-optimistic p-6 md:p-8 relative">
+                  <div
+                    class="absolute -top-6 -left-4 w-16 h-16 bg-[#f2e6ff] rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
+                    aria-hidden="true"
+                  >
+                    🚌
+                  </div>
+                  <h3 class="text-3xl font-black text-[#573a70] mb-4">
+                    <span class="pl">Podczas dojazdu</span>
+                    <span class="uk">Під час поїздки</span>
+                  </h3>
+
+                  <p
+                    class="text-lg font-bold text-[#4f3966] mb-5 leading-relaxed"
+                  >
+                    <span class="pl"
+                      >Podczas drogi do klubu staraj się być uważny i
+                      spokojny.</span
+                    >
+                    <span class="uk"
+                      >Під час дороги до клубу намагайтеся бути уважними та
+                      спокійними.</span
+                    >
+                  </p>
+
+                  <button
+                    onclick="toggleAccordion(this)"
+                    aria-expanded="false"
+                    aria-controls="step6-content"
+                    class="bg-[#f2e6ff] hover:bg-[#e3d0f5] text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
+                  >
+                    <span class="pl">Zobacz więcej</span
+                    ><span class="uk">Показати більше</span>
+                    <i
+                      data-lucide="chevron-down"
+                      class="w-5 h-5 ml-1 inline"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+
+                  <div
+                    id="step6-content"
+                    class="accordion-content text-[#4f3966]"
+                  >
+                    <p class="font-bold mb-3 mt-4 text-lg">
+                      <span class="pl"
+                        >Zapamiętuj charakterystyczne miejsca:</span
+                      >
+                      <span class="uk">Запам'ятовуйте характерні місця:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >zwróć uwagę na budynki, sklepy, przystanki</span
+                        >
+                        <span class="uk"
+                          >звертайте увагу на будівлі, магазини, зупинки</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >zapamiętaj drogę, którą idziesz — pomoże Ci to
+                          wrócić</span
+                        >
+                        <span class="uk"
+                          >запам'ятайте дорогу, якою йдете — це допоможе вам
+                          повернутися</span
+                        >
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl">Nie bój się pytać o drogę:</span>
+                      <span class="uk">Не бійтеся питати дорогу:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >możesz zapytać przechodniów, kierowcę autobusu lub
+                          pracownika sklepu</span
+                        >
+                        <span class="uk"
+                          >ви можете запитати перехожих, водія автобуса або
+                          працівника магазину</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >w razie potrzeby pokaż kartkę z adresem miejsca, do
+                          którego idziesz</span
+                        >
+                        <span class="uk"
+                          >за потреби покажіть картку з адресою місця, куди ви
+                          йдете</span
+                        >
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl"
+                        >W razie potrzeby skontaktuj się z klubem:</span
+                      >
+                      <span class="uk">За потреби зв'яжіться з клубом:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-8 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >jeśli nie możesz znaleźć drogi — zadzwoń</span
+                        >
+                        <span class="uk"
+                          >якщо ви не можете знайти дорогу — зателефонуйте</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >możesz poprosić o dokładne wskazówki</span
+                        >
+                        <span class="uk"
+                          >ви можете попросити точні вказівки</span
+                        >
+                      </li>
+                    </ul>
+
+                    <div
+                      class="bg-[#f2e6ff] p-4 rounded-2xl border-2 border-[#e3d0f5] shadow-sm font-black text-[#5d3b7d] text-base md:text-lg uppercase text-center leading-snug"
+                    >
+                      <span class="pl"
+                        >NIE MUSISZ WIEDZIEĆ WSZYSTKIEGO OD RAZU - MOŻESZ PYTAĆ
+                        I PROSIĆ O POMOC NA KAŻDYM ETAPIE DROGI!</span
+                      >
+                      <span class="uk"
+                        >ВИ НЕ ПОВИННІ ЗНАТИ ВСЕ ОДРАЗУ - ВИ МОЖЕТЕ ПИТАТИ ТА
+                        ПРОСИТИ ПРО ДОПОМОГУ НА КОЖНОМУ ЕТАПІ ДОРОГИ!</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 7 -->
+            <div class="flex w-full mb-16 relative z-10 flex-row">
+              <div
+                class="w-20 md:w-5/12 flex-shrink-0 flex items-start md:items-center justify-center md:justify-end pt-4 md:pt-0 md:pr-10"
+                aria-hidden="true"
+              >
+                <div
+                  class="w-16 h-16 rounded-full bg-[#fce062] border-[5px] border-white text-[#573a70] flex items-center justify-center font-black text-3xl dot step-marker z-20"
+                >
+                  7
+                </div>
+              </div>
+              <div class="flex-grow md:w-7/12 pr-2 md:pr-0 pl-4 md:pl-0">
+                <div class="bg-[#f2e6ff] card-optimistic p-6 md:p-8 relative">
+                  <div
+                    class="absolute -top-6 -right-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md animate-float-slow text-3xl"
+                    aria-hidden="true"
+                  >
+                    ☕
+                  </div>
+                  <h3 class="text-3xl font-black text-[#573a70] mb-4">
+                    <span class="pl">Na miejscu</span>
+                    <span class="uk">На місці</span>
+                  </h3>
+
+                  <p
+                    class="text-lg font-bold text-[#4f3966] mb-5 leading-relaxed"
+                  >
+                    <span class="pl"
+                      >Gdy dotrzesz na miejsce, pamiętaj, że to naturalne, że
+                      możesz czuć się niepewnie.</span
+                    >
+                    <span class="uk"
+                      >Коли ви дістанетеся місця, пам'ятайте, що це нормально
+                      відчувати невпевненість.</span
+                    >
+                  </p>
+
+                  <button
+                    onclick="toggleAccordion(this)"
+                    aria-expanded="false"
+                    aria-controls="step7-content"
+                    class="bg-white/90 hover:bg-white text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-[#f2e6ff]"
+                  >
+                    <span class="pl">Zobacz więcej</span
+                    ><span class="uk">Показати більше</span>
+                    <i
+                      data-lucide="chevron-down"
+                      class="w-5 h-5 ml-1 inline"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+
+                  <div
+                    id="step7-content"
+                    class="accordion-content text-[#4f3966]"
+                  >
+                    <p class="font-bold text-lg mb-5 mt-4">
+                      <span class="pl">Powiedz, że jesteś pierwszy raz.</span>
+                      <span class="uk">Скажіть, що ви прийшли вперше.</span>
+                    </p>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl">Jeśli czegoś nie rozumiesz:</span>
+                      <span class="uk">Якщо ви чогось не розумієте:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl">poproś, aby mówiono wolniej</span>
+                        <span class="uk">попросіть говорити повільніше</span>
+                      </li>
+                      <li>
+                        <span class="pl">nie bój się zapytać ponownie</span>
+                        <span class="uk">не бійтеся перепитати</span>
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl">Zapytaj o organizację i zajęcia:</span>
+                      <span class="uk"
+                        >Запитайте про організацію та заняття:</span
+                      >
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl">jakie są spotkania</span>
+                        <span class="uk">які є зустрічі</span>
+                      </li>
+                      <li>
+                        <span class="pl">jakie zajęcia są dostępne</span>
+                        <span class="uk">які заняття доступні</span>
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >kiedy odbywają się kolejne spotkania</span
+                        >
+                        <span class="uk"
+                          >коли відбуваються наступні зустрічі</span
+                        >
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl">Bądź otwarty:</span>
+                      <span class="uk">Будьте відкритими:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-8 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >interesuj się tym, co jest dla Ciebie ważne</span
+                        >
+                        <span class="uk"
+                          >цікавтеся тим, що для вас важливо</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl">zadawaj pytania</span>
+                        <span class="uk">задавайте питання</span>
+                      </li>
+                      <li>
+                        <span class="pl">obserwuj, co się dzieje wokół</span>
+                        <span class="uk"
+                          >спостерігайте за тим, що відбувається навколо</span
+                        >
+                      </li>
+                    </ul>
+
+                    <div
+                      class="bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm text-center uppercase text-base md:text-lg"
+                    >
+                      <span class="pl"
+                        >LUDZIE CHCĄ WSPIERAĆ I POMAGAĆ - WYSTARCZY DAĆ IM
+                        SZANSĘ!</span
+                      >
+                      <span class="uk"
+                        >ЛЮДИ ХОЧУТЬ ПІДТРИМУВАТИ ТА ДОПОМАГАТИ - ДОСТАТНЬО ДАТИ
+                        ЇМ ШАНС!</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 8 -->
+            <div class="flex w-full relative z-10 flex-row md:flex-row-reverse">
+              <div
+                class="w-20 md:w-5/12 flex-shrink-0 flex items-start md:items-center justify-center md:justify-start pt-4 md:pt-0 md:pl-10"
+                aria-hidden="true"
+              >
+                <div
+                  class="w-16 h-16 rounded-full bg-[#fce062] border-[5px] border-white text-[#573a70] flex items-center justify-center font-black text-3xl dot step-marker z-20 animate-pulse-glow"
+                >
+                  8
+                </div>
+              </div>
+              <div class="flex-grow md:w-7/12 pr-2 md:pl-0 pl-4 md:pr-0">
+                <div class="bg-white card-optimistic p-6 md:p-8 relative">
+                  <div
+                    class="absolute -top-6 -left-4 w-16 h-16 bg-[#f2e6ff] rounded-full flex items-center justify-center shadow-md animate-float-fast text-3xl"
+                    aria-hidden="true"
+                  >
+                    ❤️
+                  </div>
+                  <h3 class="text-3xl font-black text-[#573a70] mb-4">
+                    <span class="pl">Po spotkaniu</span>
+                    <span class="uk">Після зустрічі</span>
+                  </h3>
+
+                  <p
+                    class="text-lg font-bold text-[#4f3966] mb-5 leading-relaxed"
+                  >
+                    <span class="pl"
+                      >Po zakończeniu spotkania warto podsumować wizytę.</span
+                    >
+                    <span class="uk"
+                      >Після завершення зустрічі варто підбити підсумки
+                      візиту.</span
+                    >
+                  </p>
+
+                  <button
+                    onclick="toggleAccordion(this)"
+                    aria-expanded="false"
+                    aria-controls="step8-content"
+                    class="bg-[#f2e6ff] hover:bg-[#e3d0f5] text-[#573a70] text-lg font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
+                  >
+                    <span class="pl">Zobacz więcej</span
+                    ><span class="uk">Показати більше</span>
+                    <i
+                      data-lucide="chevron-down"
+                      class="w-5 h-5 ml-1 inline"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+
+                  <div
+                    id="step8-content"
+                    class="accordion-content text-[#4f3966]"
+                  >
+                    <p class="font-bold mb-3 mt-4 text-lg">
+                      <span class="pl">Podziękuj za spotkanie:</span>
+                      <span class="uk">Подякуйте за зустріч:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >możesz powiedzieć: „Dziękuję bardzo”</span
+                        >
+                        <span class="uk"
+                          >ви можете сказати: "Dziękuję дуже" (Дуже дякую)</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >to buduje dobre relacje i daje pozytywne pierwsze
+                          wrażenie</span
+                        >
+                        <span class="uk"
+                          >це будує хороші стосунки та створює позитивне перше
+                          враження</span
+                        >
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl">Zapytaj o kolejne spotkania:</span>
+                      <span class="uk">Запитайте про наступні зустрічі:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-6 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >dowiedz się, kiedy możesz przyjść ponownie</span
+                        >
+                        <span class="uk"
+                          >дізнайтеся, коли можна прийти знову</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl">zapisz daty i godziny</span>
+                        <span class="uk">запишіть дати та час</span>
+                      </li>
+                    </ul>
+
+                    <p class="font-bold mb-3 text-lg">
+                      <span class="pl">Nie bój się prosić o wsparcie:</span>
+                      <span class="uk">Не бійтеся просити про підтримку:</span>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-lg font-semibold mb-8 leading-relaxed"
+                    >
+                      <li>
+                        <span class="pl"
+                          >jeśli czegoś nie rozumiesz — zapytaj</span
+                        >
+                        <span class="uk"
+                          >якщо чогось не розумієте — запитайте</span
+                        >
+                      </li>
+                      <li>
+                        <span class="pl"
+                          >jeśli potrzebujesz pomocy — powiedz o tym</span
+                        >
+                        <span class="uk"
+                          >якщо потребуєте допомоги — скажіть про це</span
+                        >
+                      </li>
+                    </ul>
+
+                    <div
+                      class="bg-[#f2e6ff] text-[#5d3b7d] font-black py-4 px-5 rounded-[25px] border-2 border-[#e3d0f5] shadow-sm text-center text-base md:text-lg transform rotate-1 leading-snug uppercase"
+                    >
+                      <span class="pl"
+                        >NIE MUSISZ BYĆ SAMODZIELNY - KAŻDY PRZYSZEDŁ KIEDYŚ PO
+                        RAZ PIERWSZY!</span
+                      >
+                      <span class="uk"
+                        >ВИ НЕ ПОВИННІ БУТИ САМОСТІЙНИМИ - КОЖЕН КОЛИСЬ ПРИЙШОВ
+                        ВПЕРШЕ!</span
+                      >
+                      <br />
+                      <span class="text-[#573a70] mt-2 block pl"
+                        >Z KAŻDYM KOLEJNYM SPOTKANIEM BĘDZIE ŁATWIEJ I BARDZIEJ
+                        KOMFORTOWO!</span
+                      >
+                      <span class="text-[#573a70] mt-2 block uk"
+                        >З КОЖНОЮ НАСТУПНОЮ ЗУСТРІЧЧЮ БУДЕ ЛЕГШЕ І
+                        КОМФОРТНІШЕ!</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <!-- RIGHT COLUMN: Przyjazne Miejsca -->
+        <aside class="w-full lg:w-1/3 flex flex-col gap-8 z-10 mt-8 lg:mt-0">
+          <div
+            class="bg-[#f2e6ff] card-optimistic p-5 md:p-6 flex flex-col gap-6 sticky top-8"
+          >
+            <!-- Dekoracyjny nagłówek sekcji -->
+            <div
+              class="bg-[#fce062] rounded-[25px] py-4 px-4 text-center border-[4px] border-white shadow-sm transform -rotate-1"
+            >
+              <h2
+                class="text-3xl font-black text-[#573a70] tracking-tight uppercase"
+              >
+                <span class="pl">Przyjazne Miejsca</span>
+                <span class="uk">Дружні місця</span>
+              </h2>
+            </div>
+
+            <!-- Miejsce 1 -->
+            <div
+              class="bg-white rounded-[25px] p-6 border-2 border-[#e3d0f5] shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+            >
+              <h3
+                class="text-2xl font-black mb-5 text-[#573a70] flex items-center gap-2 leading-tight"
+              >
+                <span class="text-3xl" aria-hidden="true">🏠</span>
+                <span class="pl">Spilno znaczy Wspólnie</span>
+                <span class="uk">Spilno означає Разом</span>
+              </h3>
+
+              <div class="space-y-4 text-lg font-bold text-[#4f3966]">
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Adres</span
+                      ><span class="uk">Адреса</span>
+                    </span>
+                    <span class="pl"
+                      >Katowice, ul. Gustawa Morcinka 5 (Bogucice)</span
+                    >
+                    <span class="uk"
+                      >Катовіце, вул. Густава Морцінка 5 (Богучіце)</span
+                    >
+                  </p>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="phone" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Kontakt</span
+                      ><span class="uk">Контакт</span>
+                    </span>
+                    535 279 285<br />spilno@mostkatowice.pl
+                  </p>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="clock" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Termin</span
+                      ><span class="uk">Розклад</span>
+                    </span>
+                    <span class="pl">9:00 - 17:00 (pon-pt)</span>
+                    <span class="uk">9:00 - 17:00 (пн-пт)</span>
+                  </p>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="globe" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Strona WWW</span
+                      ><span class="uk">Веб-сайт</span>
+                    </span>
+                    <a
+                      href="https://www.mostkatowice.pl/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-[#573a70] hover:text-[#8663a8] underline break-all focus:outline-none focus:ring-2 focus:ring-[#573a70] rounded transition-colors"
+                      >mostkatowice.pl</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Miejsce 2 -->
+            <div
+              class="bg-white rounded-[25px] p-6 border-2 border-[#e3d0f5] shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+            >
+              <h3
+                class="text-2xl font-black mb-5 text-[#573a70] flex items-center gap-2 leading-tight"
+              >
+                <span class="text-3xl" aria-hidden="true">☕</span>
+                <span class="pl">Klub Seniorów KAFOS</span>
+                <span class="uk">Клуб сеньйорів KAFOS</span>
+              </h3>
+
+              <div class="space-y-4 text-lg font-bold text-[#4f3966]">
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Adres</span
+                      ><span class="uk">Адреса</span>
+                    </span>
+                    <span class="pl">Katowice, ul. Kopernika 14 (Centrum)</span>
+                    <span class="uk">Катовіце, вул. Коперника 14 (Центр)</span>
+                  </p>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="phone" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Kontakt</span
+                      ><span class="uk">Контакт</span>
+                    </span>
+                    509 647 801<br />andreo1@wp.pl
+                  </p>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="clock" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Termin</span
+                      ><span class="uk">Розклад</span>
+                    </span>
+                    <span class="pl">12:00 - 14:00 (pon-pt)</span>
+                    <span class="uk">12:00 - 14:00 (пн-пт)</span>
+                  </p>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="globe" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Strona WWW</span
+                      ><span class="uk">Веб-сайт</span>
+                    </span>
+                    <a
+                      href="https://kafos.org.pl/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-[#573a70] hover:text-[#8663a8] underline break-all focus:outline-none focus:ring-2 focus:ring-[#573a70] rounded transition-colors"
+                      >kafos.org.pl</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="mt-32 pb-16 relative z-10" role="contentinfo">
+        <div class="max-w-6xl mx-auto px-4">
+          <div
+            class="bg-white rounded-[40px] shadow-sm border border-purple-100 overflow-hidden"
+          >
+            <div
+              class="p-8 md:p-10 flex flex-wrap justify-center items-center gap-10 md:gap-20"
+            >
+              <img
+                src="logo-gisw.png"
+                alt="Generator Innowacji Sieci Wsparcia"
+                class="h-12 md:h-16 w-auto grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100"
+                onerror="this.style.display = 'none'"
+              />
+              <img
+                src="logo-pcg.png"
+                alt="PCG Polska"
+                class="h-12 md:h-16 w-auto grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100"
+                onerror="this.style.display = 'none'"
+              />
+              <img
+                src="logo_e_1.jpg"
+                alt="Towarzystwo Inicjatyw Twórczych ę"
+                class="h-12 md:h-16 w-auto grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100"
+                onerror="this.style.display = 'none'"
+              />
+            </div>
+
+            <div
+              class="bg-purple-50/50 border-y border-purple-100 p-6 md:px-12 flex flex-col md:flex-row items-center gap-6"
+            >
+              <img
+                src="logo-cc.png"
+                alt="Creative Commons"
+                class="h-10 w-auto shrink-0"
+                onerror="this.style.display = 'none'"
+              />
+              <p
+                class="text-xs md:text-sm text-gray-600 leading-relaxed text-center md:text-left font-medium"
+              >
+                "Znajdź swoje miejsce. Mapa wsparcia dla seniorów z Ukrainy"
+                autorstwa Stowarzyszenia MOST jest licencjonowany na podstawie
+                <span class="text-gray-800 font-bold"
+                  >Creative Commons Uznanie autorstwa-Na tych samych warunkach
+                  4.0 Międzynarodowe</span
+                >. Aby wyświetlić kopię tej licencji, odwiedź stronę
+                <a
+                  href="https://creativecommons.org/licenses/by-sa/4.0/"
+                  class="text-[#573a70] hover:underline font-bold"
+                  target="_blank"
+                  >creativecommons.org/licenses/by-sa/4.0/</a
+                >
+              </p>
+            </div>
+
+            <div class="p-8 md:p-12 flex flex-col items-center gap-8">
+              <img
+                src="loga-ue.jpg"
+                alt="Fundusze Europejskie, Rzeczpospolita Polska, Unia Europejska"
+                class="h-16 md:h-24 w-auto object-contain max-w-full"
+                onerror="this.style.display = 'none'"
+              />
+
+              <div
+                class="max-w-4xl text-center text-xs md:text-sm text-gray-500 leading-relaxed space-y-2"
+              >
+                <div class="pl">
+                  <p class="font-bold text-gray-700 mb-1">
+                    Projekt "Generator Innowacji. Sieci Wsparcia 3" jest
+                    finansowany przez Unię Europejską w ramach Europejskiego
+                    Funduszu Społecznego+. Lider i partner wiodący:
+                    <span class="text-gray-700">PCG Polska Sp. z o.o.</span>,
+                    ul. Fabryczna 17, 90-344 Łódź,
+                    <a
+                      href="http://www.pcgpolska.pl"
+                      class="hover:text-purple-700 underline"
+                      >www.pcgpolska.pl</a
+                    >. Partner projektu:
+                    <span class="text-gray-700"
+                      >Towarzystwo Inicjatyw Twórczych "ę"</span
+                    >, ul. Hoża 35, 00-681 Warszawa,
+                    <a
+                      href="http://www.e.org.pl"
+                      class="hover:text-purple-700 underline"
+                      >www.e.org.pl</a
+                    >.
+                  </p>
+                </div>
+                <div class="uk">
+                  <p class="font-bold text-gray-700 mb-1">
+                    Проєкт "Генератор інновацій. Мережі підтримки 3"
+                    фінансується Європейським Союзом в рамках Європейського
+                    соціального фонду+.
+                  </p>
+                  <p>
+                    Лідер та провідний партнер:
+                    <span class="text-gray-700">PCG Polska Sp. z o.o.</span>,
+                    ul. Fabryczna 17, 90-344 Łódź,
+                    <a
+                      href="http://www.pcgpolska.pl"
+                      class="hover:text-purple-700 underline"
+                      >www.pcgpolska.pl</a
+                    >. Партнер проєкту:
+                    <span class="text-gray-700"
+                      >Towarzystwo Inicjatyw Twórczych "ę"</span
+                    >, ul. Hoża 35, 00-681 Warszawa,
+                    <a
+                      href="http://www.e.org.pl"
+                      class="hover:text-purple-700 underline"
+                      >www.e.org.pl</a
+                    >.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div
+            class="mt-8 text-center text-gray-500 text-sm font-bold uppercase tracking-widest opacity-60"
+          >
+            &copy; 2024 Stowarzyszenie MOST
+          </div> -->
+        </div>
+      </footer>
+    </div>
+
+    <!-- Skrypty -->
+    <script>
+      lucide.createIcons();
+
+      // Obsługa zmiany języka
+      function setLang(lang) {
+        // Ustaw lang w HTML dla czytników ekranu
+        document.documentElement.lang = lang;
+
+        // Zmień klasę na <body>
+        document.body.className = document.body.className.replace(
+          /lang-\w+/,
+          "",
+        );
+        document.body.classList.add("lang-" + lang);
+
+        // Aktualizacja stylów przycisków
+        const btnPl = document.getElementById("btn-pl");
+        const btnUk = document.getElementById("btn-uk");
+
+        if (lang === "pl") {
+          btnPl.classList.add("bg-[#573a70]", "text-white");
+          btnPl.classList.remove("text-[#573a70]", "hover:bg-[#f2e6ff]");
+          btnUk.classList.remove("bg-[#573a70]", "text-white");
+          btnUk.classList.add("text-[#573a70]", "hover:bg-[#f2e6ff]");
+        } else {
+          btnUk.classList.add("bg-[#573a70]", "text-white");
+          btnUk.classList.remove("text-[#573a70]", "hover:bg-[#f2e6ff]");
+          btnPl.classList.remove("bg-[#573a70]", "text-white");
+          btnPl.classList.add("text-[#573a70]", "hover:bg-[#f2e6ff]");
+        }
+
+        // Zapisz preferencję
+        localStorage.setItem("preferredLang", lang);
+
+        // Przelicz ewentualnie otwarte akordeony po zmianie tekstów
+        document
+          .querySelectorAll(".accordion-content.expanded")
+          .forEach((content) => {
+            content.style.maxHeight = content.scrollHeight + "px";
+          });
+        drawPath();
+      }
+
+      // Płynne odświeżanie SVG podczas animacji (akordeonu)
+      function smoothDrawPath() {
+        let start = Date.now();
+        let timer = setInterval(function () {
+          let timePassed = Date.now() - start;
+          if (timePassed >= 450) {
+            clearInterval(timer);
+            drawPath();
+            return;
+          }
+          drawPath();
+        }, 20);
+      }
+
+      // Obsługa akordeonu
+      function toggleAccordion(button) {
+        const content = button.nextElementSibling;
+        const isExpanded = content.classList.contains("expanded");
+
+        if (isExpanded) {
+          // Zwiń
+          content.style.maxHeight = null;
+          content.classList.remove("expanded");
+          button.setAttribute("aria-expanded", "false");
+          button.innerHTML =
+            '<span class="pl">Zobacz więcej</span><span class="uk">Показати більше</span> <i data-lucide="chevron-down" class="w-5 h-5 ml-1 inline" aria-hidden="true"></i>';
+          lucide.createIcons();
+        } else {
+          // Rozwiń
+          content.classList.add("expanded");
+          content.style.maxHeight = content.scrollHeight + "px";
+          button.setAttribute("aria-expanded", "true");
+          button.innerHTML =
+            '<span class="pl">Zwiń</span><span class="uk">Згорнути</span> <i data-lucide="chevron-up" class="w-5 h-5 ml-1 inline" aria-hidden="true"></i>';
+          lucide.createIcons();
+        }
+
+        smoothDrawPath();
+      }
+
+      // Rysowanie organicznej ścieżki
+      function drawPath() {
+        const svg = document.getElementById("path-svg");
+        const pathBase = document.getElementById("path-line-base");
+        const pathDash = document.getElementById("path-line-dash");
+        const pathShadow = document.getElementById("path-line-shadow");
+        const dots = document.querySelectorAll(".dot");
+        const container = document.getElementById("timeline-container");
+
+        if (!svg || !pathBase || !pathDash || dots.length < 2) return;
+
+        svg.style.height = container.offsetHeight + "px";
+
+        const svgRect = svg.getBoundingClientRect();
+        let d = "";
+
+        for (let i = 0; i < dots.length; i++) {
+          const dot = dots[i];
+          const rect = dot.getBoundingClientRect();
+
+          const x = rect.left + rect.width / 2 - svgRect.left;
+          const y = rect.top + rect.height / 2 - svgRect.top;
+
+          if (i === 0) {
+            d += `M ${x} ${y} `;
+          } else {
+            const prevDot = dots[i - 1];
+            const prevRect = prevDot.getBoundingClientRect();
+            const prevX = prevRect.left + prevRect.width / 2 - svgRect.left;
+            const prevY = prevRect.top + prevRect.height / 2 - svgRect.top;
+
+            const midY = (prevY + y) / 2;
+            const offset = i % 2 === 0 ? -40 : 40;
+
+            d += `C ${prevX + offset} ${midY}, ${x - offset} ${midY}, ${x} ${y} `;
+          }
+        }
+
+        pathBase.setAttribute("d", d);
+        pathDash.setAttribute("d", d);
+        pathShadow.setAttribute("d", d);
+      }
+
+      // Inicjalizacja języka i event listenerów po załadowaniu
+      window.addEventListener("load", () => {
+        const savedLang = localStorage.getItem("preferredLang") || "pl";
+        setLang(savedLang);
+        drawPath();
+      });
+
+      window.addEventListener("resize", () => {
+        document
+          .querySelectorAll(".accordion-content.expanded")
+          .forEach((content) => {
+            content.style.maxHeight = content.scrollHeight + "px";
+          });
+        drawPath();
+      });
+
+      setTimeout(drawPath, 100);
+      setTimeout(drawPath, 600);
+    </script>
+  </body>
+</html>
