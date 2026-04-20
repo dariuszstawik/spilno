@@ -364,8 +364,7 @@
                           spotkań</span
                         >
                         <span class="uk"
-                          >Можна запитати у сусідів — можливо, вони знають
-                          місцеві місця для спілкування.</span
+                          >Можна запитати у сусідів — можливо, вони знають місцеві місця для спілкування.</span
                         >
                       </li>
                       <li>
@@ -729,7 +728,7 @@
                     id="step3-content"
                     class="accordion-content text-[#4f3966]"
                   >
-                    <p class="text-lg mb-6 mt-4 leading-relaxed">
+                    <p class=" text-lg mb-6 mt-4 leading-relaxed">
                       <span class="pl"
                         >Staraj się mówić po polsku. Jeśli jest to trudne —
                         zapytaj, czy ktoś mówi po ukraińsku lub rosyjsku. Możesz
@@ -1700,16 +1699,613 @@
               </h2>
             </div>
 
-            <!--
-              KONTENER NA MIEJSCA
-              Karty są generowane dynamicznie z tablicy `places` w sekcji <script>.
-              Aby dodać nowe miejsce - dopisz nowy obiekt do tablicy `places`.
-              Nie trzeba ręcznie modyfikować HTML.
-            -->
-            <div id="places-container" class="flex flex-col gap-6">
-              <!-- Karty miejsc są generowane przez renderPlaces() w JS -->
+            <!-- Miejsce 1
+            <div
+              class="bg-white rounded-[25px] p-6 border-2 border-[#e3d0f5] shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+            >
+              <h3
+                class="text-2xl font-black mb-5 text-[#573a70] flex items-center gap-2 leading-tight"
+              >
+                <span class="text-3xl" aria-hidden="true">🏠</span>
+                <span class="pl">Spilno znaczy Wspólnie</span>
+                <span class="uk">Spilno znaczy Wspólnie</span>
+              </h3>
+
+              <div class="space-y-4 text-lg font-bold text-[#4f3966]">
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Adres</span
+                      ><span class="uk">Адреса</span>
+                    </span>
+                    <span class="pl"
+                      >Katowice, ul. Gustawa Morcinka 5 (Koszutka)</span
+                    >
+                    <span class="uk"
+                      >Катовіце, вул. Густава Морцінка 5 (Кошутка)</span
+                    >
+                  </p>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="phone" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Kontakt</span
+                      ><span class="uk">Контакт</span>
+                    </span>
+                    535 279 285<br />spilno@mostkatowice.pl
+                  </p>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="clock" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Termin</span
+                      ><span class="uk">Розклад</span>
+                    </span>
+                    <span class="pl">9:00 - 17:00 (pon-pt)</span>
+                    <span class="uk">9:00 - 17:00 (пн-пт)</span>
+                  </p>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="wallet" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Odpłatność</span
+                      ><span class="uk">Оплата</span>
+                    </span>
+                    <span class="pl">zajęcia częściowo odpłatne</span>
+                    <span class="uk">заняття частково платні</span>
+                  </p>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="globe" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Strona WWW</span
+                      ><span class="uk">Веб-сайт</span>
+                    </span>
+                    <a
+                      href="https://www.mostkatowice.pl/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-[#573a70] hover:text-[#8663a8] underline break-all focus:outline-none focus:ring-2 focus:ring-[#573a70] rounded transition-colors"
+                      >mostkatowice.pl</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- Miejsce 1 -->
+            <div
+              class="bg-white rounded-[25px] p-6 border-2 border-[#e3d0f5] shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+            >
+              <h3
+                class="text-2xl font-black mb-5 text-[#573a70] flex items-center gap-2 leading-tight"
+              >
+                <span class="text-3xl" aria-hidden="true">🏠</span>
+                <span class="pl">Spilno znaczy Wspólnie</span>
+                <span class="uk">Spilno znaczy Wspólnie</span>
+              </h3>
+
+              <div class="space-y-4 text-lg font-bold text-[#4f3966]">
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Adres</span
+                      ><span class="uk">Адреса</span>
+                    </span>
+                    <span class="pl"
+                      >Katowice, ul. Gustawa Morcinka 5 (Koszutka)</span
+                    >
+                    <span class="uk"
+                      >Катовіце, вул. Густава Морцінка 5 (Кошутка)</span
+                    >
+                  </p>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="phone" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Kontakt</span
+                      ><span class="uk">Контакт</span>
+                    </span>
+                    535 279 285<br />spilno@mostkatowice.pl
+                  </p>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="clock" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Termin</span
+                      ><span class="uk">Розклад</span>
+                    </span>
+                    <span class="pl">9:00 - 17:00 (pon-pt)</span>
+                    <span class="uk">9:00 - 17:00 (пн-пт)</span>
+                  </p>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="wallet" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Odpłatność</span
+                      ><span class="uk">Оплата</span>
+                    </span>
+                    <span class="pl">zajęcia częściowo odpłatne</span>
+                    <span class="uk">заняття частково платні</span>
+                  </p>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div
+                    class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <i data-lucide="globe" class="w-5 h-5"></i>
+                  </div>
+                  <p class="pt-0.5">
+                    <span
+                      class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+                    >
+                      <span class="pl">Facebook</span
+                      ><span class="uk">Facebook</span>
+                    </span>
+                    <a
+                      href="https://www.facebook.com/groups/spilnokatowice/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-[#573a70] hover:text-[#8663a8] underline break-all focus:outline-none focus:ring-2 focus:ring-[#573a70] rounded transition-colors"
+                      >Spilno znaczy Wspólnie</a
+                    >
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onclick="toggleAccordion(this)"
+                aria-expanded="false"
+                aria-controls="place1-content"
+                class="mt-6 bg-[#f2e6ff] hover:bg-[#ead8ff] text-[#573a70] text-base font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
+              >
+                <span class="pl">Zobacz więcej</span>
+                <span class="uk">Показати більше</span>
+                <i
+                  data-lucide="chevron-down"
+                  class="w-5 h-5 ml-1 inline"
+                  aria-hidden="true"
+                ></i>
+              </button>
+
+              <div id="place1-content" class="accordion-content text-[#4f3966]">
+                <div
+                  class="mt-4 bg-[#f9f4ff] rounded-[20px] border border-[#e3d0f5] p-5 space-y-5"
+                >
+                  <div>
+                    <p class="font-black text-lg text-[#573a70] mb-3 pl">
+                      Informacje o grupie
+                    </p>
+                    <p class="font-black text-lg text-[#573a70] mb-3 uk">
+                      Інформація про групу
+                    </p>
+
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-base leading-relaxed"
+                    >
+                      <li class="pl">
+                        Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak
+                      </li>
+                      <li class="uk">
+                        Клуб відкритий до прийому людей похилого віку з України:
+                        так
+                      </li>
+
+                      <li class="pl">
+                        W zajęciach uczestniczą osoby z Ukrainy: tak
+                      </li>
+                      <li class="uk">
+                        У заняттях беруть участь особи з України: так
+                      </li>
+
+                      <li class="pl">
+                        W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak
+                      </li>
+                      <li class="uk">
+                        У групі є особи, які розмовляють українською або
+                        російською мовою: так
+                      </li>
+
+                      <li class="pl">
+                        W grupie są osoby rozumiejące język ukraiński lub
+                        rosyjski: tak
+                      </li>
+                      <li class="uk">
+                        У групі є особи, які розуміють українську або російську
+                        мову: так
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <p class="font-black text-lg text-[#573a70] mb-3 pl">
+                      Charakter spotkań
+                    </p>
+                    <p class="font-black text-lg text-[#573a70] mb-3 uk">
+                      Характер зустрічей
+                    </p>
+                    <p class="text-base leading-relaxed pl">
+                      Towarzyski (spotkania, rozmowy), warsztaty manualne /
+                      rękodzielnicze, edukacyjny (wykłady, rozwój
+                      zainteresowań), wsparcie i integracja
+                    </p>
+                    <p class="text-base leading-relaxed uk">
+                      Товариський (зустрічі, розмови), майстер-класи ручної
+                      праці / рукоділля, освітній (лекції, розвиток інтересів),
+                      підтримка та інтеграція
+                    </p>
+                  </div>
+
+                  <div>
+                    <p class="font-black text-lg text-[#573a70] mb-3 pl">
+                      Udział w zajęciach
+                    </p>
+                    <p class="font-black text-lg text-[#573a70] mb-3 uk">
+                      Участь у заняттях
+                    </p>
+                    <p class="text-base leading-relaxed pl">
+                      Bezpłatny
+                    </p>
+                    <p class="text-base font-semibold leading-relaxed uk">
+                      Безкоштовна
+                    </p>
+                  </div>
+
+                  <div>
+                    <p class="font-black text-lg text-[#573a70] mb-3 pl">
+                      Częstotliwość spotkań
+                    </p>
+                    <p class="font-black text-lg text-[#573a70] mb-3 uk">
+                      Частота зустрічей
+                    </p>
+                    <p class="text-base leading-relaxed pl">
+                      Raz w tygodniu
+                    </p>
+                    <p class="text-base leading-relaxed uk">
+                      Раз на тиждень
+                    </p>
+                  </div>
+
+                  <div>
+                    <p class="font-black text-lg text-[#573a70] mb-3 pl">
+                      Dostępność
+                    </p>
+                    <p class="font-black text-lg text-[#573a70] mb-3 uk">
+                      Доступність
+                    </p>
+                    <p class="text-base leading-relaxed pl">
+                      Miejsce częściowo dostępne dla osób z ograniczoną
+                      mobilnością
+                    </p>
+                    <p class="text-base leading-relaxed uk">
+                      Місце частково доступне для осіб з обмеженою мобільністю
+                    </p>
+                  </div>
+
+                  <div>
+                    <p class="font-black text-lg text-[#573a70] mb-3 pl">
+                      Zapisy
+                    </p>
+                    <p class="font-black text-lg text-[#573a70] mb-3 uk">
+                      Запис
+                    </p>
+                    <p class="text-base leading-relaxed pl">
+                      Wymagane wcześniejsze zapisy: tak
+                    </p>
+                    <p class="text-base leading-relaxed uk">
+                      Потрібен попередній запис: так
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+
+<!-- Miejsce 2 -->
+<div
+  class="bg-white rounded-[25px] p-6 border-2 border-[#e3d0f5] shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+>
+  <h3
+    class="text-2xl font-black mb-5 text-[#573a70] flex items-center gap-2 leading-tight"
+  >
+    <span class="text-3xl" aria-hidden="true">☕</span>
+    <span class="pl">Klub Seniorów KAFOS</span>
+    <span class="uk">Клуб сеньйорів KAFOS</span>
+  </h3>
+
+  <div class="space-y-4 text-lg font-bold text-[#4f3966]">
+    <div class="flex items-start gap-4">
+      <div
+        class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+        aria-hidden="true"
+      >
+        <i data-lucide="map-pin" class="w-5 h-5"></i>
+      </div>
+      <p class="pt-0.5">
+        <span
+          class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+        >
+          <span class="pl">Adres</span><span class="uk">Адреса</span>
+        </span>
+        <span class="pl">Katowice, ul. Kopernika 14 (Centrum)</span>
+        <span class="uk">Катовіце, вул. Коперника 14 (Центр)</span>
+      </p>
+    </div>
+
+    <div class="flex items-start gap-4">
+      <div
+        class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+        aria-hidden="true"
+      >
+        <i data-lucide="phone" class="w-5 h-5"></i>
+      </div>
+      <p class="pt-0.5">
+        <span
+          class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+        >
+          <span class="pl">Kontakt</span><span class="uk">Контакт</span>
+        </span>
+        509 647 801<br />andreo1@wp.pl
+      </p>
+    </div>
+
+    <div class="flex items-start gap-4">
+      <div
+        class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+        aria-hidden="true"
+      >
+        <i data-lucide="clock" class="w-5 h-5"></i>
+      </div>
+      <p class="pt-0.5">
+        <span
+          class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+        >
+          <span class="pl">Termin</span><span class="uk">Розклад</span>
+        </span>
+        <span class="pl">12:00 - 14:00 (pon-pt)</span>
+        <span class="uk">12:00 - 14:00 (пн-пт)</span>
+      </p>
+    </div>
+
+    <div class="flex items-start gap-4">
+      <div
+        class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+        aria-hidden="true"
+      >
+        <i data-lucide="wallet" class="w-5 h-5"></i>
+      </div>
+      <p class="pt-0.5">
+        <span
+          class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+        >
+          <span class="pl">Odpłatność</span><span class="uk">Оплата</span>
+        </span>
+        <span class="pl">zajęcia częściowo odpłatne</span>
+        <span class="uk">заняття частково платні</span>
+      </p>
+    </div>
+
+    <div class="flex items-start gap-4">
+      <div
+        class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0"
+        aria-hidden="true"
+      >
+        <i data-lucide="globe" class="w-5 h-5"></i>
+      </div>
+      <p class="pt-0.5">
+        <span
+          class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1"
+        >
+          <span class="pl">Strona WWW</span><span class="uk">Веб-сайт</span>
+        </span>
+        <a
+          href="https://kafos.org.pl/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#573a70] hover:text-[#8663a8] underline break-all focus:outline-none focus:ring-2 focus:ring-[#573a70] rounded transition-colors"
+          >kafos.org.pl</a
+        >
+      </p>
+    </div>
+  </div>
+
+  <button
+    onclick="toggleAccordion(this)"
+    aria-expanded="false"
+    aria-controls="place2-content"
+    class="mt-6 bg-[#f2e6ff] hover:bg-[#ead8ff] text-[#573a70] text-base font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
+  >
+    <span class="pl">Zobacz więcej</span>
+    <span class="uk">Показати більше</span>
+    <i
+      data-lucide="chevron-down"
+      class="w-5 h-5 ml-1 inline"
+      aria-hidden="true"
+    ></i>
+  </button>
+
+  <div id="place2-content" class="accordion-content text-[#4f3966]">
+    <div
+      class="mt-4 bg-[#f9f4ff] rounded-[20px] border border-[#e3d0f5] p-5 space-y-5"
+    >
+      <div>
+        <p class="font-black text-lg text-[#573a70] mb-3 pl">
+          Informacje o grupie
+        </p>
+        <p class="font-black text-lg text-[#573a70] mb-3 uk">
+          Інформація про групу
+        </p>
+
+        <ul class="list-disc pl-6 space-y-2 text-base leading-relaxed">
+          <li class="pl">Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak</li>
+          <li class="uk">
+            Клуб відкритий до прийому людей похилого віку з України: так
+          </li>
+
+          <li class="pl">W zajęciach uczestniczą osoby z Ukrainy: nie</li>
+          <li class="uk">У заняттях беруть участь особи з України: ні</li>
+
+          <li class="pl">
+            W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak
+          </li>
+          <li class="uk">
+            У групі є особи, які розмовляють українською або російською мовою: так
+          </li>
+
+          <li class="pl">
+            W grupie są osoby rozumiejące język ukraiński lub rosyjski: nie
+          </li>
+          <li class="uk">
+            У групі є особи, які розуміють українську або російську мову: ні
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="font-black text-lg text-[#573a70] mb-3 pl">
+          Charakter spotkań
+        </p>
+        <p class="font-black text-lg text-[#573a70] mb-3 uk">
+          Характер зустрічей
+        </p>
+        <p class="text-base leading-relaxed pl">
+          Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka),
+          edukacyjny (wykłady, rozwój zainteresowań), wycieczki i wyjścia,
+          wsparcie i integracja
+        </p>
+        <p class="text-base leading-relaxed uk">
+          Товариський (зустрічі, розмови), рухові активності (наприклад,
+          гімнастика), освітній (лекції, розвиток інтересів), екскурсії та
+          виходи, підтримка та інтеграція
+        </p>
+      </div>
+
+      <div>
+        <p class="font-black text-lg text-[#573a70] mb-3 pl">
+          Udział w zajęciach
+        </p>
+        <p class="font-black text-lg text-[#573a70] mb-3 uk">
+          Участь у заняттях
+        </p>
+        <p class="text-base leading-relaxed pl">
+          Częściowo płatny
+        </p>
+        <p class="text-base leading-relaxed uk">
+          Частково платна
+        </p>
+      </div>
+
+      <div>
+        <p class="font-black text-lg text-[#573a70] mb-3 pl">
+          Częstotliwość spotkań
+        </p>
+        <p class="font-black text-lg text-[#573a70] mb-3 uk">
+          Частота зустрічей
+        </p>
+        <p class="text-base leading-relaxed pl">Raz w miesiącu</p>
+        <p class="text-base leading-relaxed uk">Раз на місяць</p>
+      </div>
+
+      <div>
+        <p class="font-black text-lg text-[#573a70] mb-3 pl">Dostępność</p>
+        <p class="font-black text-lg text-[#573a70] mb-3 uk">Доступність</p>
+        <p class="text-base leading-relaxed pl">
+          Miejsce dostępne dla osób z ograniczoną mobilnością
+        </p>
+        <p class="text-base leading-relaxed uk">
+          Місце доступне для осіб з обмеженою мобільністю
+        </p>
+      </div>
+
+      <div>
+        <p class="font-black text-lg text-[#573a70] mb-3 pl">Zapisy</p>
+        <p class="font-black text-lg text-[#573a70] mb-3 uk">Запис</p>
+        <p class="text-base leading-relaxed pl">
+          Wymagane wcześniejsze zapisy: tak
+        </p>
+        <p class="text-base leading-relaxed uk">
+          Потрібен попередній запис: так
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
         </aside>
       </div>
 
@@ -1848,550 +2444,23 @@
       </footer>
     </div>
 
-    <!-- =========================================================
-         DANE MIEJSC
-         =========================================================
-         Aby DODAĆ NOWE MIEJSCE - dopisz obiekt do tablicy `places`
-         poniżej. Każde miejsce ma taką samą strukturę, więc można
-         po prostu skopiować jeden z istniejących wpisów.
-
-         Struktura obiektu miejsca:
-         {
-           emoji: "🏠",                       // emoji w nagłówku karty
-           name: { pl: "...", uk: "..." },    // nazwa miejsca
-           address: { pl: "...", uk: "..." }, // adres
-           phones: ["..."],                   // tablica numerów telefonów (opcjonalna)
-           emails: ["..."],                   // tablica adresów e-mail (opcjonalna)
-           hours: { pl: "...", uk: "..." },   // godziny
-           payment: { pl: "...", uk: "..." }, // odpłatność (krótko)
-           links: [                           // linki (opcjonalne, można dodać wiele)
-             { type: "website" | "facebook",
-               url: "...",
-               label: { pl: "...", uk: "..." } }
-           ],
-           details: {
-             groupInfo: [                     // lista punktów "Informacje o grupie"
-               { pl: "...", uk: "..." }
-             ],
-             character:     { pl: "...", uk: "..." },
-             participation: { pl: "...", uk: "..." },
-             frequency:     { pl: "...", uk: "..." },
-             accessibility: { pl: "...", uk: "..." },
-             registration:  { pl: "...", uk: "..." }
-           }
-         }
-    ========================================================= -->
-    <script>
-      const places = [
-        // ---- MIEJSCE 1 ----
-        {
-          emoji: "🏠",
-          name: {
-            pl: "Spilno znaczy Wspólnie",
-            uk: "Spilno znaczy Wspólnie",
-          },
-          address: {
-            pl: "Katowice, ul. Gustawa Morcinka 5 (Koszutka)",
-            uk: "Катовіце, вул. Густава Морцінка 5 (Кошутка)",
-          },
-          phones: ["535 279 285"],
-          emails: ["spilno@mostkatowice.pl"],
-          hours: {
-            pl: "9:00 - 17:00 (pon-pt)",
-            uk: "9:00 - 17:00 (пн-пт)",
-          },
-          payment: {
-            pl: "zajęcia częściowo odpłatne",
-            uk: "заняття частково платні",
-          },
-          links: [
-            {
-              type: "facebook",
-              url: "https://www.facebook.com/groups/spilnokatowice/",
-              label: {
-                pl: "Spilno znaczy Wspólnie",
-                uk: "Spilno znaczy Wspólnie",
-              },
-            },
-          ],
-          details: {
-            groupInfo: [
-              {
-                pl: "Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak",
-                uk: "Клуб відкритий до прийому людей похилого віку з України: так",
-              },
-              {
-                pl: "W zajęciach uczestniczą osoby z Ukrainy: tak",
-                uk: "У заняттях беруть участь особи з України: так",
-              },
-              {
-                pl: "W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak",
-                uk: "У групі є особи, які розмовляють українською або російською мовою: так",
-              },
-              {
-                pl: "W grupie są osoby rozumiejące język ukraiński lub rosyjski: tak",
-                uk: "У групі є особи, які розуміють українську або російську мову: так",
-              },
-            ],
-            character: {
-              pl: "Towarzyski (spotkania, rozmowy), warsztaty manualne / rękodzielnicze, edukacyjny (wykłady, rozwój zainteresowań), wsparcie i integracja",
-              uk: "Товариський (зустрічі, розмови), майстер-класи ручної праці / рукоділля, освітній (лекції, розвиток інтересів), підтримка та інтеграція",
-            },
-            participation: { pl: "Bezpłatny", uk: "Безкоштовна" },
-            frequency: { pl: "Raz w tygodniu", uk: "Раз на тиждень" },
-            accessibility: {
-              pl: "Miejsce częściowo dostępne dla osób z ograniczoną mobilnością",
-              uk: "Місце частково доступне для осіб з обмеженою мобільністю",
-            },
-            registration: {
-              pl: "Wymagane wcześniejsze zapisy: tak",
-              uk: "Потрібен попередній запис: так",
-            },
-          },
-        },
-
-        // ---- MIEJSCE 2 ----
-        {
-          emoji: "☕",
-          name: { pl: "Klub Seniorów KAFOS", uk: "Клуб сеньйорів KAFOS" },
-          address: {
-            pl: "Katowice, ul. Kopernika 14 (Centrum)",
-            uk: "Катовіце, вул. Коперника 14 (Центр)",
-          },
-          phones: ["509 647 801"],
-          emails: ["andreo1@wp.pl"],
-          hours: {
-            pl: "12:00 - 14:00 (pon-pt)",
-            uk: "12:00 - 14:00 (пн-пт)",
-          },
-          payment: {
-            pl: "zajęcia częściowo odpłatne",
-            uk: "заняття частково платні",
-          },
-          links: [
-            {
-              type: "website",
-              url: "https://kafos.org.pl/",
-              label: { pl: "kafos.org.pl", uk: "kafos.org.pl" },
-            },
-          ],
-          details: {
-            groupInfo: [
-              {
-                pl: "Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak",
-                uk: "Клуб відкритий до прийому людей похилого віку з України: так",
-              },
-              {
-                pl: "W zajęciach uczestniczą osoby z Ukrainy: nie",
-                uk: "У заняттях беруть участь особи з України: ні",
-              },
-              {
-                pl: "W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak",
-                uk: "У групі є особи, які розмовляють українською або російською мовою: так",
-              },
-              {
-                pl: "W grupie są osoby rozumiejące język ukraiński lub rosyjski: nie",
-                uk: "У групі є особи, які розуміють українську або російську мову: ні",
-              },
-            ],
-            character: {
-              pl: "Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka), edukacyjny (wykłady, rozwój zainteresowań), wycieczki i wyjścia, wsparcie i integracja",
-              uk: "Товариський (зустрічі, розмови), рухові активності (наприклад, гімнастика), освітній (лекції, розвиток інтересів), екскурсії та виходи, підтримка та інтеграція",
-            },
-            participation: { pl: "Częściowo płatny", uk: "Частково платна" },
-            frequency: { pl: "Raz w miesiącu", uk: "Раз на місяць" },
-            accessibility: {
-              pl: "Miejsce dostępne dla osób z ograniczoną mobilnością",
-              uk: "Місце доступне для осіб з обмеженою мобільністю",
-            },
-            registration: {
-              pl: "Wymagane wcześniejsze zapisy: tak",
-              uk: "Потрібен попередній запис: так",
-            },
-          },
-        },
-
-        // ---- MIEJSCE 3 ----
-        {
-          emoji: "🌟",
-          name: { pl: "Klub Seniora Promyk", uk: "Клуб Сеньйора Promyk" },
-          address: {
-            pl: "Katowice, ul. Wita Stwosza 7, lokal 7, parter (Śródmieście)",
-            uk: "Катовіце, вул. Wita Stwosza 7, приміщення 7, перший поверх (Śródmieście)",
-          },
-          phones: ["696 534 526"],
-          emails: [],
-          hours: {
-            pl: "15:00 - 17:00 (pon, czw)",
-            uk: "15:00 - 17:00 (пн, чт)",
-          },
-          payment: {
-            pl: "zajęcia częściowo odpłatne",
-            uk: "заняття частково платні",
-          },
-          links: [],
-          details: {
-            groupInfo: [
-              {
-                pl: "Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak",
-                uk: "Клуб відкритий для прийому сеньйорів з України: так",
-              },
-              {
-                pl: "W zajęciach uczestniczą osoby z Ukrainy: nie",
-                uk: "У заняттях беруть участь особи з України: ні",
-              },
-              {
-                pl: "W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak",
-                uk: "У групі є особи, які говорять українською або російською: так",
-              },
-              {
-                pl: "W grupie są osoby rozumiejące język ukraiński lub rosyjski: tak",
-                uk: "У групі є особи, які розуміють українську або російську мову: так",
-              },
-            ],
-            character: {
-              pl: "Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka), warsztaty manualne / rękodzielnicze",
-              uk: "Товариський (зустрічі, розмови), рухова активність (наприклад, гімнастика), майстер-класи ручної роботи / рукоділля",
-            },
-            participation: { pl: "Częściowo płatny", uk: "Частково платна" },
-            frequency: {
-              pl: "Kilka razy w tygodniu",
-              uk: "Кілька разів на тиждень",
-            },
-            accessibility: {
-              pl: "Miejsce dostępne dla osób z ograniczoną mobilnością",
-              uk: "Місце доступне для осіб з обмеженою мобільністю",
-            },
-            registration: {
-              pl: "Wymagane wcześniejsze zapisy: tak",
-              uk: "Потрібен попередній запис: так",
-            },
-          },
-        },
-
-        // ---- MIEJSCE 4 ----
-        {
-          emoji: "🌳",
-          name: {
-            pl: "Klub „Silesianka” / Klub Północna",
-            uk: "Клуб «Silesianka» / Клуб Północna",
-          },
-          address: {
-            pl: "Katowice, ul. Radockiego 282 oraz ul. Północna 32, parter (Piotrowice-Ochojec)",
-            uk: "Катовіце, вул. Radockiego 282 та вул. Północna 32, перший поверх (Piotrowice-Ochojec)",
-          },
-          phones: ["517 206 397", "517 206 384"],
-          emails: ["silesianka@smsilesia.pl", "polnocna@smsilesia.pl"],
-          hours: {
-            pl: "8:00 - 14:00 (pon-pt)",
-            uk: "8:00 - 14:00 (пн-пт)",
-          },
-          payment: {
-            pl: "zajęcia częściowo odpłatne",
-            uk: "заняття частково платні",
-          },
-          links: [
-            {
-              type: "website",
-              url: "https://www.smsilesia.pl/",
-              label: { pl: "smsilesia.pl", uk: "smsilesia.pl" },
-            },
-            {
-              type: "facebook",
-              url: "https://www.facebook.com/profile.php?id=100068632141030",
-              label: { pl: "Profil na Facebooku", uk: "Профіль у Facebook" },
-            },
-          ],
-          details: {
-            groupInfo: [
-              {
-                pl: "Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak",
-                uk: "Клуб відкритий для прийому сеньйорів з України: так",
-              },
-              {
-                pl: "W zajęciach uczestniczą osoby z Ukrainy: tak",
-                uk: "У заняттях беруть участь особи з України: так",
-              },
-              {
-                pl: "W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak",
-                uk: "У групі є особи, які говорять українською або російською: так",
-              },
-              {
-                pl: "W grupie są osoby rozumiejące język ukraiński lub rosyjski: tak",
-                uk: "У групі є особи, які розуміють українську або російську мову: так",
-              },
-            ],
-            character: {
-              pl: "Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka), warsztaty manualne / rękodzielnicze, wycieczki i wyjścia, wsparcie i integracja",
-              uk: "Товариський (зустрічі, розмови), рухова активність (наприклад, гімнастика), майстер-класи ручної роботи / рукоділля, екскурсії та виходи, підтримка та інтеграція",
-            },
-            participation: { pl: "Częściowo płatny", uk: "Частково платна" },
-            frequency: {
-              pl: "Kilka razy w miesiącu",
-              uk: "Кілька разів на місяць",
-            },
-            accessibility: {
-              pl: "Miejsce dostępne dla osób z ograniczoną mobilnością",
-              uk: "Місце доступне для осіб з обмеженою мобільністю",
-            },
-            registration: {
-              pl: "Wymagane wcześniejsze zapisy: tak",
-              uk: "Потрібен попередній запис: так",
-            },
-          },
-        },
-
-        // ---- DODAJ KOLEJNE MIEJSCE TUTAJ ----
-        // {
-        //   emoji: "...",
-        //   name: { pl: "...", uk: "..." },
-        //   address: { pl: "...", uk: "..." },
-        //   phones: ["..."],
-        //   emails: ["..."],
-        //   hours: { pl: "...", uk: "..." },
-        //   payment: { pl: "...", uk: "..." },
-        //   links: [ { type: "website", url: "...", label: { pl: "...", uk: "..." } } ],
-        //   details: { ... }
-        // },
-      ];
-
-      // ================================================================
-      // RENDEROWANIE KART MIEJSC
-      // ================================================================
-      // Funkcja pomocnicza do bezpiecznego escape'owania tekstu dla HTML
-      function escapeHtml(str) {
-        if (str === undefined || str === null) return "";
-        return String(str)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#39;");
-      }
-
-      // ----------------------------------------------------------------
-      // Niestandardowe ikony SVG (np. ikony marek, których lucide nie
-      // udostępnia — w v1 ikony marek zostały usunięte z biblioteki).
-      // Wszystkie rysowane w stylu lucide: viewBox 24x24, stroke 2px,
-      // zaokrąglone końce. Dzięki temu są wizualnie spójne z resztą.
-      //
-      // Aby dodać kolejną ikonę marki w przyszłości, dopisz tu wpis
-      // w postaci  nazwa: '<path .../>'  (samo ciało, bez taga <svg>).
-      // ----------------------------------------------------------------
-      const CUSTOM_ICONS = {
-        // Logo Facebook — kreskowa ikona w stylu lucide
-        facebook:
-          '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
-      };
-
-      // Pomocnik: ikona (lucide lub wbudowana SVG) w kafelku
-      function iconBadge(iconName) {
-        const customSvg = CUSTOM_ICONS[iconName];
-        const inner = customSvg
-          ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="w-5 h-5" aria-hidden="true">${customSvg}</svg>`
-          : `<i data-lucide="${iconName}" class="w-5 h-5"></i>`;
-        return `
-          <div class="bg-[#f0e6fc] p-3 rounded-xl text-[#573a70] shrink-0" aria-hidden="true">
-            ${inner}
-          </div>`;
-      }
-
-      // Pomocnik: wiersz informacji (ikona + etykieta + treść)
-      function infoRow(iconName, labelPl, labelUk, contentHtml) {
-        return `
-          <div class="flex items-start gap-4">
-            ${iconBadge(iconName)}
-            <p class="pt-0.5">
-              <span class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1">
-                <span class="pl">${escapeHtml(labelPl)}</span><span class="uk">${escapeHtml(labelUk)}</span>
-              </span>
-              ${contentHtml}
-            </p>
-          </div>`;
-      }
-
-      // Pomocnik: link z odpowiednią etykietą
-      function linkRow(link) {
-        const labels = {
-          website: { pl: "Strona WWW", uk: "Веб-сайт" },
-          facebook: { pl: "Facebook", uk: "Facebook" },
-        };
-        const header = labels[link.type] || { pl: "Link", uk: "Посилання" };
-        const icon = link.type === "facebook" ? "facebook" : "globe";
-
-        const content = `
-          <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer"
-             class="text-[#573a70] hover:text-[#8663a8] underline break-all focus:outline-none focus:ring-2 focus:ring-[#573a70] rounded transition-colors">
-            <span class="pl">${escapeHtml(link.label.pl)}</span><span class="uk">${escapeHtml(link.label.uk)}</span>
-          </a>`;
-        return infoRow(icon, header.pl, header.uk, content);
-      }
-
-      // Pomocnik: sekcja detali w akordeonie (tytuł PL/UK + treść)
-      function detailSection(titlePl, titleUk, bodyHtml) {
-        return `
-          <div>
-            <p class="font-black text-lg text-[#573a70] mb-3 pl">${escapeHtml(titlePl)}</p>
-            <p class="font-black text-lg text-[#573a70] mb-3 uk">${escapeHtml(titleUk)}</p>
-            ${bodyHtml}
-          </div>`;
-      }
-
-      // Pomocnik: akapit dwujęzyczny
-      function bilingualParagraph(
-        pl,
-        uk,
-        classes = "text-base leading-relaxed",
-      ) {
-        return `
-          <p class="${classes} pl">${escapeHtml(pl)}</p>
-          <p class="${classes} uk">${escapeHtml(uk)}</p>`;
-      }
-
-      // Renderowanie pojedynczej karty miejsca
-      function renderPlaceCard(place, index) {
-        const contentId = `place-${index}-content`;
-
-        // --- Sekcja kontaktu (telefony + e-maile) ---
-        const contactLines = [
-          ...(place.phones || []).map(escapeHtml),
-          ...(place.emails || []).map(escapeHtml),
-        ];
-        const contactHtml = contactLines.length
-          ? infoRow("phone", "Kontakt", "Контакт", contactLines.join("<br>"))
-          : "";
-
-        // --- Sekcje linków ---
-        const linksHtml = (place.links || []).map(linkRow).join("");
-
-        // --- Lista informacji o grupie (bullety) ---
-        const groupInfoList = place.details.groupInfo
-          .map(
-            (item) => `
-              <li class="pl">${escapeHtml(item.pl)}</li>
-              <li class="uk">${escapeHtml(item.uk)}</li>`,
-          )
-          .join("");
-
-        // --- Zawartość akordeonu (szczegóły) ---
-        const d = place.details;
-        const accordionBody = `
-          <div class="mt-4 bg-[#f9f4ff] rounded-[20px] border border-[#e3d0f5] p-5 space-y-5">
-            ${detailSection(
-              "Informacje o grupie",
-              "Інформація про групу",
-              `<ul class="list-disc pl-6 space-y-2 text-base leading-relaxed">${groupInfoList}</ul>`,
-            )}
-            ${detailSection(
-              "Charakter spotkań",
-              "Характер зустрічей",
-              bilingualParagraph(d.character.pl, d.character.uk),
-            )}
-            ${detailSection(
-              "Udział w zajęciach",
-              "Участь у заняттях",
-              bilingualParagraph(d.participation.pl, d.participation.uk),
-            )}
-            ${detailSection(
-              "Częstotliwość spotkań",
-              "Частота зустрічей",
-              bilingualParagraph(d.frequency.pl, d.frequency.uk),
-            )}
-            ${detailSection(
-              "Dostępność",
-              "Доступність",
-              bilingualParagraph(d.accessibility.pl, d.accessibility.uk),
-            )}
-            ${detailSection(
-              "Zapisy",
-              "Запис",
-              bilingualParagraph(d.registration.pl, d.registration.uk),
-            )}
-          </div>`;
-
-        // --- Gotowa karta miejsca ---
-        return `
-          <div class="bg-white rounded-[25px] p-6 border-2 border-[#e3d0f5] shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-            <h3 class="text-2xl font-black mb-5 text-[#573a70] flex items-center gap-2 leading-tight">
-              <span class="text-3xl" aria-hidden="true">${escapeHtml(place.emoji)}</span>
-              <span class="pl">${escapeHtml(place.name.pl)}</span>
-              <span class="uk">${escapeHtml(place.name.uk)}</span>
-            </h3>
-
-            <div class="space-y-4 text-lg font-bold text-[#4f3966]">
-              ${infoRow(
-                "map-pin",
-                "Adres",
-                "Адреса",
-                `<span class="pl">${escapeHtml(place.address.pl)}</span>
-                 <span class="uk">${escapeHtml(place.address.uk)}</span>`,
-              )}
-              ${contactHtml}
-              ${infoRow(
-                "clock",
-                "Termin",
-                "Розклад",
-                `<span class="pl">${escapeHtml(place.hours.pl)}</span>
-                 <span class="uk">${escapeHtml(place.hours.uk)}</span>`,
-              )}
-              ${infoRow(
-                "wallet",
-                "Odpłatność",
-                "Оплата",
-                `<span class="pl">${escapeHtml(place.payment.pl)}</span>
-                 <span class="uk">${escapeHtml(place.payment.uk)}</span>`,
-              )}
-              ${linksHtml}
-            </div>
-
-            <button
-              onclick="toggleAccordion(this)"
-              aria-expanded="false"
-              aria-controls="${contentId}"
-              class="mt-6 bg-[#f2e6ff] hover:bg-[#ead8ff] text-[#573a70] text-base font-black py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors border border-[#e3d0f5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#573a70] focus:ring-offset-2 focus:ring-offset-white"
-            >
-              <span class="pl">Zobacz więcej</span>
-              <span class="uk">Показати більше</span>
-              <i data-lucide="chevron-down" class="w-5 h-5 ml-1 inline" aria-hidden="true"></i>
-            </button>
-
-            <div id="${contentId}" class="accordion-content text-[#4f3966]">
-              ${accordionBody}
-            </div>
-          </div>`;
-      }
-
-      // Renderowanie wszystkich miejsc do kontenera
-      function renderPlaces() {
-        const container = document.getElementById("places-container");
-        if (!container) return;
-        container.innerHTML = places
-          .map((place, index) => renderPlaceCard(place, index))
-          .join("");
-        // Odśwież ikony lucide po wstawieniu HTML
-        lucide.createIcons();
-      }
-    </script>
-
-    <!-- =========================================================
-         POZOSTAŁA LOGIKA STRONY (język, akordeony, ścieżka)
-    ========================================================= -->
+    <!-- Skrypty -->
     <script>
       lucide.createIcons();
 
       // Obsługa zmiany języka
       function setLang(lang) {
+        // Ustaw lang w HTML dla czytników ekranu
         document.documentElement.lang = lang;
 
+        // Zmień klasę na <body>
         document.body.className = document.body.className.replace(
           /lang-\w+/,
           "",
         );
         document.body.classList.add("lang-" + lang);
 
+        // Aktualizacja stylów przycisków
         const btnPl = document.getElementById("btn-pl");
         const btnUk = document.getElementById("btn-uk");
 
@@ -2407,8 +2476,10 @@
           btnPl.classList.add("text-[#573a70]", "hover:bg-[#f2e6ff]");
         }
 
+        // Zapisz preferencję
         localStorage.setItem("preferredLang", lang);
 
+        // Przelicz ewentualnie otwarte akordeony po zmianie tekstów
         document
           .querySelectorAll(".accordion-content.expanded")
           .forEach((content) => {
@@ -2437,6 +2508,7 @@
         const isExpanded = content.classList.contains("expanded");
 
         if (isExpanded) {
+          // Zwiń
           content.style.maxHeight = null;
           content.classList.remove("expanded");
           button.setAttribute("aria-expanded", "false");
@@ -2444,6 +2516,7 @@
             '<span class="pl">Zobacz więcej</span><span class="uk">Показати більше</span> <i data-lucide="chevron-down" class="w-5 h-5 ml-1 inline" aria-hidden="true"></i>';
           lucide.createIcons();
         } else {
+          // Rozwiń
           content.classList.add("expanded");
           content.style.maxHeight = content.scrollHeight + "px";
           button.setAttribute("aria-expanded", "true");
@@ -2498,9 +2571,8 @@
         pathShadow.setAttribute("d", d);
       }
 
-      // Inicjalizacja
+      // Inicjalizacja języka i event listenerów po załadowaniu
       window.addEventListener("load", () => {
-        renderPlaces(); // najpierw wygeneruj karty miejsc
         const savedLang = localStorage.getItem("preferredLang") || "pl";
         setLang(savedLang);
         drawPath();
