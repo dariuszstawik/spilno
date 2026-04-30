@@ -1,40 +1,22 @@
 <!doctype html>
 <html lang="pl">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Panel CMS — Znajdź swoje miejsce</title>
-
-    <!--
-      Skrypt Netlify Identity. Pozwala współpracownikom logować się
-      przez e-mail (bez konieczności posiadania konta GitHub).
-      DZIAŁA TYLKO po włączeniu Identity w panelu Netlify
-      (Site → Identity → Enable Identity → Settings → Git Gateway).
-    -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
     <!--
       Sveltia CMS sama renderuje cały interfejs panelu.
-      Skrypt poniżej wczytuje konfigurację z config.yml i pokazuje
-      panel po lewej (kolekcje: Strona główna, Kroki, Miejsca).
-    -->
-    <script type="module" src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+      Skrypt wczytuje konfigurację z config.yml (w tym samym folderze)
+      i pokazuje panel po lewej (kolekcje: Strona główna, Kroki, Miejsca).
 
-    <!--
-      Po sukcesie logowania przez Netlify Identity, przekieruj na panel
-      (jeśli ktoś trafił tu przez link weryfikacyjny z maila).
+      Logowanie odbywa się przez GitHub OAuth — po wejściu na ten adres
+      pojawi się ekran logowania Sveltii z przyciskiem „Login with GitHub".
+      Konfiguracja OAuth Application znajduje się w panelu Netlify
+      (Site configuration → Access & security → OAuth → GitHub).
     -->
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", (user) => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-      }
-    </script>
+    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
   </body>
 </html>
