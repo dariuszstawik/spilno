@@ -3,140 +3,152 @@
 Ten dokument prowadzi Cię przez konfigurację panelu CMS dla strony „Znajdź swoje miejsce". Po przejściu wszystkich kroków:
 
 - Twoi współpracownicy będą mogli edytować stronę przez panel pod adresem `twoja-strona.netlify.app/admin`
+- Logowanie odbywa się przez konto GitHub (każdy edytor potrzebuje konta GitHub i dostępu do repo)
 - Każda zmiana zapisuje się jako commit do repozytorium GitHub
 - Strona przebudowuje się automatycznie i jest aktualna w 30-60 sekund
 
-Cały proces zajmuje **15-25 minut**.
+Cały proces zajmuje **20-30 minut**.
 
 ## Zanim zaczniesz — co musisz mieć
 
 - [ ] Konto na GitHubie z dostępem do repozytorium z plikami strony
 - [ ] Konto na Netlify, gdzie strona jest już hostowana
-- [ ] Adresy e-mail współpracowników, których chcesz zaprosić do edycji
+- [ ] Adresy GitHub współpracowników, których chcesz zaprosić do edycji (każdy musi już mieć konto GitHub — jeśli jeszcze nie ma, niech się zarejestruje na github.com)
 
-## Kontekst — co tu się dzieje
+## Kontekst — dlaczego tak
 
-Sveltia CMS to lekki panel, który działa w przeglądarce — nie ma własnego serwera. Logowanie współpracowników i zapisywanie zmian odbywa się przez dwie usługi Netlify:
+Sveltia CMS to lekki panel działający w przeglądarce — nie ma własnego serwera. Logowanie i zapis zmian odbywa się przez:
 
-- **Netlify Identity** — system kont (e-mail + hasło) dla edytorów. Współpracownicy nie potrzebują kont GitHub.
-- **Git Gateway** — pośrednik, który w imieniu zalogowanego użytkownika zapisuje zmiany do repozytorium na GitHubie.
+- **GitHub OAuth** — każdy edytor loguje się swoim kontem GitHub
+- **Netlify jako pośrednik OAuth** — Netlify obsługuje wymianę tokenów między Sveltią a GitHubem, dzięki czemu nie musisz stawiać własnego serwera autoryzacyjnego
 
-> **Ważna uwaga**: Netlify oznaczyło Git Gateway jako technologię w trybie utrzymaniowym — naprawiają tylko błędy bezpieczeństwa, nie funkcjonalne. Działa stabilnie i nadal jest najprostszą drogą dla małych zespołów, ale gdyby kiedyś została wycofana, alternatywą jest logowanie przez GitHub OAuth (każdy współpracownik z kontem GitHub jako collaborator). Sekcja na końcu dokumentu opisuje, jak ewentualnie przemigrować.
+To podejście jest oficjalnie wspierane przez Sveltię. Wcześniejsza alternatywa (Netlify Identity + Git Gateway) została wycofana zarówno przez Sveltię jak i Netlify w 2025-2026.
 
 ## Krok 1 — Wrzuć pliki do repozytorium GitHub
 
-Skopiuj zawartość paczki `sveltia-preview/` do swojego repozytorium. Struktura, którą dostałeś:
+Skopiuj zawartość paczki `sveltia-preview/` do swojego repozytorium. Struktura:
 
 ```
 twoje-repo/
-├── index.html              ← strona (zmieniona, czyta dane z plików)
+├── index.html              ← strona (czyta dane z plików)
 ├── admin/
 │   ├── index.html          ← panel CMS (ładuje Sveltię)
-│   └── config.yml          ← konfiguracja CMS (jakie pola, kolekcje)
+│   └── config.yml          ← konfiguracja CMS
 └── content/
-    ├── site/
-    │   ├── header.yml
-    │   └── places_section.yml
-    ├── steps/
-    │   ├── step-1.md
-    │   ├── step-2.md
-    │   └── ... (8 plików)
-    └── places/
-        ├── spilno.yml
-        ├── kafos.yml
-        └── ... (4 pliki)
+    ├── site/               (nagłówek + tytuł sekcji miejsc)
+    ├── steps/              (8 kroków ścieżki)
+    └── places/             (4 miejsca przyjazne)
 ```
 
-Wrzuć przez GitHub Desktop, panel webowy, albo `git push` — jak Ci wygodnie. **Zachowaj pliki logo (logo.png, logo-pcg.png itp.) z aktualnej wersji** — one zostają w głównym folderze, niezmienione.
+> **WAŻNE — zanim wgrasz `admin/config.yml`**: otwórz go i podmień wartość `repo:` na rzeczywistą nazwę Twojego repozytorium.
+>
+> ```yaml
+> backend:
+>   name: github
+>   repo: TWOJ-UZYTKOWNIK/TWOJE-REPO   # ← zmień na np. mostkatowice/mapa-wsparcia
+>   branch: main
+> ```
+>
+> Format: `użytkownik/nazwa-repozytorium`. Jeśli repo jest w organizacji (np. mostkatowice), podaj nazwę organizacji zamiast użytkownika.
 
-Po wgraniu wejdź na swoją stronę — wszystko powinno wyglądać identycznie jak wcześniej. Jeśli coś nie działa, w sekcji „Rozwiązywanie problemów" na końcu jest checklist.
+**Zachowaj pliki logo (logo.png, logo-pcg.png itp.) z aktualnej wersji** — one zostają w głównym folderze, niezmienione.
 
-## Krok 2 — Włącz Netlify Identity
+Po wgraniu wejdź na swoją stronę publiczną — wszystko powinno wyglądać identycznie jak wcześniej (panel `/admin` jeszcze nie zadziała, ale strona główna tak).
+
+## Krok 2 — Zarejestruj GitHub OAuth Application
+
+To jest serce konfiguracji. Robisz to raz, na samym początku.
+
+1. Wejdź na GitHub i kliknij swoją ikonkę → **Settings** → **Developer settings** → **OAuth Apps**
+   (skrót: <https://github.com/settings/developers>)
+2. Kliknij **Register a new application**
+3. Wypełnij formularz:
+   - **Application name**: dowolna nazwa, którą rozpoznasz, np. `Mapa Wsparcia CMS`
+   - **Homepage URL**: adres Twojej strony, np. `https://mapawsparcia.netlify.app`
+   - **Authorization callback URL**: dokładnie `https://api.netlify.com/auth/done`
+     (to ważne — Netlify będzie obsługiwał wymianę tokenów)
+   - Pole **Application description** możesz zostawić puste
+4. Kliknij **Register application**
+5. Na stronie aplikacji:
+   - **Skopiuj Client ID** — będzie potrzebny za chwilę
+   - Kliknij **Generate a new client secret** → **Skopiuj Client Secret** od razu, bo zniknie po zamknięciu strony
+
+**Trzymaj te dwie wartości pod ręką** — w następnym kroku wkleisz je do Netlify.
+
+## Krok 3 — Połącz GitHub OAuth z Netlify
 
 1. Wejdź do panelu Netlify → wybierz swoją stronę
-2. Z lewego menu: **Project configuration** → **Identity**
-3. Kliknij **Enable Identity**
-4. Po włączeniu zobaczysz nowe ustawienia. Przejdź do **Settings & usage** (na samym dole strony Identity)
-5. W sekcji **Registration preferences** wybierz: **Invite only**
-   - Dlaczego: zapobiega temu, żeby ktokolwiek z internetu mógł utworzyć konto edytora. Tylko osoby przez Ciebie zaproszone uzyskają dostęp.
+2. Z menu po lewej: **Project configuration** → **Access & security** → **OAuth**
+3. W sekcji **Authentication Providers** kliknij **Install Provider**
+4. Wybierz **GitHub**
+5. Wklej **Client ID** i **Client Secret** z poprzedniego kroku
+6. Kliknij **Install**
 
-## Krok 3 — Włącz Git Gateway
+To wszystko. Netlify będzie teraz obsługiwał logowanie współpracowników do panelu CMS.
 
-W tej samej sekcji Identity:
+## Krok 4 — Dodaj współpracowników jako collaborators do repo
 
-1. Przewiń do **Services**
-2. Znajdź **Git Gateway** i kliknij **Enable Git Gateway**
-3. Netlify automatycznie wygeneruje token dostępu do Twojego repo. Nie musisz nic kopiować ani zapisywać.
+Każdy edytor musi mieć **uprawnienia zapisu** do repozytorium na GitHubie, żeby Sveltia mogła w jego imieniu wprowadzać zmiany.
 
-Tu mogą się pojawić różne pytania o uprawnienia, jeśli jeszcze nie autoryzowałeś Netlify do dostępu do GitHuba. Postępuj zgodnie z instrukcjami — Netlify przeprowadzi Cię przez to.
+1. Na GitHubie wejdź do repozytorium ze stroną
+2. **Settings** → **Collaborators**
+3. Kliknij **Add people**
+4. Wpisz nazwę użytkownika GitHub współpracownika i kliknij **Add**
 
-## Krok 4 — Zaproś współpracowników
-
-W panelu Identity:
-
-1. Kliknij **Invite users**
-2. Wpisz adresy e-mail osób, które mają edytować treść (przecinki między adresami)
-3. Kliknij **Send**
-
-Każda osoba dostanie maila z linkiem aktywacyjnym. Po kliknięciu ustawi sobie hasło i będzie mogła się zalogować pod adresem `twoja-strona.netlify.app/admin`.
-
-> **Wskazówka**: Sam też się zaproś! Twoje konto GitHub jest osobne od konta edytora — żebyś mógł testować panel jak współpracownik, potrzebujesz osobnego konta Identity.
+GitHub wyśle mu zaproszenie mailem. Współpracownik klika link → akceptuje → ma dostęp do repo.
 
 ## Krok 5 — Test
 
 1. Wejdź na `twoja-strona.netlify.app/admin`
-2. Powinieneś zobaczyć ekran logowania Sveltii. Kliknij **Login**.
-3. Po zalogowaniu po lewej masz trzy sekcje: **Strona główna**, **Kroki ścieżki**, **Przyjazne miejsca**
-4. Spróbuj wejść w jakiś krok, zmienić tytuł, kliknąć **Save**, potem **Publish**
-5. Wróć na stronę główną (otwórz w nowej karcie) — po 30-60 sekundach zmiana powinna być widoczna
+2. Powinieneś zobaczyć logo Sveltii i przycisk **Sign in with GitHub**
+3. Kliknij — wyskoczy okno autoryzacji GitHub
+4. Zatwierdź dostęp aplikacji do repo
+5. Po zalogowaniu po lewej masz trzy sekcje: **Strona główna**, **Kroki ścieżki**, **Przyjazne miejsca**
+6. Spróbuj wejść w jakieś miejsce, zmienić godziny otwarcia, kliknąć **Save** → **Publish**
+7. Wróć na stronę główną (otwórz w nowej karcie) — po 30-60 sekundach zmiana powinna być widoczna
 
-Jeśli to działa — **gratulacje, masz CMS!** Możesz wysłać współpracownikom link i krótką instrukcję (osobny dokument: `instrukcja-dla-edytorow.md`).
+Jeśli to działa — **gratulacje, masz CMS!**
 
 ## Rozwiązywanie problemów
 
-### „Your Git Gateway backend is not returning valid settings"
+### „There is an error in the CMS configuration"
 
-Najczęstsza przyczyna: Git Gateway nie został włączony albo token wygasł. Wróć do Krok 3 i kliknij **Enable Git Gateway** jeszcze raz (jeśli przycisk nadal jest dostępny) lub **Generate access token**.
+- Sprawdź `admin/config.yml` — czy `repo:` zawiera poprawną wartość `użytkownik/repozytorium` (a nie placeholder `TWOJ-UZYTKOWNIK/TWOJE-REPO`)
+- Sprawdź czy plik `config.yml` jest faktycznie pod adresem `twoja-strona.netlify.app/admin/config.yml` (otwórz tę URL bezpośrednio — powinien się pobrać tekst YAML)
 
-### „This site requires JavaScript to function"
+### „This site requires JavaScript to function" lub pusty ekran
 
-Pusty ekran w `/admin` z taką informacją oznacza, że skrypt Sveltii nie zdążył się załadować. Odśwież stronę. Jeśli problem się powtarza, sprawdź konsolę przeglądarki (F12) — najczęściej to chwilowy problem z CDN.
+Skrypt Sveltii nie zdążył się załadować. Odśwież stronę. Jeśli problem się powtarza, sprawdź konsolę przeglądarki (F12) — najczęściej to chwilowy problem z CDN.
 
-### Współpracownik dostał maila z zaproszeniem, ale link nie działa
+### Po kliknięciu „Sign in with GitHub" wyskakuje błąd autoryzacji
 
-Linki Netlify Identity wygasają po 7 dniach. W panelu Identity → Users znajdź jego adres, kliknij **Resend invitation**.
+- Sprawdź, że **Authorization callback URL** w GitHub OAuth App to dokładnie `https://api.netlify.com/auth/done` — częsta literówka to `https://app.netlify.com/...`
+- Sprawdź, że Client ID i Client Secret w Netlify zgadzają się z tymi w GitHubie
+- Jeśli zmieniałeś Secret w GitHubie po wklejeniu do Netlify — zaktualizuj go też w Netlify
 
-### Strona się nie aktualizuje po zapisie
+### Logowanie działa, ale nie widzę kolekcji albo Sveltia mówi że plik nie istnieje
 
-Sprawdź w Netlify zakładkę **Deploys** — czy nowy deploy się rozpoczął. Jeśli nie, oznacza, że commit nie został zapisany. Najczęściej powód to brakujące uprawnienia Git Gateway — patrz pierwszy punkt.
+- Sprawdź, że folder `content/` ze wszystkimi plikami treści jest faktycznie w Twoim repo na GitHubie (nie tylko lokalnie)
+- Sprawdź `branch:` w `admin/config.yml` — domyślnie `main`, ale jeśli Twoje repo używa `master`, zmień
 
-### Edytor pokazuje pole jako puste, ale w pliku jest treść
+### Współpracownik widzi „You don't have access to this repository"
 
-Zwykle to problem z formatem pliku — Sveltia ścisle przestrzega struktury z `config.yml`. Jeśli ręcznie edytowałeś jakiś plik treści w GitHubie i pomyliłeś składnię, panel może go odrzucić. Wróć do edytora w GitHub, wyrównaj wcięcia, ewentualnie skopiuj strukturę z innego, działającego pliku.
+Jego konto GitHub nie zostało jeszcze dodane jako collaborator albo nie zaakceptował zaproszenia mailem. Wróć do Kroku 4.
 
-## Migracja na GitHub OAuth (gdyby Git Gateway przestał działać)
+### Strona się nie aktualizuje po zapisie zmian w panelu
 
-W razie gdyby Netlify w pewnym momencie wycofało Git Gateway albo Twoja konfiguracja przestała działać, masz prostą drogę awaryjną:
-
-1. Każdy współpracownik zakłada konto na GitHubie
-2. Dodajesz ich jako collaborators do repo (Settings → Collaborators → Add people)
-3. W pliku `admin/config.yml` zmieniasz pierwsze linie:
-   ```yaml
-   backend:
-     name: github
-     repo: nazwa-uzytkownika/nazwa-repo
-     branch: main
-   ```
-4. Tworzysz GitHub OAuth App pod adresem `github.com/settings/applications/new` (instrukcja w dokumentacji Sveltii: https://sveltiacms.app/en/docs/backends/github)
-
-To wymaga więcej pracy od współpracowników (każdy musi mieć konto GitHub i być dodany do repo), ale nie zależy od Netlify.
+Sprawdź w Netlify zakładkę **Deploys** — czy nowy deploy się rozpoczął. Jeśli nie, oznacza, że commit nie został zapisany przez Sveltię. Sprawdź historię commitów w GitHubie — czy zmiana faktycznie się tam pojawiła. Jeśli nie pojawiła się, problem jest po stronie Sveltii — sprawdź konsolę przeglądarki w trakcie zapisu.
 
 ## Co dalej
 
-Codzienna praca to już domena Twoich współpracowników — wysłałeś im link, mają instrukcję, edytują samodzielnie. Twoja rola admina to:
+Codzienna praca to już domena Twoich współpracowników — dasz im link do panelu, dasz instrukcję (`INSTRUKCJA-DLA-EDYTOROW.md`) i edytują samodzielnie. Twoja rola admina to:
 
-- **Dodawanie nowych edytorów** — Netlify panel → Identity → Invite users
-- **Reagowanie na ich pytania** — najczęściej wystarcza odesłanie do `instrukcja-dla-edytorow.md`
-- **Aktualizacje wyglądu strony** — kolorystyka, układ, dodawanie nowych sekcji to dalej kod, więc wracasz do niego (idealnie w nowym czacie z Claude'em z plikiem strony i opisem zmian)
+- **Dodawanie nowych edytorów** — Settings → Collaborators na GitHubie
+- **Reagowanie na ich pytania** — najczęściej wystarcza odesłanie do `INSTRUKCJA-DLA-EDYTOROW.md`
+- **Aktualizacje wyglądu strony** — kolory, układ, dodawanie nowych sekcji to dalej kod, więc wracasz do niego
+
+## Zabezpieczenie tokenów GitHub OAuth
+
+**Client Secret** wygenerowany w Kroku 2 to tajny ciąg, który daje pełną kontrolę nad logowaniem do Twojego CMS-a. Nigdy go nie commituj do repo, nie wklejaj do dokumentów ani publicznych miejsc — siedzi już bezpiecznie w panelu Netlify, więcej nigdzie nie powinien być potrzebny. Jeśli kiedyś go zgubisz albo ktoś zobaczy — w GitHub OAuth App po prostu wygeneruj nowy i zaktualizuj w Netlify.
 
 Powodzenia.

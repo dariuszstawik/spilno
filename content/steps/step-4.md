@@ -1,18 +1,12 @@
 ---
-number: 4
-emoji: 📝
-title:
-  pl: Przygotuj „kartę bezpieczeństwa"
-  uk: Підготуй «картку безпеки»
-short_description:
-  pl: >-
+pl:
+  number: 4
+  emoji: 📝
+  title: Przygotuj „kartę bezpieczeństwa"
+  short_description: >-
     Przygotuj kartkę (możesz ją włożyć do kieszeni lub torebki), na której
     zapiszesz najważniejsze informacje.
-  uk: >-
-    Підготуй невеликий аркуш паперу (його можна покласти в кишеню або
-    сумку), на якому запишеш найважливішу інформацію.
-body:
-  pl: |
+  body: |
     **Zapisz na kartce:**
 
     - adres i nazwę miejsca, do którego idziesz
@@ -33,7 +27,17 @@ body:
     - zadzwonić z czyjegoś telefonu
 
     *Wskazówka: Pisz wyraźnie, po polsku, dużymi literami, aby inne osoby mogły łatwo przeczytać informacje.*
-  uk: |
+  motto: >-
+    Jeśli bateria w twoim telefonie się rozładuje lub się zgubisz, pokaż tę
+    kartę i poproś o pomoc.
+uk:
+  number: 4
+  emoji: 📝
+  title: Підготуй «картку безпеки»
+  short_description: >-
+    Підготуй невеликий аркуш паперу (його можна покласти в кишеню або
+    сумку), на якому запишеш найважливішу інформацію.
+  body: |
     **Запиши на картці:**
 
     - адресу та назву місця, куди ти йдеш (польською мовою)
@@ -54,11 +58,7 @@ body:
     - зателефонувати з чужого телефону
 
     *Порада: Пиши чітко, польською мовою, великими літерами, щоб інші люди могли легко прочитати інформацію.*
-motto:
-  pl: >-
-    Jeśli bateria w twoim telefonie się rozładuje lub się zgubisz, pokaż tę
-    kartę i poproś o pomoc.
-  uk: >-
+  motto: >-
     Якщо розрядиться телефон або ти загубишся, покажи цю картку і попроси
     про допомогу.
 ---

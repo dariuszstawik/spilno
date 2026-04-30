@@ -1,14 +1,10 @@
 ---
-number: 6
-emoji: 🚌
-title:
-  pl: Podczas dojazdu
-  uk: Під час дороги
-short_description:
-  pl: Podczas drogi do klubu staraj się być uważny i spokojny.
-  uk: Під час дороги до клубу намагайся бути уважним і спокійним.
-body:
-  pl: |
+pl:
+  number: 6
+  emoji: 🚌
+  title: Podczas dojazdu
+  short_description: Podczas drogi do klubu staraj się być uważny i spokojny.
+  body: |
     **Zapamiętuj charakterystyczne miejsca:**
 
     - zwróć uwagę na budynki, sklepy, przystanki
@@ -23,7 +19,15 @@ body:
 
     - jeśli nie możesz znaleźć drogi — zadzwoń
     - możesz poprosić o dokładne wskazówki
-  uk: |
+  motto: >-
+    NIE MUSISZ WIEDZIEĆ WSZYSTKIEGO OD RAZU — MOŻESZ PYTAĆ I PROSIĆ O POMOC
+    NA KAŻDYM ETAPIE DROGI!
+uk:
+  number: 6
+  emoji: 🚌
+  title: Під час дороги
+  short_description: Під час дороги до клубу намагайся бути уважним і спокійним.
+  body: |
     **Запам'ятовуй характерні місця:**
 
     - звертай увагу на будівлі, магазини, зупинки
@@ -38,11 +42,7 @@ body:
 
     - якщо не можеш знайти дорогу — зателефонуй
     - можеш попросити детальніші вказівки
-motto:
-  pl: >-
-    NIE MUSISZ WIEDZIEĆ WSZYSTKIEGO OD RAZU — MOŻESZ PYTAĆ I PROSIĆ O POMOC
-    NA KAŻDYM ETAPIE DROGI!
-  uk: >-
+  motto: >-
     ТОБІ НЕ ПОТРІБНО ЗНАТИ ВСЕ ВІДРАЗУ — ТИ МОЖЕШ ПИТАТИ І ПРОСИТИ ПРО
     ДОПОМОГУ НА КОЖНОМУ ЕТАПІ ДОРОГИ!
 ---

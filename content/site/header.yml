@@ -1,16 +1,10 @@
-title:
-  pl: Znajdź Swoje Miejsce
-  uk: Знайди своє місце
-
-subtitle:
-  pl: Mapa Wsparcia dla Seniorów z Ukrainy
-  uk: Дорожня мапа підтримки для сеньйорів з України
-
-# Tytuły w fioletowym pudełku (zwykle "lustrzane" — drugi język)
-mirror_title:
-  pl: Знайди своє місце
-  uk: Znajdź Swoje Miejsce
-
-mirror_subtitle:
-  pl: Дорожня мапа підтримки для сеньйорів з України
-  uk: Mapa Wsparcia dla Seniorów z Ukrainy
+pl:
+  title: Znajdź Swoje Miejsce
+  subtitle: Mapa Wsparcia dla Seniorów z Ukrainy
+  mirror_title: Знайди своє місце
+  mirror_subtitle: Дорожня мапа підтримки для сеньйорів з України
+uk:
+  title: Знайди своє місце
+  subtitle: Дорожня мапа підтримки для сеньйорів з України
+  mirror_title: Znajdź Swoje Miejsce
+  mirror_subtitle: Mapa Wsparcia dla Seniorów z Ukrainy

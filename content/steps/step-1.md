@@ -1,18 +1,12 @@
 ---
-number: 1
-emoji: 📍
-title:
-  pl: Wybierz klub / miejsce
-  uk: Вибери клуб / місце інтеграції
-short_description:
-  pl: >-
+pl:
+  number: 1
+  emoji: 📍
+  title: Wybierz klub / miejsce
+  short_description: >-
     Wybierz klub lub miejsce integracji, które znajduje się blisko Ciebie
     lub w miejscu, do którego łatwo i wygodnie możesz dotrzeć.
-  uk: >-
-    Вибери клуб або місце інтеграції, яке знаходиться близько до тебе
-    або до якого тобі легко й зручно дістатися.
-body:
-  pl: |
+  body: |
     **Jeśli w pobliżu nie ma takiego miejsca na mapie:**
 
     - zapytaj sąsiadów — być może znają lokalne miejsca spotkań
@@ -35,7 +29,17 @@ body:
     7. Po wejściu na stronę lub profil znajdź sekcję: „Kontakt", „Informacje" lub „O nas".
     8. Kliknij w te zakładki, aby zobaczyć szczegóły: numer telefonu, adres, godziny otwarcia.
     9. Zapisz nazwę klubu oraz numer telefonu na kartce, aby łatwiej było później zadzwonić i nie trzeba było ponownie szukać informacji.
-  uk: |
+  motto: >-
+    NIE BÓJ SIĘ PYTAĆ! — Wiele osób chętnie podzieli się informacjami
+    i pomoże znaleźć odpowiednie miejsce.
+uk:
+  number: 1
+  emoji: 📍
+  title: Вибери клуб / місце інтеграції
+  short_description: >-
+    Вибери клуб або місце інтеграції, яке знаходиться близько до тебе
+    або до якого тобі легко й зручно дістатися.
+  body: |
     **Якщо поблизу немає такого місця на мапі:**
 
     - Можна запитати у сусідів — можливо, вони знають місцеві місця для спілкування.
@@ -58,11 +62,7 @@ body:
     7. Після переходу на сторінку або профіль знайдіть розділ: «Контакт», «Інформація» або «Про нас».
     8. Натисніть на ці вкладки, щоб побачити деталі: номер телефону, адресу, години роботи.
     9. Запишіть назву клубу та номер телефону на аркуші паперу, щоб потім було легше зателефонувати й не потрібно було знову шукати інформацію.
-motto:
-  pl: >-
-    NIE BÓJ SIĘ PYTAĆ! — Wiele osób chętnie podzieli się informacjami
-    i pomoże znaleźć odpowiednie miejsce.
-  uk: >-
+  motto: >-
     НЕ БІЙСЯ ПИТАТИ! — БАГАТО ЛЮДЕЙ ІЗ РАДІСТЮ ПОДІЛЯТЬСЯ ІНФОРМАЦІЄЮ
     ТА ДОПОМОЖУТЬ ЗНАЙТИ ВІДПОВІДНЕ МІСЦЕ.
 ---

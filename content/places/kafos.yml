@@ -1,71 +1,52 @@
-emoji: ☕
-
-name:
-  pl: Klub Seniorów KAFOS
-  uk: Клуб сеньйорів KAFOS
-
-address:
-  pl: Katowice, ul. Kopernika 14 (Centrum)
-  uk: Катовіце, вул. Коперника 14 (Центр)
-
-phones:
-  - number: "509 647 801"
-
-emails:
-  - email: andreo1@wp.pl
-
-hours:
-  pl: 12:00 - 14:00 (pon-pt)
-  uk: 12:00 - 14:00 (пн-пт)
-
-payment:
-  pl: zajęcia częściowo odpłatne
-  uk: заняття частково платні
-
-links:
-  - type: website
-    url: https://kafos.org.pl/
-    label:
-      pl: kafos.org.pl
-      uk: kafos.org.pl
-
-details:
-  group_info:
-    - text:
-        pl: "Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak"
-        uk: "Клуб відкритий до прийому людей похилого віку з України: так"
-    - text:
-        pl: "W zajęciach uczestniczą osoby z Ukrainy: nie"
-        uk: "У заняттях беруть участь особи з України: ні"
-    - text:
-        pl: "W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak"
-        uk: "У групі є особи, які розмовляють українською або російською мовою: так"
-    - text:
-        pl: "W grupie są osoby rozumiejące język ukraiński lub rosyjski: nie"
-        uk: "У групі є особи, які розуміють українську або російську мову: ні"
-
-  character:
-    pl: >-
-      Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka),
-      edukacyjny (wykłady, rozwój zainteresowań), wycieczki i wyjścia,
-      wsparcie i integracja
-    uk: >-
-      Товариський (зустрічі, розмови), рухові активності (наприклад,
-      гімнастика), освітній (лекції, розвиток інтересів), екскурсії та
-      виходи, підтримка та інтеграція
-
-  participation:
-    pl: Częściowo płatny
-    uk: Частково платна
-
-  frequency:
-    pl: Raz w miesiącu
-    uk: Раз на місяць
-
-  accessibility:
-    pl: Miejsce dostępne dla osób z ograniczoną mobilnością
-    uk: Місце доступне для осіб з обмеженою мобільністю
-
-  registration:
-    pl: "Wymagane wcześniejsze zapisy: tak"
-    uk: "Потрібен попередній запис: так"
+pl:
+  emoji: ☕
+  name: Klub Seniorów KAFOS
+  address: Katowice, ul. Kopernika 14 (Centrum)
+  phones:
+    - number: 509 647 801
+  emails:
+    - email: andreo1@wp.pl
+  hours: 12:00 - 14:00 (pon-pt)
+  payment: zajęcia częściowo odpłatne
+  links:
+    - type: website
+      url: https://kafos.org.pl/
+      label: kafos.org.pl
+  details:
+    group_info:
+      - text: 'Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak'
+      - text: 'W zajęciach uczestniczą osoby z Ukrainy: nie'
+      - text: 'W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak'
+      - text: 'W grupie są osoby rozumiejące język ukraiński lub rosyjski: nie'
+    character: Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka), edukacyjny (wykłady, rozwój 
+      zainteresowań), wycieczki i wyjścia, wsparcie i integracja
+    participation: Częściowo płatny
+    frequency: Raz w miesiącu
+    accessibility: Miejsce dostępne dla osób z ograniczoną mobilnością
+    registration: 'Wymagane wcześniejsze zapisy: tak'
+uk:
+  emoji: ☕
+  name: Клуб сеньйорів KAFOS
+  address: Катовіце, вул. Коперника 14 (Центр)
+  phones:
+    - number: 509 647 801
+  emails:
+    - email: andreo1@wp.pl
+  hours: 12:00 - 14:00 (пн-пт)
+  payment: заняття частково платні
+  links:
+    - type: website
+      url: https://kafos.org.pl/
+      label: kafos.org.pl
+  details:
+    group_info:
+      - text: 'Клуб відкритий до прийому людей похилого віку з України: так'
+      - text: 'У заняттях беруть участь особи з України: ні'
+      - text: 'У групі є особи, які розмовляють українською або російською мовою: так'
+      - text: 'У групі є особи, які розуміють українську або російську мову: ні'
+    character: Товариський (зустрічі, розмови), рухові активності (наприклад, гімнастика), освітній (лекції, розвиток 
+      інтересів), екскурсії та виходи, підтримка та інтеграція
+    participation: Частково платна
+    frequency: Раз на місяць
+    accessibility: Місце доступне для осіб з обмеженою мобільністю
+    registration: 'Потрібен попередній запис: так'

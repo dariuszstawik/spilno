@@ -1,18 +1,12 @@
 ---
-number: 7
-emoji: ☕
-title:
-  pl: Na miejscu
-  uk: На місці
-short_description:
-  pl: >-
+pl:
+  number: 7
+  emoji: ☕
+  title: Na miejscu
+  short_description: >-
     Gdy dotrzesz na miejsce, pamiętaj, że to naturalne, że możesz czuć się
     niepewnie.
-  uk: >-
-    Коли ти прибудеш на місце, пам'ятай, що цілком природно почуватися
-    невпевнено.
-body:
-  pl: |
+  body: |
     **Powiedz, że jesteś pierwszy raz.**
 
     **Jeśli czegoś nie rozumiesz:**
@@ -31,7 +25,15 @@ body:
     - interesuj się tym, co jest dla Ciebie ważne
     - zadawaj pytania
     - obserwuj, co się dzieje wokół
-  uk: |
+  motto: LUDZIE CHCĄ WSPIERAĆ I POMAGAĆ — WYSTARCZY DAĆ IM SZANSĘ!
+uk:
+  number: 7
+  emoji: ☕
+  title: На місці
+  short_description: >-
+    Коли ти прибудеш на місце, пам'ятай, що цілком природно почуватися
+    невпевнено.
+  body: |
     **Скажи, що ти тут уперше.**
 
     **Якщо чогось не розумієш:**
@@ -50,7 +52,5 @@ body:
     - цікався тим, що для тебе важливо
     - став запитання
     - спостерігай за тим, що відбувається навколо
-motto:
-  pl: LUDZIE CHCĄ WSPIERAĆ I POMAGAĆ — WYSTARCZY DAĆ IM SZANSĘ!
-  uk: ЛЮДИ ХОЧУТЬ ПІДТРИМУВАТИ І ДОПОМАГАТИ — ДОСТАТНЬО ДАТИ ЇМ ШАНС!
+  motto: ЛЮДИ ХОЧУТЬ ПІДТРИМУВАТИ І ДОПОМАГАТИ — ДОСТАТНЬО ДАТИ ЇМ ШАНС!
 ---

@@ -23,12 +23,7 @@
          żeby tu też dopisać <link rel="preload" ...>.
          (Sveltia nie modyfikuje tej listy automatycznie.) -->
     <link rel="preload" as="fetch" crossorigin href="content/site/header.yml" />
-    <link
-      rel="preload"
-      as="fetch"
-      crossorigin
-      href="content/site/places_section.yml"
-    />
+    <link rel="preload" as="fetch" crossorigin href="content/site/places_section.yml" />
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-1.md" />
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-2.md" />
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-3.md" />
@@ -37,30 +32,10 @@
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-6.md" />
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-7.md" />
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-8.md" />
-    <link
-      rel="preload"
-      as="fetch"
-      crossorigin
-      href="content/places/spilno.yml"
-    />
-    <link
-      rel="preload"
-      as="fetch"
-      crossorigin
-      href="content/places/kafos.yml"
-    />
-    <link
-      rel="preload"
-      as="fetch"
-      crossorigin
-      href="content/places/promyk.yml"
-    />
-    <link
-      rel="preload"
-      as="fetch"
-      crossorigin
-      href="content/places/silesianka.yml"
-    />
+    <link rel="preload" as="fetch" crossorigin href="content/places/spilno.yml" />
+    <link rel="preload" as="fetch" crossorigin href="content/places/kafos.yml" />
+    <link rel="preload" as="fetch" crossorigin href="content/places/promyk.yml" />
+    <link rel="preload" as="fetch" crossorigin href="content/places/silesianka.yml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -246,29 +221,17 @@
         margin-bottom: 1.5rem;
         padding-left: 1.5rem;
       }
-      .prose-step ul {
-        list-style: disc;
-      }
-      .prose-step ol {
-        list-style: decimal;
-      }
-      .prose-step li {
-        margin-bottom: 0.5rem;
-      }
-      .prose-step strong {
-        font-weight: 700;
-      }
-      .prose-step em {
-        font-style: italic;
-      }
+      .prose-step ul { list-style: disc; }
+      .prose-step ol { list-style: decimal; }
+      .prose-step li { margin-bottom: 0.5rem; }
+      .prose-step strong { font-weight: 700; }
+      .prose-step em { font-style: italic; }
       .prose-step a {
         color: #3b2752;
         text-decoration: underline;
         word-break: break-word;
       }
-      .prose-step a:hover {
-        color: #573a70;
-      }
+      .prose-step a:hover { color: #573a70; }
     </style>
   </head>
   <body class="text-gray-800 text-lg antialiased relative lang-pl">
@@ -395,6 +358,7 @@
 
             <!-- STEPS — generowane dynamicznie z plików w content/steps/ -->
             <div id="steps-container"></div>
+
           </div>
         </main>
 
@@ -582,14 +546,8 @@
       const CONTENT_MANIFEST = {
         site: ["header", "places_section"],
         steps: [
-          "step-1",
-          "step-2",
-          "step-3",
-          "step-4",
-          "step-5",
-          "step-6",
-          "step-7",
-          "step-8",
+          "step-1", "step-2", "step-3", "step-4",
+          "step-5", "step-6", "step-7", "step-8",
         ],
         // Lista miejsc — kolejność tutaj decyduje o kolejności na stronie.
         // Aby ukryć miejsce nie usuwając pliku — zakomentuj jego wpis.
@@ -598,17 +556,16 @@
 
       // Globalny obiekt z załadowaną treścią — wypełniany przez loadContent()
       const siteData = {
-        site: {}, // { header: {...}, places_section: {...} }
-        steps: [], // [ { ...frontmatter, body_html: {pl, uk} }, ... ]
-        places: [], // [ { ...miejsce }, ... ]
+        site: {},      // { header: {...}, places_section: {...} }
+        steps: [],     // [ { ...frontmatter, body_html: {pl, uk} }, ... ]
+        places: [],    // [ { ...miejsce }, ... ]
       };
 
       // Pomocnik: bezpieczny fetch bez agresywnego no-cache (żeby przeglądarka
       // mogła używać własnego cache i preloadowanych zasobów).
       async function fetchText(url) {
         const r = await fetch(url);
-        if (!r.ok)
-          throw new Error(`Nie udało się wczytać ${url} (${r.status})`);
+        if (!r.ok) throw new Error(`Nie udało się wczytać ${url} (${r.status})`);
         return r.text();
       }
 
@@ -625,24 +582,138 @@
         return marked.parse(markdown, { breaks: false, gfm: true });
       }
 
+      // ----------------------------------------------------------------
+      // Transpozycja struktury danych:
+      //   z formatu Sveltii (klucz języka na zewnątrz):
+      //     { pl: {title: "X", emoji: "📍"}, uk: {title: "Y", emoji: "📍"} }
+      //   na format renderera (klucz pola na zewnątrz):
+      //     { title: {pl: "X", uk: "Y"}, emoji: {pl: "📍", uk: "📍"} }
+      //
+      // Renderery (renderStepCard, renderPlaceCard) oczekują tej drugiej
+      // struktury — dzięki temu kod renderowania nie musi wiedzieć
+      // o szczegółach formatu plików. Jeśli kiedyś Sveltia zmieni format,
+      // wystarczy poprawić tę jedną funkcję.
+      //
+      // Działa rekursywnie:
+      //  - Skalary (string, number) idą do {pl, uk}
+      //  - Tablice są "zipowane" pozycyjnie — tablica[0].pl + tablica[0].uk
+      //  - Obiekty zagnieżdżone (np. details) są transponowane rekursywnie
+      // ----------------------------------------------------------------
+      const LOCALES = ["pl", "uk"];
+
+      function transposeI18n(localeData) {
+        // localeData: { pl: {...}, uk: {...} }
+        const pl = localeData.pl || {};
+        const uk = localeData.uk || {};
+
+        // Bierzemy zbiór wszystkich kluczy z obu lokali
+        const keys = new Set([...Object.keys(pl), ...Object.keys(uk)]);
+        const result = {};
+
+        for (const key of keys) {
+          const plVal = pl[key];
+          const ukVal = uk[key];
+          result[key] = mergeFieldByLocale(plVal, ukVal);
+        }
+
+        return result;
+      }
+
+      function mergeFieldByLocale(plVal, ukVal) {
+        // Skalary / null / undefined — łączymy do {pl, uk}
+        const isObj = (v) =>
+          v !== null && typeof v === "object" && !Array.isArray(v);
+
+        if (Array.isArray(plVal) || Array.isArray(ukVal)) {
+          // Tablice — zipujemy pozycyjnie
+          const a = Array.isArray(plVal) ? plVal : [];
+          const b = Array.isArray(ukVal) ? ukVal : [];
+          const len = Math.max(a.length, b.length);
+          const out = [];
+          for (let i = 0; i < len; i++) {
+            out.push(mergeFieldByLocale(a[i], b[i]));
+          }
+          return out;
+        }
+
+        if (isObj(plVal) || isObj(ukVal)) {
+          // Obiekty zagnieżdżone — rekursja po polach
+          const a = isObj(plVal) ? plVal : {};
+          const b = isObj(ukVal) ? ukVal : {};
+          const keys = new Set([...Object.keys(a), ...Object.keys(b)]);
+          const out = {};
+          for (const k of keys) {
+            out[k] = mergeFieldByLocale(a[k], b[k]);
+          }
+          return out;
+        }
+
+        // Skalary / brak wartości — finalny obiekt {pl, uk}
+        return { pl: plVal ?? "", uk: ukVal ?? "" };
+      }
+
       // Pomocnik: parsuje już pobrany tekst kroku do gotowej struktury
       function processStep(text) {
-        const { meta, body } = parseFrontMatter(text);
-        let bodyHtml;
-        if (meta.body && typeof meta.body === "object") {
-          // Sveltia w trybie i18n single_file zapisuje pole body jako
-          // obiekt {pl, uk} we front matterze
-          bodyHtml = { pl: md2html(meta.body.pl), uk: md2html(meta.body.uk) };
-          delete meta.body;
-        } else if (body) {
-          // Fallback: jeden wspólny Markdown poniżej front matter
-          const html = md2html(body);
-          bodyHtml = { pl: html, uk: html };
-        } else {
-          bodyHtml = { pl: "", uk: "" };
-        }
-        return { ...meta, body_html: bodyHtml };
+        const { meta } = parseFrontMatter(text);
+        // meta jest w formacie {pl: {...}, uk: {...}}
+        const transposed = transposeI18n(meta);
+        // Pole 'body' to Markdown — renderujemy do HTML
+        const bodyHtml = {
+          pl: md2html(transposed.body?.pl || ""),
+          uk: md2html(transposed.body?.uk || ""),
+        };
+        delete transposed.body;
+        // Ujednolicamy: emoji/number są transponowane jako {pl, uk}
+        // ale w rendererze pierwsze co dzieje się to zwykły dostęp typu
+        // step.emoji (skalar). Dlatego pola "duplicate" spłaszczamy do skalara.
+        const flattened = flattenDuplicates(transposed, [
+          "number", "emoji",
+        ]);
+        return { ...flattened, body_html: bodyHtml };
       }
+
+      // Spłaszcza pola, które miały i18n: duplicate (PL=UK) — z {pl, uk}
+      // robimy zwykły skalar. Dla prostoty rendererów.
+      //
+      // fieldNames mogą być proste ("emoji") albo używać "*" dla tablic
+      // ("links.*.url" → spłaszcz pole "url" w każdym elemencie tablicy
+      // "links").
+      function flattenDuplicates(obj, fieldNames) {
+        const out = JSON.parse(JSON.stringify(obj)); // deep copy
+
+        for (const path of fieldNames) {
+          flattenAtPath(out, path.split("."));
+        }
+        return out;
+      }
+
+      function flattenAtPath(obj, parts) {
+        if (!obj || parts.length === 0) return;
+        const [head, ...rest] = parts;
+
+        if (head === "*" && Array.isArray(obj)) {
+          // Iteruj po elementach tablicy
+          for (const item of obj) {
+            flattenAtPath(item, rest);
+          }
+          return;
+        }
+
+        if (rest.length === 0) {
+          // Ostatni krok — spłaszcz pole "head"
+          const v = obj[head];
+          if (v && typeof v === "object" && "pl" in v) {
+            obj[head] = v.pl ?? v.uk ?? "";
+          }
+          return;
+        }
+
+        // Wejdź głębiej
+        if (obj[head] !== undefined) {
+          flattenAtPath(obj[head], rest);
+        }
+      }
+
 
       // ================================================================
       // BINDOWANIE PROSTYCH POL (data-bind="header.title.pl" itp.)
@@ -669,9 +740,7 @@
         const numberCol = isOdd
           ? "items-start md:items-center justify-center md:justify-end pt-4 md:pt-0 md:pr-10"
           : "items-start md:items-center justify-center md:justify-start pt-4 md:pt-0 md:pl-10";
-        const cardCol = isOdd
-          ? "pr-2 md:pr-0 pl-4 md:pl-0"
-          : "pr-2 md:pl-0 pl-4 md:pr-0";
+        const cardCol = isOdd ? "pr-2 md:pr-0 pl-4 md:pl-0" : "pr-2 md:pl-0 pl-4 md:pr-0";
         const emojiPos = isOdd ? "-right-4" : "-left-4";
         const emojiAnim = isOdd ? "animate-float-slow" : "animate-float-fast";
         const isLast = index === siteData.steps.length - 1;
@@ -679,13 +748,12 @@
         const dotPulse = isLast ? "animate-pulse-glow" : "";
         const contentId = `step-${step.number}-content`;
 
-        const motto =
-          step.motto && (step.motto.pl || step.motto.uk)
-            ? `<div class="bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm text-base md:text-lg text-center uppercase leading-snug mt-4">
+        const motto = (step.motto && (step.motto.pl || step.motto.uk))
+          ? `<div class="bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm text-base md:text-lg text-center uppercase leading-snug mt-4">
               <span class="pl">${escapeHtml(step.motto.pl || "")}</span>
               <span class="uk">${escapeHtml(step.motto.uk || "")}</span>
             </div>`
-            : "";
+          : "";
 
         return `
           <div class="flex w-full ${containerMb} relative z-10 ${flexDir}">
@@ -730,6 +798,7 @@
           .join("");
         lucide.createIcons();
       }
+
 
       // ================================================================
       // RENDEROWANIE KART MIEJSC
@@ -817,11 +886,7 @@
       }
 
       // Pomocnik: akapit dwujęzyczny
-      function bilingualParagraph(
-        pl,
-        uk,
-        classes = "text-base leading-relaxed",
-      ) {
+      function bilingualParagraph(pl, uk, classes = "text-base leading-relaxed") {
         return `
           <p class="${classes} pl">${escapeHtml(pl)}</p>
           <p class="${classes} uk">${escapeHtml(uk)}</p>`;
@@ -844,19 +909,17 @@
         const linksHtml = (place.links || []).map(linkRow).join("");
 
         // --- Lista informacji o grupie (bullety) ---
-        const groupInfoList = (
-          place.details.group_info ||
-          place.details.groupInfo ||
-          []
-        )
-          .map((item) => {
-            // Wspieramy starą strukturę {pl, uk} oraz nową {text: {pl, uk}}
-            const pl = item.text?.pl ?? item.pl ?? "";
-            const uk = item.text?.uk ?? item.uk ?? "";
-            return `
+        const groupInfoList = (place.details.group_info || place.details.groupInfo || [])
+          .map(
+            (item) => {
+              // Wspieramy starą strukturę {pl, uk} oraz nową {text: {pl, uk}}
+              const pl = item.text?.pl ?? item.pl ?? "";
+              const uk = item.text?.uk ?? item.uk ?? "";
+              return `
                 <li class="pl">${escapeHtml(pl)}</li>
                 <li class="uk">${escapeHtml(uk)}</li>`;
-          })
+            },
+          )
           .join("");
 
         // --- Zawartość akordeonu (szczegóły) ---
@@ -1101,31 +1164,43 @@
         // Trzy równoległe strumienie — każdy może zakończyć się niezależnie
         const sitePromise = (async () => {
           const texts = await Promise.all(
-            CONTENT_MANIFEST.site.map((n) =>
-              fetchText(`content/site/${n}.yml`),
-            ),
+            CONTENT_MANIFEST.site.map((n) => fetchText(`content/site/${n}.yml`)),
           );
           CONTENT_MANIFEST.site.forEach((name, i) => {
-            siteData.site[name] = jsyaml.load(texts[i]);
+            const raw = jsyaml.load(texts[i]);
+            // Transponuj z {pl: {...}, uk: {...}} na {field: {pl, uk}}
+            siteData.site[name] = transposeI18n(raw);
           });
           applyBindings();
         })();
 
         const placesPromise = (async () => {
           const texts = await Promise.all(
-            CONTENT_MANIFEST.places.map((n) =>
-              fetchText(`content/places/${n}.yml`),
-            ),
+            CONTENT_MANIFEST.places.map((n) => fetchText(`content/places/${n}.yml`)),
           );
-          siteData.places = texts.map((t) => jsyaml.load(t));
+          siteData.places = texts.map((t) => {
+            const raw = jsyaml.load(t);
+            const transposed = transposeI18n(raw);
+            // Pola "duplicate" spłaszczamy do skalarów. Renderer oczekuje:
+            // - emoji jako string
+            // - phones[*].number jako string
+            // - emails[*].email jako string
+            // - links[*].url i links[*].type jako stringi (tylko link.label
+            //   pozostaje obiektem {pl, uk} bo jest tłumaczona)
+            return flattenDuplicates(transposed, [
+              "emoji",
+              "phones.*.number",
+              "emails.*.email",
+              "links.*.type",
+              "links.*.url",
+            ]);
+          });
           renderPlaces();
         })();
 
         const stepsPromise = (async () => {
           const texts = await Promise.all(
-            CONTENT_MANIFEST.steps.map((n) =>
-              fetchText(`content/steps/${n}.md`),
-            ),
+            CONTENT_MANIFEST.steps.map((n) => fetchText(`content/steps/${n}.md`)),
           );
           siteData.steps = texts.map(processStep);
           renderSteps();

@@ -1,18 +1,12 @@
 ---
-number: 5
-emoji: ☀️
-title:
-  pl: Przygotuj się do wyjścia
-  uk: Підготуйся до виходу
-short_description:
-  pl: >-
+pl:
+  number: 5
+  emoji: ☀️
+  title: Przygotuj się do wyjścia
+  short_description: >-
     Dobrze przygotuj się przed wyjściem, żeby czuć się spokojniej i
     bezpieczniej.
-  uk: >-
-    Добре підготуйся перед виходом, щоб почуватися спокійніше та
-    безпечніше.
-body:
-  pl: |
+  body: |
     **Sprawdź prognozę pogody:**
 
     - zobacz, czy będzie ciepło, zimno, deszczowo lub wietrznie
@@ -35,7 +29,17 @@ body:
     - zaplanuj wyjście tak, żeby nie musieć się spieszyć
     - daj sobie czas na spokojne znalezienie drogi
     - jeśli się zgubisz — będziesz mieć czas, żeby zapytać o pomoc
-  uk: |
+  motto: >-
+    WYJDŹ WCZEŚNIEJ — LEPIEJ MIEĆ ZAPAS CZASU NIŻ SIĘ STRESOWAĆ. SPOKOJNE
+    WYJŚCIE POMAGA POCZUĆ SIĘ PEWNIEJ.
+uk:
+  number: 5
+  emoji: ☀️
+  title: Підготуйся до виходу
+  short_description: >-
+    Добре підготуйся перед виходом, щоб почуватися спокійніше та
+    безпечніше.
+  body: |
     **Перевір прогноз погоди:**
 
     - подивися, чи буде тепло, холодно, дощово або вітряно
@@ -58,11 +62,7 @@ body:
     - сплануй вихід так, щоб не поспішати
     - дай собі час спокійно знайти дорогу
     - якщо загубишся — матимеш час запитати про допомогу
-motto:
-  pl: >-
-    WYJDŹ WCZEŚNIEJ — LEPIEJ MIEĆ ZAPAS CZASU NIŻ SIĘ STRESOWAĆ. SPOKOJNE
-    WYJŚCIE POMAGA POCZUĆ SIĘ PEWNIEJ.
-  uk: >-
+  motto: >-
     ВИЙДИ РАНІШЕ — КРАЩЕ МАТИ ЗАПАС ЧАСУ, НІЖ СТРЕСУВАТИ. СПОКІЙНИЙ ВИХІД
     ДОПОМАГАЄ ПОЧУВАТИСЯ ВПЕВНЕНІШЕ.
 ---

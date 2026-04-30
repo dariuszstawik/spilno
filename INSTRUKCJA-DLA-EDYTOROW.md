@@ -5,17 +5,20 @@ Cześć! Ten dokument pokazuje, jak edytować treść strony — dodawać i zmie
 ## Co dostałeś
 
 - **Adres panelu**: `twoja-strona.netlify.app/admin` *(dokładny adres dostaniesz osobno)*
-- **Link aktywacyjny** w mailu od Netlify
-- **Twoje konto** zostanie utworzone, gdy klikniesz w link i ustawisz hasło
+- **Konto GitHub** musisz mieć założone (jeśli jeszcze nie masz, zarejestruj się na <https://github.com/signup>)
+- **Zaproszenie do repozytorium** — administrator doda Cię jako collaborator. Dostaniesz mail z GitHuba z linkiem „Accept invitation"
 
-## Pierwszy raz — aktywacja konta
+## Pierwszy raz — zaakceptuj zaproszenie i zaloguj się
 
-1. Otwórz maila od Netlify z tematem „You've been invited to..."
-2. Kliknij przycisk **Accept the invite**
-3. W formularzu, który się otworzy, wpisz hasło, które wybierzesz (zapisz je sobie!)
-4. Po kliknięciu **Sign Up** zostaniesz przekierowany na panel CMS
+1. Otwórz maila od GitHuba z tematem zawierającym „has invited you to..."
+2. Kliknij przycisk **View invitation** (lub link w treści)
+3. Na stronie GitHuba kliknij **Accept invitation**
+4. Wejdź na adres panelu CMS (np. `twoja-strona.netlify.app/admin`)
+5. Kliknij **Sign in with GitHub**
+6. GitHub zapyta, czy chcesz autoryzować aplikację — kliknij **Authorize**
+7. Wracasz do panelu — od teraz możesz edytować treść
 
-Od teraz logujesz się tym hasłem przez stronę `…/admin`.
+Od tej chwili logowanie to po prostu wejście na adres panelu i kliknięcie „Sign in with GitHub" — GitHub Cię rozpozna i zaloguje natychmiast (jeśli jesteś już zalogowany w przeglądarce na GitHubie).
 
 ## Co widzisz w panelu
 
@@ -129,9 +132,9 @@ Jeśli widzisz, że coś nie wygląda po Twojej edycji — nie panikuj, zrób zr
 
 **Mogę edytować z telefonu?** Tak. Sveltia działa na komórce, ale na większym ekranie jest wygodniej. Niektóre pola (np. listy z drag-and-drop) mogą być trudniejsze do obsługi.
 
-**Czy moje hasło widzą inni?** Nie. Hasło ustaliłeś tylko Ty, jest zaszyfrowane na serwerze Netlify. Nie widzi go nawet administrator.
+**Czy moje hasło widzą inni?** Twoje hasło to hasło do GitHuba — nikt z zespołu go nie widzi, jest tylko między Tobą a GitHubem. Sveltia nie zna hasła, autoryzacja przebiega przez GitHub.
 
-**Zapomniałem hasła.** Na ekranie logowania kliknij „Forgot password?". Dostaniesz mail z linkiem do ustawienia nowego.
+**Zapomniałem hasła do GitHuba.** Wejdź na <https://github.com/login> i kliknij „Forgot password?" — GitHub przeprowadzi Cię przez resetowanie.
 
 **Mogę dodać zdjęcie do miejsca?** Aktualnie nie — pola zdjęć nie ma w formularzu. To celowe (proste rozwiązanie, mniej kłopotów). Jeśli to istotnie potrzebne, daj znać administratorowi.
 
