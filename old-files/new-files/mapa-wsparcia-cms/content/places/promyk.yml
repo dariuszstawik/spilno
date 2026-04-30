@@ -1,0 +1,63 @@
+emoji: 🌟
+
+name:
+  pl: Klub Seniora Promyk
+  uk: Клуб Сеньйора Promyk
+
+address:
+  pl: "Katowice, ul. Wita Stwosza 7, lokal 7, parter (Śródmieście)"
+  uk: "Катовіце, вул. Wita Stwosza 7, приміщення 7, перший поверх (Śródmieście)"
+
+phones:
+  - number: "696 534 526"
+
+emails: []
+
+hours:
+  pl: 15:00 - 17:00 (pon, czw)
+  uk: 15:00 - 17:00 (пн, чт)
+
+payment:
+  pl: zajęcia częściowo odpłatne
+  uk: заняття частково платні
+
+links: []
+
+details:
+  group_info:
+    - text:
+        pl: "Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak"
+        uk: "Клуб відкритий для прийому сеньйорів з України: так"
+    - text:
+        pl: "W zajęciach uczestniczą osoby z Ukrainy: nie"
+        uk: "У заняттях беруть участь особи з України: ні"
+    - text:
+        pl: "W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak"
+        uk: "У групі є особи, які говорять українською або російською: так"
+    - text:
+        pl: "W grupie są osoby rozumiejące język ukraiński lub rosyjski: tak"
+        uk: "У групі є особи, які розуміють українську або російську мову: так"
+
+  character:
+    pl: >-
+      Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka),
+      warsztaty manualne / rękodzielnicze
+    uk: >-
+      Товариський (зустрічі, розмови), рухова активність (наприклад,
+      гімнастика), майстер-класи ручної роботи / рукоділля
+
+  participation:
+    pl: Częściowo płatny
+    uk: Частково платна
+
+  frequency:
+    pl: Kilka razy w tygodniu
+    uk: Кілька разів на тиждень
+
+  accessibility:
+    pl: Miejsce dostępne dla osób z ograniczoną mobilnością
+    uk: Місце доступне для осіб з обмеженою мобільністю
+
+  registration:
+    pl: "Wymagane wcześniejsze zapisy: tak"
+    uk: "Потрібен попередній запис: так"
