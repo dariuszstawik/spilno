@@ -48,13 +48,13 @@ collections:
           - { label: "Tytuł główny", name: title, widget: string, i18n: true }
           - { label: "Podtytuł", name: subtitle, widget: string, i18n: true }
           - {
-              label: "Tytuł w fioletowym pudełku (zwykle język drugi)",
+              label: "Tytuł w fioletowej ramce (zwykle język drugi)",
               name: mirror_title,
               widget: string,
               i18n: true,
             }
           - {
-              label: "Podtytuł w fioletowym pudełku",
+              label: "Podtytuł w fioletowej ramce",
               name: mirror_subtitle,
               widget: string,
               i18n: true,
@@ -124,7 +124,7 @@ collections:
                 editor_components: [],
               },
               {
-                label: "Motto na końcu (białe pudełko, WIELKIE LITERY)",
+                label: "Tekst w ramce na końcu",
                 name: motto,
                 widget: text,
                 i18n: true,
