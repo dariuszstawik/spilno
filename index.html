@@ -11,6 +11,56 @@
          - marked zamienia Markdown z plików kroków na HTML -->
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+
+    <!-- Preload plików treści.
+         Bez tego przeglądarka czeka, aż wykona się JS i ten dopiero
+         każe pobrać pliki. Z preloadem startuje pobieranie zaraz po
+         doczytaniu HTML — równolegle do CSS, fontów i JS-a.
+         Później fetch() zastaje pliki w cache i zwraca natychmiast.
+
+         WAŻNE: lista poniżej musi być zsynchronizowana z CONTENT_MANIFEST
+         w skrypcie. Przy dodawaniu nowego miejsca przez CMS pamiętaj,
+         żeby tu też dopisać <link rel="preload" ...>.
+         (Sveltia nie modyfikuje tej listy automatycznie.) -->
+    <link rel="preload" as="fetch" crossorigin href="content/site/header.yml" />
+    <link
+      rel="preload"
+      as="fetch"
+      crossorigin
+      href="content/site/places_section.yml"
+    />
+    <link rel="preload" as="fetch" crossorigin href="content/steps/step-1.md" />
+    <link rel="preload" as="fetch" crossorigin href="content/steps/step-2.md" />
+    <link rel="preload" as="fetch" crossorigin href="content/steps/step-3.md" />
+    <link rel="preload" as="fetch" crossorigin href="content/steps/step-4.md" />
+    <link rel="preload" as="fetch" crossorigin href="content/steps/step-5.md" />
+    <link rel="preload" as="fetch" crossorigin href="content/steps/step-6.md" />
+    <link rel="preload" as="fetch" crossorigin href="content/steps/step-7.md" />
+    <link rel="preload" as="fetch" crossorigin href="content/steps/step-8.md" />
+    <link
+      rel="preload"
+      as="fetch"
+      crossorigin
+      href="content/places/spilno.yml"
+    />
+    <link
+      rel="preload"
+      as="fetch"
+      crossorigin
+      href="content/places/kafos.yml"
+    />
+    <link
+      rel="preload"
+      as="fetch"
+      crossorigin
+      href="content/places/promyk.yml"
+    />
+    <link
+      rel="preload"
+      as="fetch"
+      crossorigin
+      href="content/places/silesianka.yml"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -553,9 +603,10 @@
         places: [], // [ { ...miejsce }, ... ]
       };
 
-      // Pomocnik: pobiera plik tekstowy
+      // Pomocnik: bezpieczny fetch bez agresywnego no-cache (żeby przeglądarka
+      // mogła używać własnego cache i preloadowanych zasobów).
       async function fetchText(url) {
-        const r = await fetch(url, { cache: "no-cache" });
+        const r = await fetch(url);
         if (!r.ok)
           throw new Error(`Nie udało się wczytać ${url} (${r.status})`);
         return r.text();
@@ -571,52 +622,26 @@
       // Konwertuje Markdown na HTML (używane dla rozwinięcia kroków)
       function md2html(markdown) {
         if (!markdown) return "";
-        // marked.parse zwraca HTML, automatycznie obsługuje listy, **bold**,
-        // *italic*, [linki](https://...) — czyli dokładnie to, co dopuszcza
-        // konfiguracja rich text w CMS.
         return marked.parse(markdown, { breaks: false, gfm: true });
       }
 
-      // Ładuje wszystkie treści z folderu content/
-      async function loadContent() {
-        // 1. Strona główna (pliki YAML)
-        for (const name of CONTENT_MANIFEST.site) {
-          const yml = await fetchText(`content/site/${name}.yml`);
-          siteData.site[name] = jsyaml.load(yml);
+      // Pomocnik: parsuje już pobrany tekst kroku do gotowej struktury
+      function processStep(text) {
+        const { meta, body } = parseFrontMatter(text);
+        let bodyHtml;
+        if (meta.body && typeof meta.body === "object") {
+          // Sveltia w trybie i18n single_file zapisuje pole body jako
+          // obiekt {pl, uk} we front matterze
+          bodyHtml = { pl: md2html(meta.body.pl), uk: md2html(meta.body.uk) };
+          delete meta.body;
+        } else if (body) {
+          // Fallback: jeden wspólny Markdown poniżej front matter
+          const html = md2html(body);
+          bodyHtml = { pl: html, uk: html };
+        } else {
+          bodyHtml = { pl: "", uk: "" };
         }
-
-        // 2. Kroki (pliki MD z front matter)
-        siteData.steps = [];
-        for (const name of CONTENT_MANIFEST.steps) {
-          const text = await fetchText(`content/steps/${name}.md`);
-          const { meta, body } = parseFrontMatter(text);
-          // Kroki nie używają i18n na poziomie body (jeden Markdown,
-          // bo Sveltia przy "single_file" zapisuje wspólnie). W CMS
-          // body zwykle jest rozdzielone na pl/uk poprzez i18n: true.
-          // Sveltia w trybie single_file zapisuje pole body jako obiekt
-          // {pl: "...", uk: "..."} jeśli i18n jest aktywne dla całego
-          // pliku. Sprawdzamy co dostaliśmy:
-          let bodyHtml;
-          if (meta.body && typeof meta.body === "object") {
-            // body jest w meta jako obiekt {pl, uk}
-            bodyHtml = { pl: md2html(meta.body.pl), uk: md2html(meta.body.uk) };
-            delete meta.body;
-          } else if (body) {
-            // body jest poniżej front matter — wspólna treść (fallback)
-            const html = md2html(body);
-            bodyHtml = { pl: html, uk: html };
-          } else {
-            bodyHtml = { pl: "", uk: "" };
-          }
-          siteData.steps.push({ ...meta, body_html: bodyHtml });
-        }
-
-        // 3. Miejsca przyjazne (pliki YAML)
-        siteData.places = [];
-        for (const name of CONTENT_MANIFEST.places) {
-          const yml = await fetchText(`content/places/${name}.yml`);
-          siteData.places.push(jsyaml.load(yml));
-        }
+        return { ...meta, body_html: bodyHtml };
       }
 
       // ================================================================
@@ -1057,12 +1082,59 @@
       }
 
       // Inicjalizacja
+      // ----------------------------------------------------------------
+      // Strategia: progresywne renderowanie. Zamiast jednego "wszystko
+      // albo nic", dzielimy ładowanie na trzy niezależne strumienie.
+      // Każda kategoria treści renderuje się natychmiast gdy ma swoje
+      // pliki, nie czekając na pozostałe. Z punktu widzenia użytkownika
+      // strona "wypełnia się" w widocznych etapach, a nie wisi pusta
+      // czekając na ostatni request.
       window.addEventListener("load", async () => {
+        const savedLang = localStorage.getItem("preferredLang") || "pl";
+
+        // Najpierw ustaw język (decyduje który span PL/UK jest widoczny).
+        // Robimy to PRZED renderem, żeby nie było mignięcia z przełączeniem.
+        document.documentElement.lang = savedLang;
+        document.body.classList.remove("lang-pl");
+        document.body.classList.add("lang-" + savedLang);
+
+        // Trzy równoległe strumienie — każdy może zakończyć się niezależnie
+        const sitePromise = (async () => {
+          const texts = await Promise.all(
+            CONTENT_MANIFEST.site.map((n) =>
+              fetchText(`content/site/${n}.yml`),
+            ),
+          );
+          CONTENT_MANIFEST.site.forEach((name, i) => {
+            siteData.site[name] = jsyaml.load(texts[i]);
+          });
+          applyBindings();
+        })();
+
+        const placesPromise = (async () => {
+          const texts = await Promise.all(
+            CONTENT_MANIFEST.places.map((n) =>
+              fetchText(`content/places/${n}.yml`),
+            ),
+          );
+          siteData.places = texts.map((t) => jsyaml.load(t));
+          renderPlaces();
+        })();
+
+        const stepsPromise = (async () => {
+          const texts = await Promise.all(
+            CONTENT_MANIFEST.steps.map((n) =>
+              fetchText(`content/steps/${n}.md`),
+            ),
+          );
+          siteData.steps = texts.map(processStep);
+          renderSteps();
+        })();
+
         try {
-          await loadContent(); // 1. pobierz wszystkie pliki treści
-          applyBindings(); // 2. wstaw teksty header/places_section
-          renderSteps(); // 3. wygeneruj 8 kroków
-          renderPlaces(); // 4. wygeneruj karty miejsc
+          // Czekamy na wszystkie trzy, ale każdy mógł już wyrenderować
+          // swoją część zanim inne skończyły.
+          await Promise.all([sitePromise, placesPromise, stepsPromise]);
         } catch (e) {
           console.error("Błąd ładowania treści:", e);
           const main = document.querySelector("main") || document.body;
@@ -1077,26 +1149,19 @@
           );
           return;
         }
-        const savedLang = localStorage.getItem("preferredLang") || "pl";
+
+        // Po wyrenderowaniu kroków — ustaw stan przycisków języka,
+        // a potem narysuj ścieżkę SVG. Kolejność: język → ścieżka.
         setLang(savedLang);
 
-        // Rysowanie ścieżki — ze względu na asynchroniczne ładowanie treści
-        // i opóźnione style (Tailwind, czcionki), kropki kroków nabierają
-        // ostatecznej pozycji nie od razu. Dlatego przerysowujemy ścieżkę
-        // kilka razy: bezpośrednio po renderze, oraz po krótkich opóźnieniach,
-        // żeby złapać sytuacje gdy układ jeszcze "siada".
         drawPath();
         requestAnimationFrame(() => {
           drawPath();
-          // Po pierwszym poprawnym rysunku — pokaż SVG (do tej pory ukryte
-          // przez CSS, żeby uniknąć błysku pustej ścieżki przy lewym brzegu).
           document.getElementById("path-svg").classList.add("path-ready");
         });
         setTimeout(drawPath, 250);
         setTimeout(drawPath, 800);
 
-        // Gdy załadują się czcionki Google (zmieniają wymiary tekstów,
-        // a więc i pozycje kropek), przerysuj jeszcze raz.
         if (document.fonts && document.fonts.ready) {
           document.fonts.ready.then(drawPath);
         }
