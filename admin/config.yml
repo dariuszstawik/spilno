@@ -9,8 +9,8 @@
 # (np. mostkatowice/mapa-wsparcia) przed wgraniem na Netlify.
 backend:
   name: github
-  repo: TWOJ-UZYTKOWNIK/TWOJE-REPO
-  branch: main
+  repo: dariuszstawik/spilno
+  branch: cms
 
 # --- Magazyn mediów (na razie nieużywany, ale trzeba zadeklarować) ---
 media_folder: media
@@ -30,7 +30,6 @@ i18n:
 #  Kolekcje (sekcje w panelu CMS)
 # =====================================================================
 collections:
-
   # -------------------------------------------------------------------
   # 1) Strona główna — pojedyncze wpisy (file collection)
   # -------------------------------------------------------------------
@@ -46,12 +45,20 @@ collections:
         format: yml
         i18n: true
         fields:
-          - {label: "Tytuł główny", name: title, widget: string, i18n: true}
-          - {label: "Podtytuł", name: subtitle, widget: string, i18n: true}
-          - {label: "Tytuł w fioletowym pudełku (zwykle język drugi)",
-             name: mirror_title, widget: string, i18n: true}
-          - {label: "Podtytuł w fioletowym pudełku",
-             name: mirror_subtitle, widget: string, i18n: true}
+          - { label: "Tytuł główny", name: title, widget: string, i18n: true }
+          - { label: "Podtytuł", name: subtitle, widget: string, i18n: true }
+          - {
+              label: "Tytuł w fioletowym pudełku (zwykle język drugi)",
+              name: mirror_title,
+              widget: string,
+              i18n: true,
+            }
+          - {
+              label: "Podtytuł w fioletowym pudełku",
+              name: mirror_subtitle,
+              widget: string,
+              i18n: true,
+            }
 
       - name: places_section
         label: Sekcja "Przyjazne Miejsca" — nagłówek
@@ -59,9 +66,13 @@ collections:
         format: yml
         i18n: true
         fields:
-          - {label: "Tytuł sekcji",
-             name: title, widget: string, i18n: true,
-             hint: "Domyślnie: 'Przyjazne Miejsca' / 'Дружні місця'"}
+          - {
+              label: "Tytuł sekcji",
+              name: title,
+              widget: string,
+              i18n: true,
+              hint: "Domyślnie: 'Przyjazne Miejsca' / 'Дружні місця'",
+            }
 
   # -------------------------------------------------------------------
   # 2) Kroki ścieżki — stała struktura, 8 plików
@@ -72,46 +83,111 @@ collections:
     icon: list_alt
     i18n: true
     files:
-      - {name: step-1, label: "Krok 1 — Wybierz klub / miejsce",
-         file: content/steps/step-1.md, format: yaml-frontmatter, i18n: true,
-         fields: &step_fields [
-           {label: "Numer kroku", name: number, widget: number,
-            value_type: int, min: 1, max: 99, i18n: duplicate},
-           {label: "Emoji w bąbelku", name: emoji, widget: string,
-            i18n: duplicate,
-            hint: "Pojedynczy znak emoji, np. 📍 🤝 📞"},
-           {label: "Tytuł kroku", name: title, widget: string, i18n: true},
-           {label: "Krótki opis (pod tytułem, pogrubiony)",
-            name: short_description, widget: text, i18n: true},
-           {label: "Rozwinięcie (treść po kliknięciu \"Zobacz więcej\")",
-            name: body, widget: markdown, i18n: true,
-            modes: [rich_text],
-            buttons: [bold, italic, link, bulleted-list, numbered-list],
-            editor_components: []},
-           {label: "Motto na końcu (białe pudełko, WIELKIE LITERY)",
-            name: motto, widget: text, i18n: true, required: false}
-         ]}
-      - {name: step-2, label: "Krok 2 — Poproś o pomoc",
-         file: content/steps/step-2.md, format: yaml-frontmatter, i18n: true,
-         fields: *step_fields}
-      - {name: step-3, label: "Krok 3 — Skontaktuj się z klubem",
-         file: content/steps/step-3.md, format: yaml-frontmatter, i18n: true,
-         fields: *step_fields}
-      - {name: step-4, label: "Krok 4 — Karta bezpieczeństwa",
-         file: content/steps/step-4.md, format: yaml-frontmatter, i18n: true,
-         fields: *step_fields}
-      - {name: step-5, label: "Krok 5 — Przygotuj się do wyjścia",
-         file: content/steps/step-5.md, format: yaml-frontmatter, i18n: true,
-         fields: *step_fields}
-      - {name: step-6, label: "Krok 6 — Podczas dojazdu",
-         file: content/steps/step-6.md, format: yaml-frontmatter, i18n: true,
-         fields: *step_fields}
-      - {name: step-7, label: "Krok 7 — Na miejscu",
-         file: content/steps/step-7.md, format: yaml-frontmatter, i18n: true,
-         fields: *step_fields}
-      - {name: step-8, label: "Krok 8 — Po spotkaniu",
-         file: content/steps/step-8.md, format: yaml-frontmatter, i18n: true,
-         fields: *step_fields}
+      - {
+          name: step-1,
+          label: "Krok 1 — Wybierz klub / miejsce",
+          file: content/steps/step-1.md,
+          format: yaml-frontmatter,
+          i18n: true,
+          fields:
+            &step_fields [
+              {
+                label: "Numer kroku",
+                name: number,
+                widget: number,
+                value_type: int,
+                min: 1,
+                max: 99,
+                i18n: duplicate,
+              },
+              {
+                label: "Emoji w bąbelku",
+                name: emoji,
+                widget: string,
+                i18n: duplicate,
+                hint: "Pojedynczy znak emoji, np. 📍 🤝 📞",
+              },
+              { label: "Tytuł kroku", name: title, widget: string, i18n: true },
+              {
+                label: "Krótki opis (pod tytułem, pogrubiony)",
+                name: short_description,
+                widget: text,
+                i18n: true,
+              },
+              {
+                label: 'Rozwinięcie (treść po kliknięciu "Zobacz więcej")',
+                name: body,
+                widget: markdown,
+                i18n: true,
+                modes: [rich_text],
+                buttons: [bold, italic, link, bulleted-list, numbered-list],
+                editor_components: [],
+              },
+              {
+                label: "Motto na końcu (białe pudełko, WIELKIE LITERY)",
+                name: motto,
+                widget: text,
+                i18n: true,
+                required: false,
+              },
+            ],
+        }
+      - {
+          name: step-2,
+          label: "Krok 2 — Poproś o pomoc",
+          file: content/steps/step-2.md,
+          format: yaml-frontmatter,
+          i18n: true,
+          fields: *step_fields,
+        }
+      - {
+          name: step-3,
+          label: "Krok 3 — Skontaktuj się z klubem",
+          file: content/steps/step-3.md,
+          format: yaml-frontmatter,
+          i18n: true,
+          fields: *step_fields,
+        }
+      - {
+          name: step-4,
+          label: "Krok 4 — Karta bezpieczeństwa",
+          file: content/steps/step-4.md,
+          format: yaml-frontmatter,
+          i18n: true,
+          fields: *step_fields,
+        }
+      - {
+          name: step-5,
+          label: "Krok 5 — Przygotuj się do wyjścia",
+          file: content/steps/step-5.md,
+          format: yaml-frontmatter,
+          i18n: true,
+          fields: *step_fields,
+        }
+      - {
+          name: step-6,
+          label: "Krok 6 — Podczas dojazdu",
+          file: content/steps/step-6.md,
+          format: yaml-frontmatter,
+          i18n: true,
+          fields: *step_fields,
+        }
+      - {
+          name: step-7,
+          label: "Krok 7 — Na miejscu",
+          file: content/steps/step-7.md,
+          format: yaml-frontmatter,
+          i18n: true,
+          fields: *step_fields,
+        }
+      - {
+          name: step-8,
+          label: "Krok 8 — Po spotkaniu",
+          file: content/steps/step-8.md,
+          format: yaml-frontmatter,
+          i18n: true,
+          fields: *step_fields,
+        }
 
   # -------------------------------------------------------------------
   # 3) Przyjazne miejsca — wiele plików, można dodawać/usuwać
@@ -121,84 +197,176 @@ collections:
     label_singular: Miejsce
     icon: place
     folder: content/places
-    create: true               # współpracownik może dodawać nowe miejsca
-    delete: true               # i usuwać istniejące
+    create: true # współpracownik może dodawać nowe miejsca
+    delete: true # i usuwać istniejące
     extension: yml
     format: yml
     i18n: true
     sortable_fields: [name]
     summary: "{{emoji}} {{name}}"
     fields:
-      - {label: "Emoji w nagłówku karty", name: emoji, widget: string,
-         i18n: duplicate,
-         hint: "Pojedynczy znak emoji, np. 🏠 ☕ 🌟 🌳"}
-      - {label: "Nazwa miejsca", name: name, widget: string, i18n: true}
-      - {label: "Adres", name: address, widget: text, i18n: true,
-         hint: "Pełny adres z dzielnicą, np. 'Katowice, ul. Wita Stwosza 7 (Śródmieście)'"}
+      - {
+          label: "Emoji w nagłówku karty",
+          name: emoji,
+          widget: string,
+          i18n: duplicate,
+          hint: "Pojedynczy znak emoji, np. 🏠 ☕ 🌟 🌳",
+        }
+      - { label: "Nazwa miejsca", name: name, widget: string, i18n: true }
+      - {
+          label: "Adres",
+          name: address,
+          widget: text,
+          i18n: true,
+          hint: "Pełny adres z dzielnicą, np. 'Katowice, ul. Wita Stwosza 7 (Śródmieście)'",
+        }
 
       # Telefony — lista, ten sam zestaw numerów po PL i UK
-      - {label: "Telefony", name: phones, widget: list, required: false,
-         i18n: duplicate,
-         field: {label: "Numer", name: number, widget: string},
-         hint: "Każdy numer w osobnym wpisie. Można zostawić puste."}
+      - {
+          label: "Telefony",
+          name: phones,
+          widget: list,
+          required: false,
+          i18n: duplicate,
+          field: { label: "Numer", name: number, widget: string },
+          hint: "Każdy numer w osobnym wpisie. Można zostawić puste.",
+        }
 
       # E-maile — lista, też duplicate
-      - {label: "Adresy e-mail", name: emails, widget: list, required: false,
-         i18n: duplicate,
-         field: {label: "E-mail", name: email, widget: string,
-                 pattern: ['^[^@\s]+@[^@\s]+\.[^@\s]+$', 'Wprowadź poprawny adres e-mail']},
-         hint: "Każdy adres w osobnym wpisie."}
+      - {
+          label: "Adresy e-mail",
+          name: emails,
+          widget: list,
+          required: false,
+          i18n: duplicate,
+          field:
+            {
+              label: "E-mail",
+              name: email,
+              widget: string,
+              pattern:
+                [
+                  '^[^@\s]+@[^@\s]+\.[^@\s]+$',
+                  "Wprowadź poprawny adres e-mail",
+                ],
+            },
+          hint: "Każdy adres w osobnym wpisie.",
+        }
 
-      - {label: "Godziny otwarcia / kontaktu", name: hours, widget: string,
-         i18n: true,
-         hint: "Np. '9:00 - 17:00 (pon-pt)'"}
-      - {label: "Odpłatność (krótki opis na karcie)", name: payment,
-         widget: string, i18n: true,
-         hint: "Np. 'zajęcia częściowo odpłatne'"}
+      - {
+          label: "Godziny otwarcia / kontaktu",
+          name: hours,
+          widget: string,
+          i18n: true,
+          hint: "Np. '9:00 - 17:00 (pon-pt)'",
+        }
+      - {
+          label: "Odpłatność (krótki opis na karcie)",
+          name: payment,
+          widget: string,
+          i18n: true,
+          hint: "Np. 'zajęcia częściowo odpłatne'",
+        }
 
       # Linki — lista. Lista jako CAŁOŚĆ jest duplicate (te same linki
       # dla obu języków), ale subfield 'label' wewnątrz jest tłumaczony.
-      - {label: "Linki (WWW, Facebook itp.)", name: links, widget: list,
-         required: false,
-         i18n: duplicate,
-         summary: "{{type}} — {{url}}",
-         fields: [
-           {label: "Typ", name: type, widget: select,
-            i18n: duplicate,
-            options: [
-              {label: "Strona WWW", value: website},
-              {label: "Facebook", value: facebook}
-            ]},
-           {label: "Adres URL", name: url, widget: string,
-            i18n: duplicate,
-            pattern: ['^https?://', 'Adres musi zaczynać się od http:// lub https://']},
-           {label: "Etykieta linku (co widzi użytkownik)",
-            name: label, widget: string, i18n: true}
-         ]}
+      - {
+          label: "Linki (WWW, Facebook itp.)",
+          name: links,
+          widget: list,
+          required: false,
+          i18n: duplicate,
+          summary: "{{type}} — {{url}}",
+          fields:
+            [
+              {
+                label: "Typ",
+                name: type,
+                widget: select,
+                i18n: duplicate,
+                options:
+                  [
+                    { label: "Strona WWW", value: website },
+                    { label: "Facebook", value: facebook },
+                  ],
+              },
+              {
+                label: "Adres URL",
+                name: url,
+                widget: string,
+                i18n: duplicate,
+                pattern:
+                  [
+                    "^https?://",
+                    "Adres musi zaczynać się od http:// lub https://",
+                  ],
+              },
+              {
+                label: "Etykieta linku (co widzi użytkownik)",
+                name: label,
+                widget: string,
+                i18n: true,
+              },
+            ],
+        }
 
       # Szczegóły rozwijane po kliknięciu "Zobacz więcej"
-      - {label: "Szczegóły (rozwijane na karcie)", name: details,
-         widget: object, i18n: true,
-         fields: [
-           {label: "Informacje o grupie", name: group_info, widget: list,
-            i18n: true,
-            label_singular: "Punkt",
-            field: {label: "Treść punktu", name: text, widget: string,
-                    i18n: true},
-            hint: "Każdy punkt to jedno zdanie, np. 'Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak'"},
+      - {
+          label: "Szczegóły (rozwijane na karcie)",
+          name: details,
+          widget: object,
+          i18n: true,
+          fields:
+            [
+              {
+                label: "Informacje o grupie",
+                name: group_info,
+                widget: list,
+                i18n: true,
+                label_singular: "Punkt",
+                field:
+                  {
+                    label: "Treść punktu",
+                    name: text,
+                    widget: string,
+                    i18n: true,
+                  },
+                hint: "Każdy punkt to jedno zdanie, np. 'Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak'",
+              },
 
-           {label: "Charakter spotkań", name: character, widget: text,
-            i18n: true,
-            hint: "Krótki opis w jednym akapicie. Można wymieniać typy zajęć po przecinku."},
-           {label: "Udział w zajęciach", name: participation, widget: string,
-            i18n: true,
-            hint: "Np. 'Bezpłatny', 'Częściowo płatny'"},
-           {label: "Częstotliwość spotkań", name: frequency, widget: string,
-            i18n: true,
-            hint: "Np. 'Raz w tygodniu', 'Kilka razy w miesiącu'"},
-           {label: "Dostępność", name: accessibility, widget: text,
-            i18n: true},
-           {label: "Zapisy", name: registration, widget: text,
-            i18n: true,
-            hint: "Np. 'Wymagane wcześniejsze zapisy: tak'"}
-         ]}
+              {
+                label: "Charakter spotkań",
+                name: character,
+                widget: text,
+                i18n: true,
+                hint: "Krótki opis w jednym akapicie. Można wymieniać typy zajęć po przecinku.",
+              },
+              {
+                label: "Udział w zajęciach",
+                name: participation,
+                widget: string,
+                i18n: true,
+                hint: "Np. 'Bezpłatny', 'Częściowo płatny'",
+              },
+              {
+                label: "Częstotliwość spotkań",
+                name: frequency,
+                widget: string,
+                i18n: true,
+                hint: "Np. 'Raz w tygodniu', 'Kilka razy w miesiącu'",
+              },
+              {
+                label: "Dostępność",
+                name: accessibility,
+                widget: text,
+                i18n: true,
+              },
+              {
+                label: "Zapisy",
+                name: registration,
+                widget: text,
+                i18n: true,
+                hint: "Np. 'Wymagane wcześniejsze zapisy: tak'",
+              },
+            ],
+        }
