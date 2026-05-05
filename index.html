@@ -612,7 +612,7 @@
       // GitHub API (60 requestów na godzinę dla anonimowych wywołań).
 
       const PLACES_CACHE_KEY = "_places_list_cache";
-      const PLACES_CACHE_TTL = 5 * 60 * 1000; // 5 minut
+      const PLACES_CACHE_TTL = 60 * 1000; // 5 minut
 
       async function loadGithubConfig() {
         try {
@@ -1354,30 +1354,83 @@
           applyBindings();
         })();
 
+        // const placesPromise = (async () => {
+        //   // Pobierz aktualną listę miejsc — dynamicznie z GitHub API,
+        //   // z fallbackiem do CONTENT_MANIFEST.places
+        //   const githubConfig = await loadGithubConfig();
+        //   const placesList = await fetchPlacesList(githubConfig);
+
+        //   const texts = await Promise.all(
+        //     placesList.map((n) => fetchText(`content/places/${n}.yml`)),
+        //   );
+        //   siteData.places = texts.map((t) => {
+        //     const raw = jsyaml.load(t);
+        //     const transposed = transposeI18n(raw);
+        //     // Pola "duplicate" spłaszczamy do skalarów. Renderer oczekuje:
+        //     // - emoji jako string
+        //     // - phones[*].number jako string
+        //     // - emails[*].email jako string
+        //     // - links[*].url i links[*].type jako stringi (tylko link.label
+        //     //   pozostaje obiektem {pl, uk} bo jest tłumaczona)
+        //     return flattenDuplicates(transposed, [
+        //       "emoji",
+        //       "phones.*", // <-- DODAJ — dla nowego formatu Sveltii (skalar)
+        //       "phones.*.number", //     dla starego formatu (obiekt z polem number)
+        //       "emails.*", // <-- DODAJ — dla nowego formatu (skalar)
+        //       "emails.*.email", //     dla starego formatu
+        //       "links.*.type",
+        //       "links.*.url",
+        //     ]);
+        //   });
+        //   renderPlaces();
+        // })();
+
         const placesPromise = (async () => {
           // Pobierz aktualną listę miejsc — dynamicznie z GitHub API,
           // z fallbackiem do CONTENT_MANIFEST.places
           const githubConfig = await loadGithubConfig();
-          const placesList = await fetchPlacesList(githubConfig);
+          let placesList = await fetchPlacesList(githubConfig);
 
-          const texts = await Promise.all(
+          // Tolerancyjne ładowanie — Promise.allSettled zamiast Promise.all.
+          // Jeśli któryś plik nie istnieje (np. cache GitHub API jest nieświeży
+          // po usunięciu miejsca przez CMS), pomijamy go i ładujemy resztę,
+          // zamiast wywalać całą stronę.
+          const results = await Promise.allSettled(
             placesList.map((n) => fetchText(`content/places/${n}.yml`)),
           );
-          siteData.places = texts.map((t) => {
+
+          const successfulTexts = [];
+          let hadFailures = false;
+
+          results.forEach((result, i) => {
+            if (result.status === "fulfilled") {
+              successfulTexts.push(result.value);
+            } else {
+              hadFailures = true;
+              console.warn(
+                `Pominięto plik content/places/${placesList[i]}.yml — ` +
+                  `prawdopodobnie nie istnieje. ${result.reason?.message || ""}`,
+              );
+            }
+          });
+
+          // Jeśli któryś plik się nie wczytał, cache GitHub API kłamie —
+          // czyścimy go, żeby następne ładowanie zaczęło od świeżej listy.
+          if (hadFailures) {
+            try {
+              sessionStorage.removeItem(PLACES_CACHE_KEY);
+            } catch (e) {}
+          }
+
+          siteData.places = successfulTexts.map((t) => {
             const raw = jsyaml.load(t);
             const transposed = transposeI18n(raw);
-            // Pola "duplicate" spłaszczamy do skalarów. Renderer oczekuje:
-            // - emoji jako string
-            // - phones[*].number jako string
-            // - emails[*].email jako string
-            // - links[*].url i links[*].type jako stringi (tylko link.label
-            //   pozostaje obiektem {pl, uk} bo jest tłumaczona)
             return flattenDuplicates(transposed, [
               "emoji",
-              "phones.*", // <-- DODAJ — dla nowego formatu Sveltii (skalar)
-              "phones.*.number", //     dla starego formatu (obiekt z polem number)
-              "emails.*", // <-- DODAJ — dla nowego formatu (skalar)
-              "emails.*.email", //     dla starego formatu
+              "phones.*",
+              "phones.*.number",
+              "emails.*",
+              "emails.*.email",
               "links.*.type",
               "links.*.url",
             ]);
