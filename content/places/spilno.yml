@@ -2,10 +2,8 @@ pl:
   emoji: 🏠
   name: Spilno znaczy Wspólnie
   address: Katowice, ul. Gustawa Morcinka 5 (Koszutka)
-  phones:
-    - 535 279 285
-  emails:
-    - spilno@mostkatowice.pl
+  phones: []
+  emails: []
   hours: 9:00 - 17:00 (pon-pt)
   payment: zajęcia częściowo odpłatne
   links:
@@ -27,6 +25,8 @@ uk:
   emoji: 🏠
   name: Spilno znaczy Wspólnie
   address: Катовіце, вул. Густава Морцінка 5 (Кошутка)
+  phones: []
+  emails: []
   hours: 9:00 - 17:00 (пн-пт)
   payment: заняття частково платні
   links:
@@ -44,7 +44,3 @@ uk:
       - text: 'У заняттях беруть участь особи з України: так'
       - text: 'У групі є особи, які розмовляють українською або російською мовою: так'
       - text: 'У групі є особи, які розуміють українську або російську мову: так'
-  emails:
-    - email: spilno@mostkatowice.pl
-  phones:
-    - number: 535 279 285
