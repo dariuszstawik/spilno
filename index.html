@@ -23,7 +23,12 @@
          żeby tu też dopisać <link rel="preload" ...>.
          (Sveltia nie modyfikuje tej listy automatycznie.) -->
     <link rel="preload" as="fetch" crossorigin href="content/site/header.yml" />
-    <link rel="preload" as="fetch" crossorigin href="content/site/places_section.yml" />
+    <link
+      rel="preload"
+      as="fetch"
+      crossorigin
+      href="content/site/places_section.yml"
+    />
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-1.md" />
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-2.md" />
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-3.md" />
@@ -32,10 +37,30 @@
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-6.md" />
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-7.md" />
     <link rel="preload" as="fetch" crossorigin href="content/steps/step-8.md" />
-    <link rel="preload" as="fetch" crossorigin href="content/places/spilno.yml" />
-    <link rel="preload" as="fetch" crossorigin href="content/places/kafos.yml" />
-    <link rel="preload" as="fetch" crossorigin href="content/places/promyk.yml" />
-    <link rel="preload" as="fetch" crossorigin href="content/places/silesianka.yml" />
+    <link
+      rel="preload"
+      as="fetch"
+      crossorigin
+      href="content/places/spilno.yml"
+    />
+    <link
+      rel="preload"
+      as="fetch"
+      crossorigin
+      href="content/places/kafos.yml"
+    />
+    <link
+      rel="preload"
+      as="fetch"
+      crossorigin
+      href="content/places/promyk.yml"
+    />
+    <link
+      rel="preload"
+      as="fetch"
+      crossorigin
+      href="content/places/silesianka.yml"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -221,17 +246,29 @@
         margin-bottom: 1.5rem;
         padding-left: 1.5rem;
       }
-      .prose-step ul { list-style: disc; }
-      .prose-step ol { list-style: decimal; }
-      .prose-step li { margin-bottom: 0.5rem; }
-      .prose-step strong { font-weight: 700; }
-      .prose-step em { font-style: italic; }
+      .prose-step ul {
+        list-style: disc;
+      }
+      .prose-step ol {
+        list-style: decimal;
+      }
+      .prose-step li {
+        margin-bottom: 0.5rem;
+      }
+      .prose-step strong {
+        font-weight: 700;
+      }
+      .prose-step em {
+        font-style: italic;
+      }
       .prose-step a {
         color: #3b2752;
         text-decoration: underline;
         word-break: break-word;
       }
-      .prose-step a:hover { color: #573a70; }
+      .prose-step a:hover {
+        color: #573a70;
+      }
     </style>
   </head>
   <body class="text-gray-800 text-lg antialiased relative lang-pl">
@@ -358,7 +395,6 @@
 
             <!-- STEPS — generowane dynamicznie z plików w content/steps/ -->
             <div id="steps-container"></div>
-
           </div>
         </main>
 
@@ -546,26 +582,121 @@
       const CONTENT_MANIFEST = {
         site: ["header", "places_section"],
         steps: [
-          "step-1", "step-2", "step-3", "step-4",
-          "step-5", "step-6", "step-7", "step-8",
+          "step-1",
+          "step-2",
+          "step-3",
+          "step-4",
+          "step-5",
+          "step-6",
+          "step-7",
+          "step-8",
         ],
-        // Lista miejsc — kolejność tutaj decyduje o kolejności na stronie.
-        // Aby ukryć miejsce nie usuwając pliku — zakomentuj jego wpis.
+        // Lista miejsc — używana tylko jako FALLBACK, gdy nie uda się pobrać
+        // dynamicznej listy z GitHub API. W normalnej sytuacji aktualna lista
+        // miejsc pobierana jest z folderu content/places/ przez funkcję
+        // fetchPlacesList() (patrz niżej).
         places: ["spilno", "kafos", "promyk", "silesianka"],
       };
 
+      // ================================================================
+      // DYNAMICZNA LISTA MIEJSC (przez GitHub API)
+      // ================================================================
+      // Hardcoded CONTENT_MANIFEST.places nie odzwierciedla rzeczywistej
+      // zawartości folderu, gdy edytorzy dodają/usuwają miejsca przez CMS.
+      // Rozwiązanie: pytamy GitHub Contents API o aktualną listę plików.
+      //
+      // Konfiguracja repo pochodzi z admin/config.yml — ten sam plik, który
+      // czyta Sveltia. Dzięki temu jeden punkt prawdy.
+      //
+      // Cache w sessionStorage (5 minut) chroni przed wybiciem rate limitu
+      // GitHub API (60 requestów na godzinę dla anonimowych wywołań).
+
+      const PLACES_CACHE_KEY = "_places_list_cache";
+      const PLACES_CACHE_TTL = 5 * 60 * 1000; // 5 minut
+
+      async function loadGithubConfig() {
+        try {
+          const text = await fetchText("admin/config.yml");
+          const cfg = jsyaml.load(text);
+          return {
+            repo: cfg?.backend?.repo,
+            branch: cfg?.backend?.branch || "main",
+          };
+        } catch (e) {
+          console.warn("Nie udało się odczytać admin/config.yml:", e);
+          return null;
+        }
+      }
+
+      async function fetchPlacesList(githubConfig) {
+        // Sprawdź cache
+        try {
+          const cached = sessionStorage.getItem(PLACES_CACHE_KEY);
+          if (cached) {
+            const { list, timestamp } = JSON.parse(cached);
+            if (Date.now() - timestamp < PLACES_CACHE_TTL) {
+              return list;
+            }
+          }
+        } catch (e) {
+          // sessionStorage może być wyłączony (np. tryb incognito w niektórych
+          // przeglądarkach) — wtedy po prostu jedziemy bez cache
+        }
+
+        // Walidacja konfiguracji — placeholder oznacza że ktoś nie podmienił
+        if (
+          !githubConfig?.repo ||
+          githubConfig.repo.includes("TWOJ-UZYTKOWNIK")
+        ) {
+          console.warn(
+            "Brak konfiguracji repo w admin/config.yml — używam fallback manifestu",
+          );
+          return CONTENT_MANIFEST.places;
+        }
+
+        const { repo, branch } = githubConfig;
+        const url = `https://api.github.com/repos/${repo}/contents/content/places?ref=${branch}`;
+
+        try {
+          const r = await fetch(url);
+          if (!r.ok) {
+            console.warn(`GitHub API zwrócił ${r.status} — używam fallbacku`);
+            return CONTENT_MANIFEST.places;
+          }
+          const items = await r.json();
+          const list = items
+            .filter((it) => it.type === "file" && it.name.endsWith(".yml"))
+            .map((it) => it.name.replace(/\.yml$/, ""))
+            .sort(); // alfabetyczna kolejność — możesz zmienić wedle uznania
+
+          // Zapisz do cache
+          try {
+            sessionStorage.setItem(
+              PLACES_CACHE_KEY,
+              JSON.stringify({ list, timestamp: Date.now() }),
+            );
+          } catch (e) {}
+
+          return list;
+        } catch (e) {
+          console.warn("Błąd GitHub API, używam fallbacku:", e);
+          return CONTENT_MANIFEST.places;
+        }
+      }
+
       // Globalny obiekt z załadowaną treścią — wypełniany przez loadContent()
       const siteData = {
-        site: {},      // { header: {...}, places_section: {...} }
-        steps: [],     // [ { ...frontmatter, body_html: {pl, uk} }, ... ]
-        places: [],    // [ { ...miejsce }, ... ]
+        site: {}, // { header: {...}, places_section: {...} }
+        steps: [], // [ { ...frontmatter, body_html: {pl, uk} }, ... ]
+        places: [], // [ { ...miejsce }, ... ]
       };
 
       // Pomocnik: bezpieczny fetch bez agresywnego no-cache (żeby przeglądarka
       // mogła używać własnego cache i preloadowanych zasobów).
       async function fetchText(url) {
         const r = await fetch(url);
-        if (!r.ok) throw new Error(`Nie udało się wczytać ${url} (${r.status})`);
+        if (!r.ok)
+          throw new Error(`Nie udało się wczytać ${url} (${r.status})`);
         return r.text();
       }
 
@@ -666,9 +797,7 @@
         // Ujednolicamy: emoji/number są transponowane jako {pl, uk}
         // ale w rendererze pierwsze co dzieje się to zwykły dostęp typu
         // step.emoji (skalar). Dlatego pola "duplicate" spłaszczamy do skalara.
-        const flattened = flattenDuplicates(transposed, [
-          "number", "emoji",
-        ]);
+        const flattened = flattenDuplicates(transposed, ["number", "emoji"]);
         return { ...flattened, body_html: bodyHtml };
       }
 
@@ -714,7 +843,6 @@
         }
       }
 
-
       // ================================================================
       // BINDOWANIE PROSTYCH POL (data-bind="header.title.pl" itp.)
       // ================================================================
@@ -740,7 +868,9 @@
         const numberCol = isOdd
           ? "items-start md:items-center justify-center md:justify-end pt-4 md:pt-0 md:pr-10"
           : "items-start md:items-center justify-center md:justify-start pt-4 md:pt-0 md:pl-10";
-        const cardCol = isOdd ? "pr-2 md:pr-0 pl-4 md:pl-0" : "pr-2 md:pl-0 pl-4 md:pr-0";
+        const cardCol = isOdd
+          ? "pr-2 md:pr-0 pl-4 md:pl-0"
+          : "pr-2 md:pl-0 pl-4 md:pr-0";
         const emojiPos = isOdd ? "-right-4" : "-left-4";
         const emojiAnim = isOdd ? "animate-float-slow" : "animate-float-fast";
         const isLast = index === siteData.steps.length - 1;
@@ -748,12 +878,13 @@
         const dotPulse = isLast ? "animate-pulse-glow" : "";
         const contentId = `step-${step.number}-content`;
 
-        const motto = (step.motto && (step.motto.pl || step.motto.uk))
-          ? `<div class="bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm text-base md:text-lg text-center uppercase leading-snug mt-4">
+        const motto =
+          step.motto && (step.motto.pl || step.motto.uk)
+            ? `<div class="bg-white text-[#5d3b7d] font-black py-4 px-5 rounded-2xl border-2 border-[#e3d0f5] shadow-sm text-base md:text-lg text-center uppercase leading-snug mt-4">
               <span class="pl">${escapeHtml(step.motto.pl || "")}</span>
               <span class="uk">${escapeHtml(step.motto.uk || "")}</span>
             </div>`
-          : "";
+            : "";
 
         return `
           <div class="flex w-full ${containerMb} relative z-10 ${flexDir}">
@@ -798,7 +929,6 @@
           .join("");
         lucide.createIcons();
       }
-
 
       // ================================================================
       // RENDEROWANIE KART MIEJSC
@@ -886,7 +1016,11 @@
       }
 
       // Pomocnik: akapit dwujęzyczny
-      function bilingualParagraph(pl, uk, classes = "text-base leading-relaxed") {
+      function bilingualParagraph(
+        pl,
+        uk,
+        classes = "text-base leading-relaxed",
+      ) {
         return `
           <p class="${classes} pl">${escapeHtml(pl)}</p>
           <p class="${classes} uk">${escapeHtml(uk)}</p>`;
@@ -909,17 +1043,19 @@
         const linksHtml = (place.links || []).map(linkRow).join("");
 
         // --- Lista informacji o grupie (bullety) ---
-        const groupInfoList = (place.details.group_info || place.details.groupInfo || [])
-          .map(
-            (item) => {
-              // Wspieramy starą strukturę {pl, uk} oraz nową {text: {pl, uk}}
-              const pl = item.text?.pl ?? item.pl ?? "";
-              const uk = item.text?.uk ?? item.uk ?? "";
-              return `
+        const groupInfoList = (
+          place.details.group_info ||
+          place.details.groupInfo ||
+          []
+        )
+          .map((item) => {
+            // Wspieramy starą strukturę {pl, uk} oraz nową {text: {pl, uk}}
+            const pl = item.text?.pl ?? item.pl ?? "";
+            const uk = item.text?.uk ?? item.uk ?? "";
+            return `
                 <li class="pl">${escapeHtml(pl)}</li>
                 <li class="uk">${escapeHtml(uk)}</li>`;
-            },
-          )
+          })
           .join("");
 
         // --- Zawartość akordeonu (szczegóły) ---
@@ -1164,7 +1300,9 @@
         // Trzy równoległe strumienie — każdy może zakończyć się niezależnie
         const sitePromise = (async () => {
           const texts = await Promise.all(
-            CONTENT_MANIFEST.site.map((n) => fetchText(`content/site/${n}.yml`)),
+            CONTENT_MANIFEST.site.map((n) =>
+              fetchText(`content/site/${n}.yml`),
+            ),
           );
           CONTENT_MANIFEST.site.forEach((name, i) => {
             const raw = jsyaml.load(texts[i]);
@@ -1175,8 +1313,13 @@
         })();
 
         const placesPromise = (async () => {
+          // Pobierz aktualną listę miejsc — dynamicznie z GitHub API,
+          // z fallbackiem do CONTENT_MANIFEST.places
+          const githubConfig = await loadGithubConfig();
+          const placesList = await fetchPlacesList(githubConfig);
+
           const texts = await Promise.all(
-            CONTENT_MANIFEST.places.map((n) => fetchText(`content/places/${n}.yml`)),
+            placesList.map((n) => fetchText(`content/places/${n}.yml`)),
           );
           siteData.places = texts.map((t) => {
             const raw = jsyaml.load(t);
@@ -1200,7 +1343,9 @@
 
         const stepsPromise = (async () => {
           const texts = await Promise.all(
-            CONTENT_MANIFEST.steps.map((n) => fetchText(`content/steps/${n}.md`)),
+            CONTENT_MANIFEST.steps.map((n) =>
+              fetchText(`content/steps/${n}.md`),
+            ),
           );
           siteData.steps = texts.map(processStep);
           renderSteps();
