@@ -1,5 +1,5 @@
 pl:
-  emoji: ✨
+  emoji: A
   name: Testowa miejsce
   address: Katowice, ul. Wita Stwosza 7 (Śródmieście)
   phones:
@@ -22,7 +22,7 @@ pl:
     accessibility: '123'
     registration: '123'
 uk:
-  emoji: ✨
+  emoji: A
   name: Testowa miejsce
   address: Katowice, ul. Wita Stwosza 7 (Śródmieście)
   phones:
