@@ -4,7 +4,8 @@ pl:
   address: Katowice, ul. Wita Stwosza 7 (Śródmieście)
   phones:
     - 664 053 579
-  emails: []
+  emails:
+    - dariusz.stawik@gmail.com
   hours: 9:00-17:00
   payment: Brak
   links:
@@ -26,7 +27,8 @@ uk:
   address: Katowice, ul. Wita Stwosza 7 (Śródmieście)
   phones:
     - ''
-  emails: []
+  emails:
+    - ''
   hours: 9:00-17:00
   payment: Brak
   links:
