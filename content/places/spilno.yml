@@ -3,9 +3,9 @@ pl:
   name: Spilno znaczy Wspólnie
   address: Katowice, ul. Gustawa Morcinka 5 (Koszutka)
   phones:
-    - number: 535 279 285
+    - 535 279 285
   emails:
-    - email: spilno@mostkatowice.pl
+    - spilno@mostkatowice.pl
   hours: 9:00 - 17:00 (pon-pt)
   payment: zajęcia częściowo odpłatne
   links:
@@ -13,25 +13,20 @@ pl:
       url: https://www.facebook.com/groups/spilnokatowice/
       label: Spilno znaczy Wspólnie
   details:
+    character: Towarzyski (spotkania, rozmowy), warsztaty manualne / rękodzielnicze, edukacyjny (wykłady, rozwój zainteresowań), wsparcie i integracja
+    participation: Bezpłatny
+    frequency: Raz w tygodniu
+    accessibility: Miejsce częściowo dostępne dla osób z ograniczoną mobilnością
+    registration: 'Wymagane wcześniejsze zapisy: tak'
     group_info:
       - text: 'Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak'
       - text: 'W zajęciach uczestniczą osoby z Ukrainy: tak'
       - text: 'W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak'
       - text: 'W grupie są osoby rozumiejące język ukraiński lub rosyjski: tak'
-    character: Towarzyski (spotkania, rozmowy), warsztaty manualne / rękodzielnicze, edukacyjny (wykłady, rozwój 
-      zainteresowań), wsparcie i integracja
-    participation: Bezpłatny
-    frequency: Raz w tygodniu
-    accessibility: Miejsce częściowo dostępne dla osób z ograniczoną mobilnością
-    registration: 'Wymagane wcześniejsze zapisy: tak'
 uk:
   emoji: 🏠
   name: Spilno znaczy Wspólnie
   address: Катовіце, вул. Густава Морцінка 5 (Кошутка)
-  phones:
-    - number: 535 279 285
-  emails:
-    - email: spilno@mostkatowice.pl
   hours: 9:00 - 17:00 (пн-пт)
   payment: заняття частково платні
   links:
@@ -39,14 +34,17 @@ uk:
       url: https://www.facebook.com/groups/spilnokatowice/
       label: Spilno znaczy Wspólnie
   details:
+    character: Товариський (зустрічі, розмови), майстер-класи ручної праці / рукоділля, освітній (лекції, розвиток інтересів), підтримка та інтеграція
+    participation: Безкоштовна
+    frequency: Раз на тиждень
+    accessibility: Місце частково доступне для осіб з обмеженою мобільністю
+    registration: 'Потрібен попередній запис: так'
     group_info:
       - text: 'Клуб відкритий до прийому людей похилого віку з України: так'
       - text: 'У заняттях беруть участь особи з України: так'
       - text: 'У групі є особи, які розмовляють українською або російською мовою: так'
       - text: 'У групі є особи, які розуміють українську або російську мову: так'
-    character: Товариський (зустрічі, розмови), майстер-класи ручної праці / рукоділля, освітній (лекції, розвиток 
-      інтересів), підтримка та інтеграція
-    participation: Безкоштовна
-    frequency: Раз на тиждень
-    accessibility: Місце частково доступне для осіб з обмеженою мобільністю
-    registration: 'Потрібен попередній запис: так'
+  emails:
+    - email: spilno@mostkatowice.pl
+  phones:
+    - number: 535 279 285
