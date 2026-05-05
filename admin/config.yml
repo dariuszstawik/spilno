@@ -48,7 +48,7 @@ collections:
           - { label: "Tytuł główny", name: title, widget: string, i18n: true }
           - { label: "Podtytuł", name: subtitle, widget: string, i18n: true }
           - {
-              label: "Tytuł w fioletowej ramce (zwykle drugi język)",
+              label: "Tytuł w fioletowej ramce (zwykle język drugi)",
               name: mirror_title,
               widget: string,
               i18n: true,
@@ -101,7 +101,7 @@ collections:
                 i18n: duplicate,
               },
               {
-                label: "Emoji",
+                label: "Emoji w bąbelku",
                 name: emoji,
                 widget: string,
                 i18n: duplicate,
@@ -206,7 +206,7 @@ collections:
     summary: "{{emoji}} {{name}}"
     fields:
       - {
-          label: "Emoji",
+          label: "Emoji w nagłówku karty",
           name: emoji,
           widget: string,
           i18n: duplicate,
@@ -218,7 +218,7 @@ collections:
           name: address,
           widget: text,
           i18n: true,
-          hint: "Pełny adres, np. 'Katowice, ul. Wita Stwosza 7 (Śródmieście)'",
+          hint: "Pełny adres z dzielnicą, np. 'Katowice, ul. Wita Stwosza 7 (Śródmieście)'",
         }
 
       # Telefony — lista, ten sam zestaw numerów po PL i UK
@@ -261,7 +261,7 @@ collections:
           hint: "Np. '9:00 - 17:00 (pon-pt)'",
         }
       - {
-          label: "Odpłatność",
+          label: "Odpłatność (krótki opis na karcie)",
           name: payment,
           widget: string,
           i18n: true,
@@ -339,7 +339,7 @@ collections:
                 name: character,
                 widget: text,
                 i18n: true,
-                hint: "Krótki opis w jednym akapicie.",
+                hint: "Krótki opis w jednym akapicie. Można wymieniać typy zajęć po przecinku.",
               },
               {
                 label: "Udział w zajęciach",
