@@ -2,7 +2,8 @@ pl:
   emoji: A
   name: Testowa miejsce
   address: Katowice, ul. Wita Stwosza 7 (Śródmieście)
-  phones: []
+  phones:
+    - 664 053 579
   emails: []
   hours: 9:00-17:00
   payment: Brak
@@ -23,7 +24,8 @@ uk:
   emoji: A
   name: Testowa miejsce
   address: Katowice, ul. Wita Stwosza 7 (Śródmieście)
-  phones: []
+  phones:
+    - ''
   emails: []
   hours: 9:00-17:00
   payment: Brak
