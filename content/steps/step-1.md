@@ -2,7 +2,7 @@
 pl:
   number: 1
   emoji: 📍
-  title: Wybierz klub / miejsce 1
+  title: Wybierz klub / miejsce
   short_description: Wybierz klub lub miejsce integracji, które znajduje się blisko Ciebie lub w miejscu, do którego łatwo i wygodnie możesz dotrzeć.
   body: |-
     **Jeśli w pobliżu nie ma takiego miejsca na mapie:**
