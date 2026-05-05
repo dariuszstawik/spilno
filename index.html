@@ -816,14 +816,52 @@
         return out;
       }
 
+      // function flattenAtPath(obj, parts) {
+      //   if (!obj || parts.length === 0) return;
+      //   const [head, ...rest] = parts;
+
+      //   if (head === "*" && Array.isArray(obj)) {
+      //     // Iteruj po elementach tablicy
+      //     for (const item of obj) {
+      //       flattenAtPath(item, rest);
+      //     }
+      //     return;
+      //   }
+
+      //   if (rest.length === 0) {
+      //     // Ostatni krok — spłaszcz pole "head"
+      //     const v = obj[head];
+      //     if (v && typeof v === "object" && "pl" in v) {
+      //       obj[head] = v.pl ?? v.uk ?? "";
+      //     }
+      //     return;
+      //   }
+
+      //   // Wejdź głębiej
+      //   if (obj[head] !== undefined) {
+      //     flattenAtPath(obj[head], rest);
+      //   }
+      // }
       function flattenAtPath(obj, parts) {
         if (!obj || parts.length === 0) return;
         const [head, ...rest] = parts;
 
         if (head === "*" && Array.isArray(obj)) {
-          // Iteruj po elementach tablicy
-          for (const item of obj) {
-            flattenAtPath(item, rest);
+          if (rest.length === 0) {
+            // "*" na końcu — spłaszcz każdy element tablicy, jeśli jest {pl, uk}.
+            // Ten przypadek pokrywa listy z 'field:' singular w Sveltii, gdzie
+            // element jest skalarem (np. tablica numerów telefonów).
+            for (let i = 0; i < obj.length; i++) {
+              const item = obj[i];
+              if (item && typeof item === "object" && "pl" in item) {
+                obj[i] = item.pl ?? item.uk ?? "";
+              }
+            }
+          } else {
+            // standardowa iteracja po elementach
+            for (const item of obj) {
+              flattenAtPath(item, rest);
+            }
           }
           return;
         }
@@ -1032,8 +1070,12 @@
 
         // --- Sekcja kontaktu (telefony + e-maile) ---
         const contactLines = [
-          ...(place.phones || []).map((p) => escapeHtml(p.number || p)),
-          ...(place.emails || []).map((e) => escapeHtml(e.email || e)),
+          ...(place.phones || []).map((p) =>
+            escapeHtml(typeof p === "string" ? p : p.number || ""),
+          ),
+          ...(place.emails || []).map((e) =>
+            escapeHtml(typeof e === "string" ? e : e.email || ""),
+          ),
         ];
         const contactHtml = contactLines.length
           ? infoRow("phone", "Kontakt", "Контакт", contactLines.join("<br>"))
@@ -1332,8 +1374,10 @@
             //   pozostaje obiektem {pl, uk} bo jest tłumaczona)
             return flattenDuplicates(transposed, [
               "emoji",
-              "phones.*.number",
-              "emails.*.email",
+              "phones.*", // <-- DODAJ — dla nowego formatu Sveltii (skalar)
+              "phones.*.number", //     dla starego formatu (obiekt z polem number)
+              "emails.*", // <-- DODAJ — dla nowego formatu (skalar)
+              "emails.*.email", //     dla starego formatu
               "links.*.type",
               "links.*.url",
             ]);
