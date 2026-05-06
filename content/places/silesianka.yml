@@ -3,11 +3,11 @@ pl:
   name: Klub „Silesianka" / Klub Północna
   address: Katowice, ul. Radockiego 282 oraz ul. Północna 32, parter (Piotrowice-Ochojec)
   phones:
-    - number: 517 206 397
-    - number: 517 206 384
+    - 517 206 397
+    - 517 206 384
   emails:
-    - email: silesianka@smsilesia.pl
-    - email: polnocna@smsilesia.pl
+    - silesianka@smsilesia.pl
+    - polnocna@smsilesia.pl
   hours: 8:00 - 14:00 (pon-pt)
   payment: zajęcia częściowo odpłatne
   links:
@@ -18,27 +18,26 @@ pl:
       url: https://www.facebook.com/profile.php?id=100068632141030
       label: Profil na Facebooku
   details:
+    character: Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka), warsztaty manualne / rękodzielnicze, wycieczki i wyjścia, wsparcie i integracja
+    participation: Częściowo płatny
+    frequency: Kilka razy w miesiącu
+    accessibility: Miejsce dostępne dla osób z ograniczoną mobilnością
+    registration: 'Wymagane wcześniejsze zapisy: tak'
     group_info:
       - text: 'Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak'
       - text: 'W zajęciach uczestniczą osoby z Ukrainy: tak'
       - text: 'W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak'
       - text: 'W grupie są osoby rozumiejące język ukraiński lub rosyjski: tak'
-    character: Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka), warsztaty manualne / 
-      rękodzielnicze, wycieczki i wyjścia, wsparcie i integracja
-    participation: Częściowo płatny
-    frequency: Kilka razy w miesiącu
-    accessibility: Miejsce dostępne dla osób z ograniczoną mobilnością
-    registration: 'Wymagane wcześniejsze zapisy: tak'
 uk:
   emoji: 🌳
   name: Клуб «Silesianka» / Клуб Północna
   address: Катовіце, вул. Radockiego 282 та вул. Północna 32, перший поверх (Piotrowice-Ochojec)
   phones:
-    - number: 517 206 397
-    - number: 517 206 384
+    - ''
+    - ''
   emails:
-    - email: silesianka@smsilesia.pl
-    - email: polnocna@smsilesia.pl
+    - ''
+    - ''
   hours: 8:00 - 14:00 (пн-пт)
   payment: заняття частково платні
   links:
@@ -49,14 +48,13 @@ uk:
       url: https://www.facebook.com/profile.php?id=100068632141030
       label: Профіль у Facebook
   details:
+    character: Товариський (зустрічі, розмови), рухова активність (наприклад, гімнастика), майстер-класи ручної роботи / рукоділля, екскурсії та виходи, підтримка та інтеграція
+    participation: Частково платна
+    frequency: Кілька разів на місяць
+    accessibility: Місце доступне для осіб з обмеженою мобільністю
+    registration: 'Потрібен попередній запис: так'
     group_info:
       - text: 'Клуб відкритий для прийому сеньйорів з України: так'
       - text: 'У заняттях беруть участь особи з України: так'
       - text: 'У групі є особи, які говорять українською або російською: так'
       - text: 'У групі є особи, які розуміють українську або російську мову: так'
-    character: Товариський (зустрічі, розмови), рухова активність (наприклад, гімнастика), майстер-класи ручної роботи /
-      рукоділля, екскурсії та виходи, підтримка та інтеграція
-    participation: Частково платна
-    frequency: Кілька разів на місяць
-    accessibility: Місце доступне для осіб з обмеженою мобільністю
-    registration: 'Потрібен попередній запис: так'
