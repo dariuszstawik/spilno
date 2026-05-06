@@ -13,16 +13,16 @@ pl:
       url: https://kafos.org.pl/
       label: kafos.org.pl
   details:
+    group_info:
+      - 'Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak'
+      - 'W zajęciach uczestniczą osoby z Ukrainy: nie'
+      - 'W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak'
+      - 'W grupie są osoby rozumiejące język ukraiński lub rosyjski: nie'
     character: Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka), edukacyjny (wykłady, rozwój zainteresowań), wycieczki i wyjścia, wsparcie i integracja
     participation: Częściowo płatny
     frequency: Raz w miesiącu
     accessibility: Miejsce dostępne dla osób z ograniczoną mobilnością
     registration: 'Wymagane wcześniejsze zapisy: tak'
-    group_info:
-      - text: 'Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak'
-      - text: 'W zajęciach uczestniczą osoby z Ukrainy: nie'
-      - text: 'W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak'
-      - text: 'W grupie są osoby rozumiejące język ukraiński lub rosyjski: nie'
 uk:
   emoji: ☕
   name: Клуб сеньйорів KAFOS
@@ -38,13 +38,13 @@ uk:
       url: https://kafos.org.pl/
       label: kafos.org.pl
   details:
+    group_info:
+      - 'Клуб відкритий до прийому людей похилого віку з України: так'
+      - 'У заняттях беруть участь особи з України: ні'
+      - 'У групі є особи, які розмовляють українською або російською мовою: так'
+      - 'У групі є особи, які розуміють українську або російську мову: ні'
     character: Товариський (зустрічі, розмови), рухові активності (наприклад, гімнастика), освітній (лекції, розвиток інтересів), екскурсії та виходи, підтримка та інтеграція
     participation: Частково платна
     frequency: Раз на місяць
     accessibility: Місце доступне для осіб з обмеженою мобільністю
     registration: 'Потрібен попередній запис: так'
-    group_info:
-      - text: 'Клуб відкритий до прийому людей похилого віку з України: так'
-      - text: 'У заняттях беруть участь особи з України: ні'
-      - text: 'У групі є особи, які розмовляють українською або російською мовою: так'
-      - text: 'У групі є особи, які розуміють українську або російську мову: ні'
