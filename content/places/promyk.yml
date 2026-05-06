@@ -3,41 +3,40 @@ pl:
   name: Klub Seniora Promyk
   address: Katowice, ul. Wita Stwosza 7, lokal 7, parter (Śródmieście)
   phones:
-    - number: 696 534 526
+    - 696 534 526
   emails: []
   hours: 15:00 - 17:00 (pon, czw)
   payment: zajęcia częściowo odpłatne
   links: []
   details:
-    group_info:
-      - text: 'Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak'
-      - text: 'W zajęciach uczestniczą osoby z Ukrainy: nie'
-      - text: 'W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak'
-      - text: 'W grupie są osoby rozumiejące język ukraiński lub rosyjski: tak'
     character: Towarzyski (spotkania, rozmowy), aktywności ruchowe (np. gimnastyka), warsztaty manualne / rękodzielnicze
     participation: Częściowo płatny
     frequency: Kilka razy w tygodniu
     accessibility: Miejsce dostępne dla osób z ograniczoną mobilnością
     registration: 'Wymagane wcześniejsze zapisy: tak'
+    group_info:
+      - text: 'Klub jest otwarty na przyjęcie seniorów z Ukrainy: tak'
+      - text: 'W zajęciach uczestniczą osoby z Ukrainy: nie'
+      - text: 'W grupie są osoby mówiące po ukraińsku lub rosyjsku: tak'
+      - text: 'W grupie są osoby rozumiejące język ukraiński lub rosyjski: tak'
 uk:
   emoji: 🌟
   name: Клуб Сеньйора Promyk
   address: Катовіце, вул. Wita Stwosza 7, приміщення 7, перший поверх (Śródmieście)
   phones:
-    - number: 696 534 526
+    - ''
   emails: []
   hours: 15:00 - 17:00 (пн, чт)
   payment: заняття частково платні
   links: []
   details:
+    character: Товариський (зустрічі, розмови), рухова активність (наприклад, гімнастика), майстер-класи ручної роботи / рукоділля
+    participation: Частково платна
+    frequency: Кілька разів на тиждень
+    accessibility: Місце доступне для осіб з обмеженою мобільністю
+    registration: 'Потрібен попередній запис: так'
     group_info:
       - text: 'Клуб відкритий для прийому сеньйорів з України: так'
       - text: 'У заняттях беруть участь особи з України: ні'
       - text: 'У групі є особи, які говорять українською або російською: так'
       - text: 'У групі є особи, які розуміють українську або російську мову: так'
-    character: Товариський (зустрічі, розмови), рухова активність (наприклад, гімнастика), майстер-класи ручної роботи /
-      рукоділля
-    participation: Частково платна
-    frequency: Кілька разів на тиждень
-    accessibility: Місце доступне для осіб з обмеженою мобільністю
-    registration: 'Потрібен попередній запис: так'
