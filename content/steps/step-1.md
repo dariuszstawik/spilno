@@ -13,7 +13,7 @@ pl:
 
     **Gdzie szukać klubów seniora?**
 
-    - Możesz skorzystać z dostępnej [listy klubów seniora](https://docs.google.com/spreadsheets/d/1BqdKGCXD5GeK6j6ekdmq5UInMGmyAEk2hyV5eVWniIc/edit?usp=sharing) utworzonej w ramach tego narzędzia.
+    - Możesz skorzystać z dostępnej [listy klubów seniora](https://docs.google.com/spreadsheets/d/e/2PACX-1vS0tuXLp3-X7lNnSORwSk7ss-70euQzHQgwhQ60dXMpkJpvFc8aom1XJOwW06TPBD8tpmTZTL-77OPS/pubhtml) utworzonej w ramach tego narzędzia.
     - Warto również samodzielnie wpisać w wyszukiwarkę internetową hasło: „klub seniora Katowice" lub „klub seniora Katowice + nazwa dzielnicy", aby znaleźć miejsca najbliżej Twojego zamieszkania.
 
     **Jak znaleźć klub seniora w internecie?**
