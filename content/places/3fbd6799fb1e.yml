@@ -1,0 +1,48 @@
+pl:
+  emoji: ☎️
+  name: Srebrny Telefon dla Katowickich Seniorów
+  address: Miejski Ośrodek Pomocy Społecznej w Katowicach
+  phones:
+    - 32 251 69 00
+  emails:
+    - senior@mops.katowice.pl
+  hours: 8:00 - 15:00
+  payment: nieodpłatne materiały informacyjne
+  links:
+    - type: website
+      url: https://www.mops.katowice.pl/node/2936
+      label: https://www.mops.katowice.pl/node/2936
+  details:
+    group_info:
+      - Infolinia dla katowickich seniorów, za pośrednictwem której można uzyskać informacje na temat możliwości wsparcia osób starszych oraz realizowanych programów na terenie miasta.
+      - Można tutaj uzyskać zarówno odpowiedzi na pytania dotyczące wszelkich form wsparcia finansowego, ale także niepieniężnego dla osób w wieku senioralnym.
+      - Pracownicy Srebrnego Telefonu dysponują aktualnymi, nieodpłatnymi materiałami informacyjnymi oraz służą  poradą i pomocą w indywidualnych sprawach seniorów.  Poprzez Srebrny Telefon są przyjmowane również zgłoszenia dotyczące drobnych napraw domowych w ramach programu "Złota Rączka".
+    character: nie dotyczy
+    participation: nie dotyczy
+    frequency: nie dotyczy
+    accessibility: Przystosowany do potrzeb osób z niepełnosprawnościami i ograniczoną mobilnością.
+    registration: nie dotyczy
+uk:
+  emoji: ☎️
+  name: Срібний телефон для катовицьких людей старшого віку
+  address: Міський центр соціальної допомоги в Катовіце
+  phones:
+    - ''
+  emails:
+    - ''
+  hours: 8:00 - 15:00
+  payment: Безкоштовні інформаційні матеріали
+  links:
+    - type: website
+      url: https://www.mops.katowice.pl/node/2936
+      label: https://www.mops.katowice.pl/node/2936
+  details:
+    group_info:
+      - нформаційна гаряча лінія для старших мешканців Катовіце, через яку можна отримати відомості про можливості підтримки людей похилого віку та про програми, що реалізуються в місті.
+      - Тут можна отримати відповіді як на питання щодо різних форм фінансової допомоги, так і нефінансової підтримки для осіб похилого віку.
+      - Працівники «Срібного телефону» мають у своєму розпорядженні актуальні безкоштовні інформаційні матеріали, а також надають консультації й допомогу в індивідуальних справах старших людей. Через «Срібний телефон» також приймаються звернення щодо дрібних домашніх ремонтів у межах програми «Золота Рука».
+    character: Не стосується
+    participation: Не стосується
+    frequency: Не стосується
+    accessibility: адаптовано до потреб осіб з інвалідністю та обмеженою мобільністю.
+    registration: Не стосується
