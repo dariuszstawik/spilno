@@ -149,6 +149,7 @@
         max-height: 0;
         opacity: 0;
         overflow: hidden;
+        visibility: hidden;
         transition:
           max-height 0.4s ease-in-out,
           opacity 0.3s ease-in-out,
@@ -157,6 +158,8 @@
       .accordion-content.expanded {
         opacity: 1;
         margin-top: 1rem;
+        visibility: visible;
+        transition-delay: 0s;
       }
 
       /* Ścieżka */
@@ -209,7 +212,15 @@
           width: 56px !important;
           min-width: 56px !important;
         }
-
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
+        }
         /* mniejsze kółka z numerami */
         .step-marker {
           width: 3rem !important;
@@ -489,19 +500,19 @@
               >
                 <img
                   src="logo-dofinansowanie-1.jpg"
-                  alt="Dofinansowanie 1"
+                  alt="Fundusze Europejskie dla Rozwoju Społecznego"
                   class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300"
                   onerror="this.style.display = 'none'"
                 />
                 <img
                   src="logo-dofinansowanie-2.jpg"
-                  alt="Dofinansowanie 2"
+                  alt="Rzeczpospolita Polska"
                   class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300"
                   onerror="this.style.display = 'none'"
                 />
                 <img
                   src="logo-dofinansowanie-3.jpg"
-                  alt="Dofinansowanie 3"
+                  alt="Dofinansowane przez Unię Europejską"
                   class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300"
                   onerror="this.style.display = 'none'"
                 />
