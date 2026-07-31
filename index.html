@@ -212,15 +212,7 @@
           width: 56px !important;
           min-width: 56px !important;
         }
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-          }
-        }
+
         /* mniejsze kółka z numerami */
         .step-marker {
           width: 3rem !important;
@@ -238,6 +230,16 @@
         /* usuń duże odsunięcia kart na małych ekranach */
         .card-optimistic {
           border-radius: 24px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
         }
       }
 
@@ -1029,7 +1031,7 @@
           <div class="flex items-start gap-4">
             ${iconBadge(iconName)}
             <p class="pt-0.5">
-              <span class="text-[#8663a8] font-black block text-sm uppercase tracking-wider mb-1">
+              <span class="text-[#573a70] font-black block text-sm uppercase tracking-wider mb-1">
                 <span class="pl">${escapeHtml(labelPl)}</span><span class="uk">${escapeHtml(labelUk)}</span>
               </span>
               ${contentHtml}
@@ -1048,7 +1050,7 @@
 
         const content = `
           <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer"
-             class="text-[#573a70] hover:text-[#8663a8] underline break-all focus:outline-none focus:ring-2 focus:ring-[#573a70] rounded transition-colors">
+             class="text-[#573a70] hover:text-[#452b5e] underline break-all focus:outline-none focus:ring-2 focus:ring-[#573a70] rounded transition-colors">
             <span class="pl">${escapeHtml(link.label.pl)}</span><span class="uk">${escapeHtml(link.label.uk)}</span>
           </a>`;
         return infoRow(icon, header.pl, header.uk, content);
