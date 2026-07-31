@@ -68,6 +68,12 @@
       rel="stylesheet"
     />
     <style>
+      html,
+      body {
+        overflow-x: hidden;
+        max-width: 100vw; /* Gwarancja, że nic nie rozepchnie szerokości */
+      }
+
       body {
         font-family: "Atkinson Hyperlegible", sans-serif;
         background-color: #edd7fe;
@@ -83,7 +89,7 @@
             transparent 50%
           );
         position: relative;
-        overflow-x: hidden;
+        /* overflow-x: hidden; */
       }
 
       /* Logika zmiany języka - kluczowa mechanika */
