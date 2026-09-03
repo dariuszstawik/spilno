@@ -3,10 +3,8 @@ pl:
   number: 3
   emoji: 📞
   title: Skontaktuj się z klubem telefonicznie
-  short_description: >-
-    Zadzwoń do klubu — to najlepszy sposób, żeby uzyskać potrzebne
-    informacje. Zwróć uwagę na terminy, w jakich można się kontaktować.
-  body: |
+  short_description: Zadzwoń do klubu — to najlepszy sposób, żeby uzyskać potrzebne informacje. Zwróć uwagę na terminy, w jakich można się kontaktować.
+  body: |-
     Staraj się mówić po polsku. Jeśli jest to trudne — zapytaj, czy ktoś mówi po ukraińsku lub rosyjsku. Możesz też zapytać, czy rozmówca rozumie, co mówisz. Jeśli czegoś nie rozumiesz — poproś, aby mówiono wolniej.
 
     **Podczas rozmowy możesz zadać te pytania:**
@@ -24,11 +22,9 @@ pl:
 uk:
   number: 3
   emoji: 📞
-  title: Зв'яжіться з клубом за допомогою телефонного дзвінка
-  short_description: >-
-    Зателефонуй до клубу — це найкращий спосіб отримати потрібну
-    інформацію. Зверни увагу на години, коли можна зв'язатися.
-  body: |
+  title: Зв'яжіться з клубом по телефону
+  short_description: Зателефонуй до клубу — це найкращий спосіб отримати потрібну інформацію. Зверни увагу на години, коли можна зв'язатися.
+  body: |-
     Намагайся говорити польською мовою. Якщо це складно — запитай, чи хтось говорить українською або російською. Також можеш запитати, чи співрозмовник розуміє тебе. Якщо тобі щось незрозуміло — попроси говорити повільніше.
 
     **Під час розмови можеш запитати:**
