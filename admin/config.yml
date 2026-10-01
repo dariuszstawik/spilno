@@ -10,7 +10,7 @@
 backend:
   name: github
   repo: dariuszstawik/spilno
-  branch: cms
+  branch: main
 
 # --- Magazyn mediów (na razie nieużywany, ale trzeba zadeklarować) ---
 media_folder: media
